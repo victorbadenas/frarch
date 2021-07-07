@@ -1,0 +1,5 @@
+readthedocs-sphinx-search; python_version>='3.6'
+sphinx
+sphinx-autobuild
+sphinx_book_theme
+watchdog<1.0.0; python_version<'3.6'
