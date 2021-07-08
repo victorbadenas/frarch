@@ -1,0 +1,37 @@
+################################################
+#                                              #
+#  Model:                                      #
+#  Author: vbadenas (victor.badenas@gmail.com) #
+#                                              #
+################################################
+
+# seeds
+seed: 42
+__set_seed: !apply:torch.manual_seed [!ref <seed>]
+device: "cuda:0"
+
+# data folder
+data_folder: ./data/
+
+# training parameters
+batch_size: 32
+shuffle: True
+
+# dataset object
+train_dataset: !new:torchvision.datasets.FashionMNIST
+    root: !ref <data_folder>
+    train: true
+
+valid_dataset: !new:torchvision.datasets.FashionMNIST
+    root: !ref <data_folder>
+    train: false
+
+# dataloader options
+dataloader_options:
+    batch_size: !ref <batch_size>
+    shuffle: !ref <shuffle>
+    num_workers: 2
+
+optimizer: !new:torch.nn.CrossEntropyLoss
+
+modules:
