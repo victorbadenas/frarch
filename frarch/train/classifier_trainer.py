@@ -17,6 +17,8 @@ import sys
 import torch
 import logging
 
+from frarch.utils.data import create_dataloader
+
 logger = logging.getLogger(__name__)
 PYTHON_VERSION_MAJOR = 3
 PYTHON_VERSION_MINOR = 6
@@ -37,7 +39,7 @@ class ClassifierTrainer:
 
         for name, value in default_values.items():
             if name in self.hparams:
-                logger.info()
+                logger.info(f'Parameter {name} overriden from default value and set to {hparams[name]}')
                 setattr(self, name, hparams[name])
             else:
                 setattr(self, name, value)
@@ -94,4 +96,14 @@ class ClassifierTrainer:
             train_loader_kwargs:dict=None,
             valid_loader_kwargs:dict=None
         ):
+
+        if train_loader_kwargs is None:
+            train_loader_kwargs = {}
+        if valid_loader_kwargs is None:
+            valid_loader_kwargs = {}
+
+        train_dataloader = create_dataloader(train_set, **train_loader_kwargs)
+        if valid_set is not None:
+            valid_dataloader = create_dataloader(valid_set, **valid_loader_kwargs)
+
         raise NotImplementedError

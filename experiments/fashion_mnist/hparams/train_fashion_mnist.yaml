@@ -34,4 +34,9 @@ dataloader_options:
 
 optimizer: !new:torch.nn.CrossEntropyLoss
 
+model: !new:frarch.models.classification.cnn.simple_cnn
+    kernels: []
+    channels: []
+
 modules:
+    model: !ref <model>
