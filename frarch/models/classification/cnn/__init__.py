@@ -1,0 +1,1 @@
+from .fashionCNN import FashionCNN

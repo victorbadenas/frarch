@@ -14,6 +14,7 @@ device: "cuda:0"
 data_folder: ./data/
 
 # training parameters
+epochs: 10
 batch_size: 32
 shuffle: True
 
@@ -21,10 +22,12 @@ shuffle: True
 train_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
     train: true
+    download: true
 
 valid_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
     train: false
+    download: true
 
 # dataloader options
 dataloader_options:
@@ -34,9 +37,7 @@ dataloader_options:
 
 optimizer: !new:torch.nn.CrossEntropyLoss
 
-model: !new:frarch.models.classification.cnn.simple_cnn
-    kernels: []
-    channels: []
+model: !new:frarch.models.classification.cnn.FashionCNN
 
 modules:
     model: !ref <model>
