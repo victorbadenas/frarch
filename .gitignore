@@ -220,3 +220,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# experiments' data
+experiments/*/data
