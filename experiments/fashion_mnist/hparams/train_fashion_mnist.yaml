@@ -15,30 +15,36 @@ data_folder: ./data/
 
 # training parameters
 epochs: 10
-batch_size: 32
+batch_size: 128
 shuffle: True
+
+embedding_size: 128
+num_clases: 10
 
 transform_resize: !new:torchvision.transforms.Resize
     size: 32
 
 transform_tensor: !new:torchvision.transforms.ToTensor
 
+preprocessing: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_tensor>,
+    ]
+
 # dataset object
 train_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
     train: true
     download: true
-    transform: 
-        !new:torchvision.transforms.Compose
-            transforms: [
-                !ref <transform_resize>,
-                !ref <transform_tensor>,
-            ]
+    transform: !ref <preprocessing>
+
 
 valid_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
     train: false
     download: true
+    transform: !ref <preprocessing>
 
 # dataloader options
 dataloader_options:
@@ -51,7 +57,16 @@ opt_class: !name:torch.optim.Adam
 
 loss: !new:torch.nn.CrossEntropyLoss
 
+error_metrics: !new:frarch.metrics.MetricsWrapper
+    classification_error: !new:frarch.metrics.ClassificationError
+
 model: !new:frarch.models.classification.cnn.FashionCNN
+    out_size: !ref <embedding_size>
+
+classifier: !new:frarch.models.classification.cnn.FashionClassifier
+    embedding_size: !ref <embedding_size>
+    classes: !ref <num_clases>
 
 modules:
     model: !ref <model>
+    classifier: !ref <classifier>

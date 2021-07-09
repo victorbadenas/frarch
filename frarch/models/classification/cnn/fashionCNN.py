@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class FashionCNN(nn.Module):
     
-    def __init__(self):
+    def __init__(self, out_size=128):
         super(FashionCNN, self).__init__()
         
         self.layer1 = nn.Sequential(
@@ -21,18 +21,26 @@ class FashionCNN(nn.Module):
             nn.MaxPool2d(2)
         )
         
-        self.fc1 = nn.Linear(in_features=64*6*6, out_features=600)
+        self.fc1 = nn.Linear(in_features=64*7*7, out_features=512)
         self.drop = nn.Dropout2d(0.25)
-        self.fc2 = nn.Linear(in_features=600, out_features=120)
-        self.fc3 = nn.Linear(in_features=120, out_features=10)
-        
+        self.fc2 = nn.Linear(in_features=512, out_features=out_size)
+        self.relu = nn.ReLU()
+
     def forward(self, x):
         out = self.layer1(x)
         out = self.layer2(out)
         out = out.view(out.size(0), -1)
-        out = self.fc1(out)
+        out = self.relu(self.fc1(out))
         out = self.drop(out)
         out = self.fc2(out)
-        out = self.fc3(out)
 
         return out
+
+
+class FashionClassifier(nn.Module):
+    def __init__(self, embedding_size=128, classes=10):
+        super(FashionClassifier, self).__init__()
+        self.fc = nn.Linear(in_features=embedding_size, out_features=classes)
+
+    def forward(self, x):
+        return self.fc(x)

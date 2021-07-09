@@ -24,10 +24,27 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
+from frarch.utils.stages import Stage
 
 class FMNISTTrainer(fr.train.ClassifierTrainer):
     def forward(self, batch, stage):
-        return self.modules.model(batch)
+        inputs, _ = batch
+        inputs = inputs.to(self.device)
+        embeddings = self.modules.model(inputs)
+        return self.modules.classifier(embeddings)
+
+    def compute_loss(self, predictions, batch, stage):
+        _, labels = batch
+        loss = self.hparams['loss'](predictions, labels)
+        if stage == Stage.VALID and 'error_metrics' in self.hparams:
+            self.hparams['error_metrics'].update(predictions, labels)
+        return loss
+
+    def on_stage_end(self, stage, loss=None, epoch=None):
+        if stage == Stage.VALID:
+            metrics = self.hparams['error_metrics'].get_metrics(mode="mean")
+            logging.info(f'epoch {epoch} validation: {metrics}')
+
 
 if __name__ == '__main__':
     hparam_file, args = fr.parse_arguments()
@@ -35,12 +52,9 @@ if __name__ == '__main__':
     with open(hparam_file, 'r') as hparam_file_handler:
         hparams = load_hyperpyyaml(hparam_file_handler, args, overrides_must_match=False)
 
-    pprint(hparams)
-
     trainer = FMNISTTrainer(
         modules=hparams['modules'],
         opt_class=hparams['opt_class'],
-        loss=hparams['loss'],
         hparams=hparams,
         checkpointer=None
     )

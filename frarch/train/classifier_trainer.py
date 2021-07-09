@@ -26,17 +26,18 @@ PYTHON_VERSION_MINOR = 6
 
 default_values = {
     "debug": False,
+    "debug_batches": 2,
     "device": "cpu",
     "nonfinite_patience": 3,
     "noprogressbar": False,
     "ckpt_interval_minutes": 0,
+    "train_interval": 10
 }
 
 class ClassifierTrainer:
-    def __init__(self, modules, opt_class, loss, hparams, checkpointer=None):
+    def __init__(self, modules, opt_class, hparams, checkpointer=None):
         self.hparams = hparams
         self.opt_class = opt_class
-        self.loss = loss
         self.checkpointer = checkpointer
 
         for name, value in default_values.items():
@@ -86,7 +87,7 @@ class ClassifierTrainer:
     def on_stage_start(self, stage, epoch=None):
         pass
 
-    def on_stage_end(self, stage, epoch=None):
+    def on_stage_end(self, stage, loss=None, epoch=None):
         pass
 
     def on_train_interval(self, epoch=None):
@@ -95,7 +96,12 @@ class ClassifierTrainer:
     def forward(self, batch, stage):
         raise NotImplementedError
 
-    def compute_loss(self, predictions, batch, size):
+    def evaluate_batch(self, batch, stage):
+        out = self.forward(batch, stage=stage)
+        loss = self.compute_loss(out, batch, stage=stage)
+        return loss.detach().cpu()
+
+    def compute_loss(self, predictions, batch, stage):
         raise NotImplementedError
 
     def fit_batch(self, batch):
@@ -142,7 +148,7 @@ class ClassifierTrainer:
                 train_set,
                 initial=self.step,
                 dynamic_ncols=True,
-                disable=not self.hparams["noprogressbar"],
+                disable=self.hparams["noprogressbar"],
             ) as t:
                 for batch in t:
                     self.step += 1
@@ -152,8 +158,11 @@ class ClassifierTrainer:
                     )
                     t.set_postfix(train_loss=self.avg_train_loss)
 
-                    if not (self.step % interval):
+                    if not (self.step % self.train_interval):
                         self.on_train_interval(epoch)
+
+                    if self.debug and self.step >= self.debug_batches:
+                        break
 
                     if (
                         self.checkpointer is not None
@@ -176,7 +185,7 @@ class ClassifierTrainer:
                 avg_valid_loss = 0.0
                 with torch.no_grad():
                     for batch in tqdm(
-                        valid_set, dynamic_ncols=True, disable=not self.hparams["noprogressbar"]
+                        valid_set, dynamic_ncols=True, disable=self.hparams["noprogressbar"]
                     ):
                         self.step += 1
                         loss = self.evaluate_batch(batch, stage=Stage.VALID)
