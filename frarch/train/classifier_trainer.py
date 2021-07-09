@@ -14,9 +14,10 @@ __version__ = '0.1.0'
 __author__ = 'victor badenas'
 
 import sys
+import time
 import torch
 import logging
-
+from tqdm import tqdm
 from frarch.utils.data import create_dataloader
 from frarch.utils.stages import Stage
 logger = logging.getLogger(__name__)
@@ -32,9 +33,10 @@ default_values = {
 }
 
 class ClassifierTrainer:
-    def __init__(self, modules, optimizer, hparams, checkpointer=None):
+    def __init__(self, modules, opt_class, loss, hparams, checkpointer=None):
         self.hparams = hparams
-        self.optimizer = optimizer
+        self.opt_class = opt_class
+        self.loss = loss
         self.checkpointer = checkpointer
 
         for name, value in default_values.items():
@@ -62,8 +64,21 @@ class ClassifierTrainer:
     def __call__(self, *args, **kwargs):
         return self.fit(*args, **kwargs)
 
-    def on_fit_start(self, stage, epoch=None):
-        pass
+    def on_fit_start(self):
+        # Initialize optimizers after parameters are configured
+        self.init_optimizers()
+
+        # set first epoch index
+        self.current_epoch = 0
+
+        # Load latest checkpoint to resume training if interrupted
+        if self.checkpointer is not None:
+            # TODO: load latest checkpoint
+            pass
+
+    def init_optimizers(self):
+        if self.opt_class is not None:
+            self.optimizer = self.opt_class(self.modules.parameters())
 
     def on_fit_end(self, stage, epoch=None):
         pass
@@ -74,14 +89,29 @@ class ClassifierTrainer:
     def on_stage_end(self, stage, epoch=None):
         pass
 
-    def on_train_interval(self, stage, epoch=None):
+    def on_train_interval(self, epoch=None):
         pass
 
-    def forward(self, batch):
+    def forward(self, batch, stage):
         raise NotImplementedError
 
     def compute_loss(self, predictions, batch, size):
         raise NotImplementedError
+
+    def fit_batch(self, batch):
+        outputs = self.forward(batch, Stage.TRAIN)
+        loss = self.compute_loss(outputs, batch, Stage.TRAIN)
+        loss.backward()
+        self.optimizer.step()
+        self.optimizer.zero_grad()
+
+        return loss.detach().cpu()
+
+    def update_average(self, loss, avg_loss):
+        if torch.isfinite(loss):
+            avg_loss -= avg_loss / self.step
+            avg_loss += float(loss) / self.step
+        return avg_loss
 
     def fit(self, train_set,
             valid_set=None,
@@ -101,7 +131,7 @@ class ClassifierTrainer:
 
         self.on_fit_start()
 
-        for epoch in range(self.current_epoch, self.hparams.epochs):
+        for epoch in range(self.current_epoch, self.hparams['epochs']):
 
             self.on_stage_start(Stage.TRAIN, epoch)
             self.modules.train()
@@ -121,6 +151,9 @@ class ClassifierTrainer:
                         loss, self.avg_train_loss
                     )
                     t.set_postfix(train_loss=self.avg_train_loss)
+
+                    if not (self.step % interval):
+                        self.on_train_interval(epoch)
 
                     if (
                         self.checkpointer is not None
@@ -155,3 +188,4 @@ class ClassifierTrainer:
                     self.step = 0
                     self.on_stage_end(Stage.VALID, avg_valid_loss, epoch)
 
+        self.on_fit_end()

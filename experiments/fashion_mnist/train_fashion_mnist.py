@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 class FMNISTTrainer(fr.train.ClassifierTrainer):
-    pass
+    def forward(self, batch, stage):
+        return self.modules.model(batch)
 
 if __name__ == '__main__':
     hparam_file, args = fr.parse_arguments()
@@ -38,7 +39,8 @@ if __name__ == '__main__':
 
     trainer = FMNISTTrainer(
         modules=hparams['modules'],
-        optimizer=hparams['optimizer'],
+        opt_class=hparams['opt_class'],
+        loss=hparams['loss'],
         hparams=hparams,
         checkpointer=None
     )

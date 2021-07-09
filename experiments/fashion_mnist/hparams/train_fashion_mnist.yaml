@@ -18,11 +18,22 @@ epochs: 10
 batch_size: 32
 shuffle: True
 
+transform_resize: !new:torchvision.transforms.Resize
+    size: 32
+
+transform_tensor: !new:torchvision.transforms.ToTensor
+
 # dataset object
 train_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
     train: true
     download: true
+    transform: 
+        !new:torchvision.transforms.Compose
+            transforms: [
+                !ref <transform_resize>,
+                !ref <transform_tensor>,
+            ]
 
 valid_dataset: !new:torchvision.datasets.FashionMNIST
     root: !ref <data_folder>
@@ -33,9 +44,12 @@ valid_dataset: !new:torchvision.datasets.FashionMNIST
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 2
+    num_workers: 0
 
-optimizer: !new:torch.nn.CrossEntropyLoss
+opt_class: !name:torch.optim.Adam
+    lr: 0.001
+
+loss: !new:torch.nn.CrossEntropyLoss
 
 model: !new:frarch.models.classification.cnn.FashionCNN
 
