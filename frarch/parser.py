@@ -1,5 +1,5 @@
 import argparse
-
+from pathlib import Path
 
 def parse_arguments():
     """Parse command-line arguments to the experiment.
@@ -11,13 +11,13 @@ def parse_arguments():
         options
     """
     parser = argparse.ArgumentParser(
-        description="Run a SpeechBrain experiment",
+        description="Run an experiment",
     )
     parser.add_argument(
         "param_file",
         type=str,
         help="A yaml-formatted file using the extended YAML syntax. "
-        "defined by SpeechBrain.",
+        "defined by HyperPyYaml.",
     )
 
     parser.add_argument(
@@ -54,6 +54,14 @@ def parse_arguments():
         type=float,
         help="Amount of time between saving intra-epoch checkpoints "
         "in minutes. If non-positive, intra-epoch checkpoints are not saved.",
+    )
+
+    parser.add_argument(
+        "--log_file",
+        type=Path,
+        help="Amount of time between saving intra-epoch checkpoints "
+        "in minutes. If non-positive, intra-epoch checkpoints are not saved.",
+        default=None,
     )
 
     args = parser.parse_args().__dict__

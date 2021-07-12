@@ -20,6 +20,8 @@ import logging
 from tqdm import tqdm
 from frarch.utils.data import create_dataloader
 from frarch.utils.stages import Stage
+from frarch.utils.logging import create_logger
+
 logger = logging.getLogger(__name__)
 PYTHON_VERSION_MAJOR = 3
 PYTHON_VERSION_MINOR = 6
@@ -36,14 +38,18 @@ default_values = {
 
 class ClassifierTrainer:
     def __init__(self, modules, opt_class, hparams, checkpointer=None):
+        if hparams['log_file'] is None:
+            hparams['log_file'] = f'results/{hparams.get("experiment_name", "debug")}/train.log'
+        create_logger(hparams['log_file'], debug=hparams['debug'], stdout=hparams['debug'])
         self.hparams = hparams
         self.opt_class = opt_class
         self.checkpointer = checkpointer
 
         for name, value in default_values.items():
             if name in self.hparams:
-                logger.info(f'Parameter {name} overriden from default value and set to {hparams[name]}')
-                setattr(self, name, hparams[name])
+                if value != hparams[name]:
+                    logger.info(f'Parameter {name} overriden from default value and set to {hparams[name]}')
+                    setattr(self, name, hparams[name])
             else:
                 setattr(self, name, value)
 
