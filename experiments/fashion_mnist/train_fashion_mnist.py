@@ -40,6 +40,13 @@ class FMNISTTrainer(fr.train.ClassifierTrainer):
             self.hparams['error_metrics'].update(predictions, labels)
         return loss
 
+    def on_stage_start(self, stage, loss=None, epoch=None):
+        if stage == Stage.VALID:
+            self.hparams['error_metrics'].reset()
+            if self.debug:
+                metrics = self.hparams['error_metrics'].get_metrics(mode="mean")
+                logging.debug(f'epoch {epoch} validation init: {metrics}')
+
     def on_stage_end(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             metrics = self.hparams['error_metrics'].get_metrics(mode="mean")
