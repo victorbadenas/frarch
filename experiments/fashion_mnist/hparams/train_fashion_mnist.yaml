@@ -8,6 +8,7 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
+experiment_name: "fashion_mnist"
 device: "cuda:0"
 
 # data folder
