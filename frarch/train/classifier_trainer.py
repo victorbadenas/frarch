@@ -1,7 +1,6 @@
 """
-.. module:: classifier_trainer
-classifier_trainer
-*************
+Base class for classifier network training.
+
 :Description: base trainer class for training a classifier network
 
 :Authors: victor badenas (victor.badenas@gmail.com)

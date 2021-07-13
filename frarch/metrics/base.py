@@ -8,7 +8,7 @@ class Metric:
         self.reset()
 
     def reset(self):
-        self.metrics = list()
+        self.metrics = []
 
     def update(self):
         raise NotImplementedError

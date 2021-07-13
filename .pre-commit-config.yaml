@@ -68,7 +68,6 @@ repos:
       - id: check-json
       - id: check-toml
       - id: check-xml
-      - id: check-yaml
       - id: debug-statements
       - id: destroyed-symlinks
       - id: detect-private-key

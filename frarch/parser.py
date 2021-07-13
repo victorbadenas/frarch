@@ -4,6 +4,7 @@ from pathlib import Path
 
 def parse_arguments():
     """Parse command-line arguments to the experiment.
+
     Returns
     -------
     param_file : str

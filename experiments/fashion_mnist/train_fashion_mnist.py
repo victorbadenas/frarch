@@ -1,6 +1,6 @@
 """
-train_fashion_mnist
-*************
+Script to train a model to classify Fashion-MNist dataset.
+
 :Description: script to train the fashionMNist task
 
 :Authors: victor badenas (victor.badenas@gmail.com)

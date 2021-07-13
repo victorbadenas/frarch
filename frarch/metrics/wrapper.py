@@ -7,15 +7,15 @@ class MetricsWrapper:
             setattr(self, k, v)
 
     def reset(self):
-        for k, v in self.__dict__.items():
+        for _, v in self.__dict__.items():
             v.reset()
 
     def update(self, *args, **kwargs):
-        for k, v in self.__dict__.items():
+        for _, v in self.__dict__.items():
             v.update(*args, **kwargs)
 
     def get_metrics(self, *args, **kwargs):
-        metrics = dict()
+        metrics = {}
         for k, v in self.__dict__.items():
             metrics[k] = v.get_metric(*args, **kwargs)
         return metrics

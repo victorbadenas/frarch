@@ -19,7 +19,10 @@ def create_logger(log_file_path: str, debug=False, stdout=False):
     level = logging.DEBUG if debug else logging.INFO
 
     # set logging format
-    logging_format = "[%(asctime)s][%(filename)s(%(lineno)d):%(funcName)s]-%(levelname)s: %(message)s"
+    logging_format = (
+        "[%(asctime)s][%(filename)s(%(lineno)d):%(funcName)s]"
+        "-%(levelname)s: %(message)s"
+    )
 
     # cretate parent and create file handler for config
     log_file_path.parent.mkdir(parents=True, exist_ok=True)

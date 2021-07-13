@@ -1,7 +1,6 @@
 """
-.. module:: base_trainer
-base_trainer
-*************
+class definition of a base trainer.
+
 :Description: base trainer class
 
 :Authors: victor badenas (victor.badenas@gmail.com)
@@ -49,7 +48,8 @@ class BaseTrainer:
             if name in self.hparams:
                 if value != hparams[name]:
                     logger.info(
-                        f"Parameter {name} overriden from default value and set to {hparams[name]}"
+                        f"Parameter {name} overriden from"
+                        f"default value and set to {hparams[name]}"
                     )
                 setattr(self, name, hparams[name])
             else:
@@ -60,7 +60,10 @@ class BaseTrainer:
             sys.version_info.major == PYTHON_VERSION_MAJOR
             and sys.version_info.minor >= PYTHON_VERSION_MINOR
         ):
-            msg = f"Detected Python {sys.version_info.major}.{sys.version_info.minor}. Python >= {PYTHON_VERSION_MAJOR}.{PYTHON_VERSION_MINOR} is required"
+            msg = (
+                f"Detected Python {sys.version_info.major}.{sys.version_info.minor}."
+                f"Python >= {PYTHON_VERSION_MAJOR}.{PYTHON_VERSION_MINOR} is required"
+            )
             logger.error(msg)
             raise SystemError(msg)
 
