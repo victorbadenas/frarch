@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+
 def parse_arguments():
     """Parse command-line arguments to the experiment.
     Returns
@@ -65,6 +66,6 @@ def parse_arguments():
     )
 
     args = parser.parse_args().__dict__
-    param_file = args.pop('param_file')
+    param_file = args.pop("param_file")
 
     return param_file, args

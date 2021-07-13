@@ -1,9 +1,10 @@
-import sys
 import logging
-from typing import Union
+import sys
 from pathlib import Path
+from typing import Union
 
-def create_logger(log_file_path:str, debug=False, stdout=False):
+
+def create_logger(log_file_path: str, debug=False, stdout=False):
     if not isinstance(log_file_path, (str, Path)):
         raise ValueError("path must be a string or Path object")
     if not isinstance(debug, bool):
@@ -18,7 +19,7 @@ def create_logger(log_file_path:str, debug=False, stdout=False):
     level = logging.DEBUG if debug else logging.INFO
 
     # set logging format
-    logging_format = '[%(asctime)s][%(filename)s(%(lineno)d):%(funcName)s]-%(levelname)s: %(message)s'
+    logging_format = "[%(asctime)s][%(filename)s(%(lineno)d):%(funcName)s]-%(levelname)s: %(message)s"
 
     # cretate parent and create file handler for config
     log_file_path.parent.mkdir(parents=True, exist_ok=True)
