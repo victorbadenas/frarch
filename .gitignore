@@ -221,5 +221,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# experiments' data
+# experiments' data and results folder
 experiments/*/data
+experiments/*/results
