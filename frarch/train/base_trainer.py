@@ -3,24 +3,26 @@
 base_trainer
 *************
 :Description: base trainer class
-    
+
 :Authors: victor badenas (victor.badenas@gmail.com)
-    
+
 :Version: 0.1.0
 """
 
-__title__ = 'base_trainer'
-__version__ = '0.1.0'
-__author__ = 'victor badenas'
+__title__ = "base_trainer"
+__version__ = "0.1.0"
+__author__ = "victor badenas"
 
+import logging
 import sys
 import time
+
 import torch
-import logging
 from tqdm import tqdm
+
 from frarch.utils.data import create_dataloader
-from frarch.utils.stages import Stage
 from frarch.utils.logging import create_logger
+from frarch.utils.stages import Stage
 
 logger = logging.getLogger(__name__)
 PYTHON_VERSION_MAJOR = 3
@@ -33,8 +35,9 @@ default_values = {
     "nonfinite_patience": 3,
     "noprogressbar": False,
     "ckpt_interval_minutes": None,
-    "train_interval": 10
+    "train_interval": 10,
 }
+
 
 class BaseTrainer:
     def __init__(self, modules, opt_class, hparams, checkpointer=None):
@@ -45,7 +48,9 @@ class BaseTrainer:
         for name, value in default_values.items():
             if name in self.hparams:
                 if value != hparams[name]:
-                    logger.info(f'Parameter {name} overriden from default value and set to {hparams[name]}')
+                    logger.info(
+                        f"Parameter {name} overriden from default value and set to {hparams[name]}"
+                    )
                 setattr(self, name, hparams[name])
             else:
                 setattr(self, name, value)
@@ -122,9 +127,11 @@ class BaseTrainer:
             avg_loss += float(loss) / self.step
         return avg_loss
 
-    def fit(self, train_set,
-            valid_set=None,
-            train_loader_kwargs:dict=None,
-            valid_loader_kwargs:dict=None
-        ):
+    def fit(
+        self,
+        train_set,
+        valid_set=None,
+        train_loader_kwargs: dict = None,
+        valid_loader_kwargs: dict = None,
+    ):
         raise NotImplementedError
