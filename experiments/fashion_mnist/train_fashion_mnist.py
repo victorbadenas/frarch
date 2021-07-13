@@ -25,6 +25,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 from frarch.utils.stages import Stage
+from frarch.utils.data import build_experiment_structure
 
 class FMNISTTrainer(fr.train.ClassifierTrainer):
     def forward(self, batch, stage):
@@ -58,6 +59,13 @@ if __name__ == '__main__':
 
     with open(hparam_file, 'r') as hparam_file_handler:
         hparams = load_hyperpyyaml(hparam_file_handler, args, overrides_must_match=False)
+
+    build_experiment_structure(
+        hparam_file,
+        overrides=args,
+        experiment_name=hparams['experiment_name'],
+        debug=hparams['debug']
+    )
 
     trainer = FMNISTTrainer(
         modules=hparams['modules'],

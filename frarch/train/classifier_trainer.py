@@ -32,15 +32,12 @@ default_values = {
     "device": "cpu",
     "nonfinite_patience": 3,
     "noprogressbar": False,
-    "ckpt_interval_minutes": 0,
+    "ckpt_interval_minutes": None,
     "train_interval": 10
 }
 
 class ClassifierTrainer:
     def __init__(self, modules, opt_class, hparams, checkpointer=None):
-        if hparams['log_file'] is None:
-            hparams['log_file'] = f'results/{hparams.get("experiment_name", "debug")}/train.log'
-        create_logger(hparams['log_file'], debug=hparams['debug'], stdout=hparams['debug'])
         self.hparams = hparams
         self.opt_class = opt_class
         self.checkpointer = checkpointer
@@ -49,7 +46,7 @@ class ClassifierTrainer:
             if name in self.hparams:
                 if value != hparams[name]:
                     logger.info(f'Parameter {name} overriden from default value and set to {hparams[name]}')
-                    setattr(self, name, hparams[name])
+                setattr(self, name, hparams[name])
             else:
                 setattr(self, name, value)
 
@@ -72,7 +69,7 @@ class ClassifierTrainer:
         return self.fit(*args, **kwargs)
 
     def on_fit_start(self):
-        # Initialize optimizers after parameters are configured
+        # Initialize optimizers
         self.init_optimizers()
 
         # set first epoch index
