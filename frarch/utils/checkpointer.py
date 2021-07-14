@@ -78,9 +78,9 @@ class Checkpointer:
 
     def is_better(self, new_metric, old_metric):
         if self.mode == "min":
-            return new_metric < old_metric
+            return new_metric <= old_metric
         elif self.mode == "max":
-            return new_metric > old_metric
+            return new_metric >= old_metric
 
     def load(self, mode="last"):
         if mode not in LOAD_MODES:
