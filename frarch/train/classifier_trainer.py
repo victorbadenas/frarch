@@ -50,9 +50,9 @@ class ClassifierTrainer(BaseTrainer):
 
         self.on_fit_start()
 
-        for epoch in range(self.current_epoch, self.hparams["epochs"]):
+        for self.current_epoch in range(self.start_epoch, self.hparams["epochs"]):
 
-            self.on_stage_start(Stage.TRAIN, epoch)
+            self.on_stage_start(Stage.TRAIN, self.current_epoch)
             self.modules.train()
 
             last_ckpt_time = time.time()
@@ -70,14 +70,14 @@ class ClassifierTrainer(BaseTrainer):
                     t.set_postfix(train_loss=self.avg_train_loss)
 
                     if not (self.step % self.train_interval):
-                        self.on_train_interval(epoch)
+                        self.on_train_interval(self.current_epoch)
 
                     if self.debug and self.step >= self.debug_batches:
                         break
 
                     if (
                         self.checkpointer is not None
-                        and self.ckpt_interval_minutes > 0
+                        and self.ckpt_interval_minutes is not None
                         and time.time() - last_ckpt_time
                         >= self.ckpt_interval_minutes * 60.0
                     ):
@@ -85,13 +85,13 @@ class ClassifierTrainer(BaseTrainer):
                         last_ckpt_time = time.time()
 
             # Run train "on_stage_end" on all processes
-            self.on_stage_end(Stage.TRAIN, self.avg_train_loss, epoch)
+            self.on_stage_end(Stage.TRAIN, self.avg_train_loss, self.current_epoch)
             self.avg_train_loss = 0.0
             self.step = 0
 
             # Validation stage
             if valid_set is not None:
-                self.on_stage_start(Stage.VALID, epoch)
+                self.on_stage_start(Stage.VALID, self.current_epoch)
                 self.modules.eval()
                 avg_valid_loss = 0.0
                 with torch.no_grad():
@@ -106,6 +106,6 @@ class ClassifierTrainer(BaseTrainer):
 
                     # Only run validation "on_stage_end" on main process
                     self.step = 0
-                    self.on_stage_end(Stage.VALID, avg_valid_loss, epoch)
+                    self.on_stage_end(Stage.VALID, avg_valid_loss, self.current_epoch)
 
         self.on_fit_end()

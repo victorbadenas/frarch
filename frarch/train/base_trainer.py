@@ -55,6 +55,10 @@ class BaseTrainer:
             else:
                 setattr(self, name, value)
 
+        if self.ckpt_interval_minutes is not None:
+            if self.ckpt_interval_minutes <= 0:
+                raise ValueError("ckpt_interval_minutes must be > 0 or None")
+
         # Check Python version
         if not (
             sys.version_info.major == PYTHON_VERSION_MAJOR
@@ -81,12 +85,14 @@ class BaseTrainer:
         self.init_optimizers()
 
         # set first epoch index
-        self.current_epoch = 0
+        self.start_epoch = 0
 
         # Load latest checkpoint to resume training if interrupted
         if self.checkpointer is not None:
-            # TODO: load latest checkpoint
-            pass
+            if self.checkpointer.exists_checkpoint():
+                # TODO: load latest checkpoint
+                if self.checkpointer.load(mode="last"):
+                    self.start_epoch = self.checkpointer.get_epoch()
 
     def init_optimizers(self):
         if self.opt_class is not None:
