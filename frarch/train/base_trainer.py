@@ -98,7 +98,7 @@ class BaseTrainer:
         if self.opt_class is not None:
             self.optimizer = self.opt_class(self.modules.parameters())
 
-    def on_fit_end(self, stage, epoch=None):
+    def on_fit_end(self, epoch=None):
         pass
 
     def on_stage_start(self, stage, epoch=None):
