@@ -49,12 +49,13 @@ class FMNISTTrainer(fr.train.ClassifierTrainer):
             self.hparams["error_metrics"].reset()
             if self.debug:
                 metrics = self.hparams["error_metrics"].get_metrics(mode="mean")
-                logging.debug(f"epoch {epoch} validation init: {metrics}")
 
     def on_stage_end(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             metrics = self.hparams["error_metrics"].get_metrics(mode="mean")
             logging.info(f"epoch {epoch} validation: {metrics}")
+            if self.checkpointer is not None:
+                self.checkpointer.save(**metrics, epoch=self.current_epoch)
 
 
 if __name__ == "__main__":
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     build_experiment_structure(
         hparam_file,
         overrides=args,
-        experiment_name=hparams["experiment_name"],
+        experiment_folder=hparams["experiment_folder"],
         debug=hparams["debug"],
     )
 
@@ -76,7 +77,7 @@ if __name__ == "__main__":
         modules=hparams["modules"],
         opt_class=hparams["opt_class"],
         hparams=hparams,
-        checkpointer=None,
+        checkpointer=hparams["checkpointer"],
     )
 
     trainer.fit(

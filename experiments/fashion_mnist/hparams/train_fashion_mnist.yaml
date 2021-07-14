@@ -9,6 +9,7 @@
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 experiment_name: "fashion_mnist"
+experiment_folder: "results/fashion_mnist/"
 device: "cuda:0"
 
 # data folder
@@ -71,3 +72,10 @@ classifier: !new:frarch.models.classification.cnn.FashionClassifier
 modules:
     model: !ref <model>
     classifier: !ref <classifier>
+
+checkpointer: !new:frarch.utils.Checkpointer
+    save_path: !ref <experiment_folder>
+    reference_metric: "classification_error"
+    modules:
+        model: !ref <model>
+        classifier: !ref <classifier>
