@@ -1,9 +1,11 @@
 import torch
 import json
+import logging
 from datetime import datetime
 import shutil
 from pathlib import Path
 
+logger = logging.getLogger(__name__)
 
 METRIC_MODES = ["min", "max"]
 LOAD_MODES = ["last", "best"]
@@ -84,17 +86,62 @@ class Checkpointer:
 
     def load(self, mode="last"):
         if mode == "best":
-            self.load_best_checkpoint()
+            return self.load_best_checkpoint()
         elif mode == "last":
-            self.load_last_checkpoint()
+            return self.load_last_checkpoint()
         else:
             raise ValueError("load's mode kwarg can be \"best\" or \"last\"")
 
     def exists_checkpoint(self):
         for folder in self.base_path.iterdir():
-            if str(folder).startswith('ckpt_'):
+            if str(folder.name).startswith('ckpt_'):
                 return True
         return False
 
     def load_best_checkpoint(self):
-        pass
+        ckpts_meta = self.load_checkpoints_meta()
+        cmp_fn = min if self.mode == "min" else max
+        best_ckpt_name = cmp_fn(ckpts_meta, key=lambda i: ckpts_meta[i][self.reference_metric])
+        return self.load_checkpoint_from_folder(best_ckpt_name, ckpts_meta[best_ckpt_name])
+
+    def load_last_checkpoint(self):
+        ckpts_meta = self.load_checkpoints_meta()
+        latest_ckpt_name = max(ckpts_meta, key=lambda i: ckpts_meta[i]['time'])
+        return self.load_checkpoint_from_folder(latest_ckpt_name, ckpts_meta[latest_ckpt_name])
+
+    def load_checkpoints_meta(self):
+        ckpts_meta = {}
+        for folder in self.base_path.iterdir():
+            if not str(folder.name).startswith('ckpt_') or not folder.is_dir():
+                continue
+
+            metadata_path = folder / "metadata.json"
+            with open(metadata_path, 'r') as f:
+                ckpts_meta[folder.name] = json.load(f)
+
+            ckpts_meta[folder.name]['time'] = datetime.strptime(
+                ckpts_meta[folder.name]['time'],
+                "%Y-%m-%d %H:%M:%S.%f"
+            )
+        return ckpts_meta
+
+    def load_checkpoint_from_folder(self, ckpt_folder_name, metadata):
+        paths = self.build_paths(ckpt_folder_name)
+        for module_name in self.modules:
+            try:
+                self.modules[module_name].load_state_dict(
+                    torch.load(
+                        paths[module_name],
+                    )
+                )
+            except Exception as e:
+                raise e
+                # return false in case we want to keep with the training and just warn the user.
+                return False
+        self.metadata = metadata
+        return True
+
+    def get_epoch(self):
+        if len(self.metadata) >= 0 and "epoch" in self.metadata:
+            return self.metadata["epoch"]
+        return 0

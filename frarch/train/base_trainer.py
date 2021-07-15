@@ -90,9 +90,10 @@ class BaseTrainer:
         # Load latest checkpoint to resume training if interrupted
         if self.checkpointer is not None:
             if self.checkpointer.exists_checkpoint():
-                # TODO: load latest checkpoint
+                logger.info("loading last checkpoint")
                 if self.checkpointer.load(mode="last"):
                     self.start_epoch = self.checkpointer.get_epoch()
+                    logger.info(f"resuming training from epoch {self.start_epoch}")
 
     def init_optimizers(self):
         if self.opt_class is not None:
