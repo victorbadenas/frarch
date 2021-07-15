@@ -86,9 +86,8 @@ class ClassifierTrainer(BaseTrainer):
 
             # Run train "on_stage_end" on all processes
             self.on_stage_end(Stage.TRAIN, self.avg_train_loss, self.current_epoch)
-            self.avg_train_loss = 0.0
-            self.step = 0
 
+            self.step = 0
             # Validation stage
             if valid_set is not None:
                 self.on_stage_start(Stage.VALID, self.current_epoch)
@@ -107,5 +106,5 @@ class ClassifierTrainer(BaseTrainer):
                     # Only run validation "on_stage_end" on main process
                     self.step = 0
                     self.on_stage_end(Stage.VALID, avg_valid_loss, self.current_epoch)
-
+            self.avg_train_loss = 0.0
         self.on_fit_end()

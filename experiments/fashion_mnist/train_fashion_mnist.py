@@ -53,8 +53,11 @@ class FMNISTTrainer(fr.train.ClassifierTrainer):
     def on_stage_end(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             metrics = self.hparams["error_metrics"].get_metrics(mode="mean")
-            logging.info(f"epoch {epoch} validation: {metrics}")
+            metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
+            logging.info(f"epoch {epoch}: train_loss {self.avg_train_loss:.4f} validation_loss {loss:.4f} metrics: {metrics_string}")
             if self.checkpointer is not None:
+                metrics["train_loss"] = self.avg_train_loss
+                metrics["val_loss"] = loss
                 self.checkpointer.save(**metrics, epoch=self.current_epoch)
 
 
