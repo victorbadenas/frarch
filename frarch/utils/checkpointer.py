@@ -69,7 +69,7 @@ class Checkpointer:
 
     def remove_old_ckpts(self, curr_ckpt_folder):
         for old_ckpt in self.base_path.iterdir():
-            if old_ckpt.name == curr_ckpt_folder:
+            if old_ckpt.name == curr_ckpt_folder or not str(old_ckpt.name).startswith('ckpt_'):
                 continue
             with open(old_ckpt / 'metadata.json', 'r') as metadata_handler:
                 old_metadata = json.load(metadata_handler)
@@ -83,9 +83,18 @@ class Checkpointer:
             return new_metric >= old_metric
 
     def load(self, mode="last"):
-        if mode not in LOAD_MODES:
+        if mode == "best":
+            self.load_best_checkpoint()
+        elif mode == "last":
+            self.load_last_checkpoint()
+        else:
             raise ValueError("load's mode kwarg can be \"best\" or \"last\"")
-        pass
 
     def exists_checkpoint(self):
+        for folder in self.base_path.iterdir():
+            if str(folder).startswith('ckpt_'):
+                return True
         return False
+
+    def load_best_checkpoint(self):
+        pass
