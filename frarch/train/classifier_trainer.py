@@ -104,7 +104,7 @@ class ClassifierTrainer(BaseTrainer):
                         avg_valid_loss = self.update_average(loss, avg_valid_loss)
 
                     # Only run validation "on_stage_end" on main process
-                    self.step = 0
                     self.on_stage_end(Stage.VALID, avg_valid_loss, self.current_epoch)
+            self.step = 0
             self.avg_train_loss = 0.0
         self.on_fit_end()

@@ -59,7 +59,7 @@ class FMNISTTrainer(fr.train.ClassifierTrainer):
             if self.checkpointer is not None:
                 metrics["train_loss"] = self.avg_train_loss
                 metrics["val_loss"] = loss
-                self.checkpointer.save(**metrics, epoch=self.current_epoch)
+                self.checkpointer.save(**metrics, epoch=self.current_epoch, current_step=self.step)
 
 
 if __name__ == "__main__":
