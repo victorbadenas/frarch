@@ -59,6 +59,7 @@ class ClassifierTrainer(BaseTrainer):
 
             with tqdm(
                 train_set,
+                desc=f"Epoch {self.current_epoch} train",
                 initial=self.step,
                 dynamic_ncols=True,
                 disable=self.hparams["noprogressbar"],
@@ -87,21 +88,25 @@ class ClassifierTrainer(BaseTrainer):
             # Run train "on_stage_end" on all processes
             self.on_stage_end(Stage.TRAIN, self.avg_train_loss, self.current_epoch)
 
-            self.step = 0
             # Validation stage
             if valid_set is not None:
                 self.on_stage_start(Stage.VALID, self.current_epoch)
                 self.modules.eval()
                 avg_valid_loss = 0.0
                 with torch.no_grad():
-                    for batch in tqdm(
+                    with  tqdm(
                         valid_set,
+                        desc=f"Epoch {self.current_epoch} valid",
                         dynamic_ncols=True,
                         disable=self.hparams["noprogressbar"],
-                    ):
-                        self.step += 1
-                        loss = self.evaluate_batch(batch, stage=Stage.VALID)
-                        avg_valid_loss = self.update_average(loss, avg_valid_loss)
+                    ) as t:
+                        for batch in t:
+                            loss = self.evaluate_batch(batch, stage=Stage.VALID)
+                            avg_valid_loss = self.update_average(loss, avg_valid_loss)
+                            if "metrics" in self.hparams:
+                                t.set_postfix(valid_loss=avg_valid_loss, **self.hparams["metrics"].get_metrics(mode="mean"))
+                            else:
+                                t.set_postfix(valid_loss=avg_valid_loss)
 
                     # Only run validation "on_stage_end" on main process
                     self.on_stage_end(Stage.VALID, avg_valid_loss, self.current_epoch)
