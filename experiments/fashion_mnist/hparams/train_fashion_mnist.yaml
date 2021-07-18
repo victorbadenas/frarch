@@ -59,8 +59,8 @@ opt_class: !name:torch.optim.Adam
 
 loss: !new:torch.nn.CrossEntropyLoss
 
-error_metrics: !new:frarch.metrics.MetricsWrapper
-    classification_error: !new:frarch.metrics.ClassificationError
+error_metrics: !new:frarch.modules.metrics.MetricsWrapper
+    classification_error: !new:frarch.modules.metrics.ClassificationError
 
 model: !new:frarch.models.classification.cnn.FashionCNN
     out_size: !ref <embedding_size>
@@ -73,7 +73,7 @@ modules:
     model: !ref <model>
     classifier: !ref <classifier>
 
-checkpointer: !new:frarch.utils.Checkpointer
+checkpointer: !new:frarch.modules.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
     modules:
