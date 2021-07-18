@@ -59,7 +59,7 @@ opt_class: !name:torch.optim.Adam
 
 loss: !new:torch.nn.CrossEntropyLoss
 
-error_metrics: !new:frarch.modules.metrics.MetricsWrapper
+metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
 model: !new:frarch.models.classification.cnn.FashionCNN
