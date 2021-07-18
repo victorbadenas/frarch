@@ -39,6 +39,7 @@ class FMNISTTrainer(fr.train.ClassifierTrainer):
 
     def compute_loss(self, predictions, batch, stage):
         _, labels = batch
+        labels = labels.to(self.device)
         loss = self.hparams["loss"](predictions, labels)
         if stage == Stage.VALID and "error_metrics" in self.hparams:
             self.hparams["error_metrics"].update(predictions, labels)
