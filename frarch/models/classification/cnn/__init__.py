@@ -1,1 +1,2 @@
-from .fashionCNN import FashionClassifier, FashionCNN
+from .fashionCNN import *
+from .mnistCNN import *
