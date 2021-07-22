@@ -1,7 +1,7 @@
 """
-Script to train a model to classify MNist dataset.
+Script to train a model to classify places365 dataset.
 
-:Description: script to train the MNist task
+:Description: script to train the places365 task
 
 :Authors: victor badenas (victor.badenas@gmail.com)
 
@@ -9,7 +9,7 @@ Script to train a model to classify MNist dataset.
 :Created on: 01/06/2021 11:00
 """
 
-__title__ = "train_mnist"
+__title__ = "places365"
 __version__ = "0.1.0"
 __author__ = "victor badenas"
 
@@ -24,11 +24,13 @@ from hyperpyyaml import load_hyperpyyaml
 
 import frarch as fr
 
+logger = logging.getLogger(__name__)
+
 from frarch.utils.data import build_experiment_structure
 from frarch.utils.stages import Stage
 
 
-class MNISTTrainer(fr.train.ClassifierTrainer):
+class PlacesTrainer(fr.train.ClassifierTrainer):
     def forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
@@ -75,7 +77,7 @@ if __name__ == "__main__":
         debug=hparams["debug"],
     )
 
-    trainer = MNISTTrainer(
+    trainer = PlacesTrainer(
         modules=hparams["modules"],
         opt_class=hparams["opt_class"],
         hparams=hparams,
