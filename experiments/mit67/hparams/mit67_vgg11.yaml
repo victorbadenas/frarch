@@ -1,0 +1,77 @@
+################################################
+#                                              #
+#  Model: VGG11                                #
+#  Author: vbadenas (victor.badenas@gmail.com) #
+#                                              #
+################################################
+
+# seeds
+seed: 42
+__set_seed: !apply:torch.manual_seed [!ref <seed>]
+experiment_name: "mnist"
+experiment_folder: "results/mit67_vgg11_same/"
+device: "cuda:0"
+
+# data folder
+data_folder: ./data/
+
+# training parameters
+epochs: 50
+batch_size: 32
+shuffle: True
+
+embedding_size: 256
+num_clases: 67
+
+transform_tensor: !new:torchvision.transforms.ToTensor
+transform_crop: !new:torchvision.transforms.CenterCrop
+    size: 224
+
+preprocessing: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_tensor>,
+        !ref <transform_crop>
+    ]
+
+# dataset object
+train_dataset: !new:frarch.datasets.Mit67
+    root: !ref <data_folder>
+    train: true
+    transform: !ref <preprocessing>
+
+valid_dataset: !new:frarch.datasets.Mit67
+    root: !ref <data_folder>
+    train: false
+    transform: !ref <preprocessing>
+
+# dataloader options
+dataloader_options:
+    batch_size: !ref <batch_size>
+    shuffle: !ref <shuffle>
+    num_workers: 0
+
+opt_class: !name:torch.optim.Adam
+    lr: 0.001
+
+loss: !new:torch.nn.CrossEntropyLoss
+
+metrics: !new:frarch.modules.metrics.MetricsWrapper
+    classification_error: !new:frarch.modules.metrics.ClassificationError
+
+model: !apply:frarch.models.classification.cnn.vgg11
+    pretrained: False
+
+classifier: !new:frarch.models.classification.cnn.VGGClassifier
+    pretrained: False
+    num_classes: !ref <num_clases>
+
+modules:
+    model: !ref <model>
+    classifier: !ref <classifier>
+
+checkpointer: !new:frarch.modules.Checkpointer
+    save_path: !ref <experiment_folder>
+    reference_metric: "classification_error"
+    modules:
+        model: !ref <model>
+        classifier: !ref <classifier>
