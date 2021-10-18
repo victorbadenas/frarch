@@ -1,1 +1,1 @@
-from .checkpointer import *
+from .checkpointer import Checkpointer
