@@ -1,7 +1,6 @@
 import logging
 import sys
 from pathlib import Path
-from typing import Union
 
 
 def create_logger(log_file_path: str, debug=False, stdout=False):

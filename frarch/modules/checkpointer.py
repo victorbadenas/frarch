@@ -1,24 +1,37 @@
-import torch
 import json
 import logging
-from datetime import datetime
 import shutil
+from datetime import datetime
 from pathlib import Path
 from typing import Union
+
+import torch
 
 logger = logging.getLogger(__name__)
 
 METRIC_MODES = ["min", "max"]
 LOAD_MODES = ["last", "best"]
 
+
 class Checkpointer:
-    def __init__(self, save_path, modules, save_best_only:bool=True, reference_metric:str=None, mode:str="min"):
+    def __init__(
+        self,
+        save_path,
+        modules,
+        save_best_only: bool = True,
+        reference_metric: str = None,
+        mode: str = "min",
+    ):
         if "metadata" in modules:
-            raise ValueError("metadata in moddules is reserved for metadata json object")
-        if not mode in METRIC_MODES:
+            raise ValueError(
+                "metadata in moddules is reserved for metadata json object"
+            )
+        if mode not in METRIC_MODES:
             raise ValueError(f"metric mode must be in {METRIC_MODES} not {mode}")
         if save_best_only and reference_metric is None:
-            raise ValueError("specify the metric name to consider while save_best_only=True")
+            raise ValueError(
+                "specify the metric name to consider while save_best_only=True"
+            )
 
         self.modules = modules
         self.base_path = Path(save_path) / "save"
@@ -28,15 +41,15 @@ class Checkpointer:
         self.reference_metric = reference_metric
         self.mode = mode
 
-    def build_paths(self, ckpt_folder_name:str) -> dict:
+    def build_paths(self, ckpt_folder_name: str) -> dict:
         paths = {}
-        for module_name, module in self.modules.items():
+        for module_name in self.modules.keys():
             module_path = self.base_path / ckpt_folder_name / f"{module_name}.pt"
             paths[module_name] = module_path
         paths["metadata"] = self.base_path / ckpt_folder_name / "metadata.json"
         return paths
 
-    def save(self, epoch:int, current_step:int, intra_epoch:bool=False, **metrics):
+    def save(self, epoch: int, current_step: int, intra_epoch: bool = False, **metrics):
         time_str = str(datetime.now())
         ckpt_folder = f"ckpt_{time_str.replace(' ', '_')}"
         paths = self.build_paths(ckpt_folder)
@@ -44,25 +57,40 @@ class Checkpointer:
         for module_name in self.modules:
             paths[module_name].parent.mkdir(exist_ok=True, parents=True)
             torch.save(
-                self.modules[module_name].state_dict(), 
+                self.modules[module_name].state_dict(),
                 paths[module_name],
             )
 
-        self.save_json(time_str, paths["metadata"], epoch=epoch, intra_epoch=intra_epoch, step=current_step, **metrics)
+        self.save_json(
+            time_str,
+            paths["metadata"],
+            epoch=epoch,
+            intra_epoch=intra_epoch,
+            step=current_step,
+            **metrics,
+        )
         self.update_best_metric(**metrics)
 
         if not intra_epoch and self.save_best_only:
             self.remove_old_ckpts(ckpt_folder)
 
-    def save_json(self, time_str:str, metadata_path:Union[Path, str], epoch:int, step:int, intra_epoch:bool=False, **metrics):
+    def save_json(
+        self,
+        time_str: str,
+        metadata_path: Union[Path, str],
+        epoch: int,
+        step: int,
+        intra_epoch: bool = False,
+        **metrics,
+    ):
         self.metadata = {
             "intra_epoch": intra_epoch,
             "step": step,
             "epoch": epoch,
             "time": time_str,
-            **metrics
+            **metrics,
         }
-        with open(metadata_path, 'w') as metadata_handler:
+        with open(metadata_path, "w") as metadata_handler:
             json.dump(self.metadata, metadata_handler, indent=4)
 
     def update_best_metric(self, **metrics):
@@ -74,11 +102,15 @@ class Checkpointer:
 
     def remove_old_ckpts(self, curr_ckpt_folder):
         for old_ckpt in self.base_path.iterdir():
-            if old_ckpt.name == curr_ckpt_folder or not str(old_ckpt.name).startswith('ckpt_'):
+            if old_ckpt.name == curr_ckpt_folder or not str(old_ckpt.name).startswith(
+                "ckpt_"
+            ):
                 continue
-            with open(old_ckpt / 'metadata.json', 'r') as metadata_handler:
+            with open(old_ckpt / "metadata.json", "r") as metadata_handler:
                 old_metadata = json.load(metadata_handler)
-            if not self.is_better(old_metadata["classification_error"], self.best_metric):
+            if not self.is_better(
+                old_metadata["classification_error"], self.best_metric
+            ):
                 shutil.rmtree(old_ckpt)
 
     def is_better(self, new_metric, old_metric) -> bool:
@@ -93,38 +125,43 @@ class Checkpointer:
         elif mode == "last":
             return self.load_last_checkpoint()
         else:
-            raise ValueError("load's mode kwarg can be \"best\" or \"last\"")
+            raise ValueError('load\'s mode kwarg can be "best" or "last"')
 
     def exists_checkpoint(self) -> bool:
         for folder in self.base_path.iterdir():
-            if str(folder.name).startswith('ckpt_'):
+            if str(folder.name).startswith("ckpt_"):
                 return True
         return False
 
     def load_best_checkpoint(self) -> bool:
         ckpts_meta = self.load_checkpoints_meta()
         cmp_fn = min if self.mode == "min" else max
-        best_ckpt_name = cmp_fn(ckpts_meta, key=lambda i: ckpts_meta[i][self.reference_metric])
-        return self.load_checkpoint_from_folder(best_ckpt_name, ckpts_meta[best_ckpt_name])
+        best_ckpt_name = cmp_fn(
+            ckpts_meta, key=lambda i: ckpts_meta[i][self.reference_metric]
+        )
+        return self.load_checkpoint_from_folder(
+            best_ckpt_name, ckpts_meta[best_ckpt_name]
+        )
 
     def load_last_checkpoint(self) -> bool:
         ckpts_meta = self.load_checkpoints_meta()
-        latest_ckpt_name = max(ckpts_meta, key=lambda i: ckpts_meta[i]['time'])
-        return self.load_checkpoint_from_folder(latest_ckpt_name, ckpts_meta[latest_ckpt_name])
+        latest_ckpt_name = max(ckpts_meta, key=lambda i: ckpts_meta[i]["time"])
+        return self.load_checkpoint_from_folder(
+            latest_ckpt_name, ckpts_meta[latest_ckpt_name]
+        )
 
     def load_checkpoints_meta(self) -> dict:
         ckpts_meta = {}
         for folder in self.base_path.iterdir():
-            if not str(folder.name).startswith('ckpt_') or not folder.is_dir():
+            if not str(folder.name).startswith("ckpt_") or not folder.is_dir():
                 continue
 
             metadata_path = folder / "metadata.json"
-            with open(metadata_path, 'r') as f:
+            with open(metadata_path, "r") as f:
                 ckpts_meta[folder.name] = json.load(f)
 
-            ckpts_meta[folder.name]['time'] = datetime.strptime(
-                ckpts_meta[folder.name]['time'],
-                "%Y-%m-%d %H:%M:%S.%f"
+            ckpts_meta[folder.name]["time"] = datetime.strptime(
+                ckpts_meta[folder.name]["time"], "%Y-%m-%d %H:%M:%S.%f"
             )
         return ckpts_meta
 
@@ -139,7 +176,8 @@ class Checkpointer:
                 )
             except Exception as e:
                 raise e
-                # return false in case we want to keep with the training and just warn the user.
+                # return false in case we want to keep with
+                # the training and just warn the user.
                 return False
         self.metadata = metadata
         return True

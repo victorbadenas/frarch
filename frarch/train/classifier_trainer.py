@@ -94,7 +94,7 @@ class ClassifierTrainer(BaseTrainer):
                 self.modules.eval()
                 avg_valid_loss = 0.0
                 with torch.no_grad():
-                    with  tqdm(
+                    with tqdm(
                         valid_set,
                         desc=f"Epoch {self.current_epoch} valid",
                         dynamic_ncols=True,
@@ -104,7 +104,10 @@ class ClassifierTrainer(BaseTrainer):
                             loss = self.evaluate_batch(batch, stage=Stage.VALID)
                             avg_valid_loss = self.update_average(loss, avg_valid_loss)
                             if "metrics" in self.hparams:
-                                t.set_postfix(valid_loss=avg_valid_loss, **self.hparams["metrics"].get_metrics(mode="mean"))
+                                t.set_postfix(
+                                    valid_loss=avg_valid_loss,
+                                    **self.hparams["metrics"].get_metrics(mode="mean"),
+                                )
                             else:
                                 t.set_postfix(valid_loss=avg_valid_loss)
 

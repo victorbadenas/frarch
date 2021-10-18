@@ -94,7 +94,10 @@ class BaseTrainer:
                 if self.checkpointer.load(mode="last"):
                     self.start_epoch = self.checkpointer.next_epoch
                     self.step = self.checkpointer.step
-                    logger.info(f"resuming training from epoch {self.start_epoch} in step: {self.step}")
+                    logger.info(
+                        "resuming training from epoch "
+                        f"{self.start_epoch} in step: {self.step}"
+                    )
 
     def init_optimizers(self):
         if self.opt_class is not None:
