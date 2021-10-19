@@ -40,11 +40,6 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
             self.hparams["metrics"].update(predictions, labels)
         return loss
 
-    def on_fit_start(self):
-        if self.start_epoch == 0:
-            if self.checkpointer is not None:
-                self.checkpointer.save(epoch=self.current_epoch, current_step=self.step)
-
     def on_stage_start(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             self.hparams["metrics"].reset()

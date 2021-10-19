@@ -3,7 +3,7 @@ import logging
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Union
+from typing import Dict, Union
 
 import torch
 
@@ -41,38 +41,32 @@ class Checkpointer:
         self.reference_metric = reference_metric
         self.mode = mode
 
-    def build_paths(self, ckpt_folder_name: str) -> dict:
-        paths = {}
-        for module_name in self.modules.keys():
-            module_path = self.base_path / ckpt_folder_name / f"{module_name}.pt"
-            paths[module_name] = module_path
-        paths["metadata"] = self.base_path / ckpt_folder_name / "metadata.json"
-        return paths
+    def save_initial_weights(self):
+        time_str = str(datetime.now())
+        ckpt_folder = "initial_weights"
+        paths = self._build_paths(ckpt_folder)
+        self._save_modules(paths)
+        self._save_json(
+            time_str,
+            paths["metadata"],
+            epoch=0,
+            intra_epoch=False,
+            step=0,
+        )
 
     def save(
         self,
         epoch: int,
         current_step: int,
         intra_epoch: bool = False,
-        initial_weights: bool = False,
         **metrics,
     ):
         time_str = str(datetime.now())
-        ckpt_folder = (
-            f"ckpt_{time_str.replace(' ', '_')}"
-            if not initial_weights
-            else "initial_model"
-        )
-        paths = self.build_paths(ckpt_folder)
+        ckpt_folder = f"ckpt_{time_str.replace(' ', '_')}"
 
-        for module_name in self.modules:
-            paths[module_name].parent.mkdir(exist_ok=True, parents=True)
-            torch.save(
-                self.modules[module_name].state_dict(),
-                paths[module_name],
-            )
-
-        self.save_json(
+        paths = self._build_paths(ckpt_folder)
+        self._save_modules(paths)
+        self._save_json(
             time_str,
             paths["metadata"],
             epoch=epoch,
@@ -85,7 +79,23 @@ class Checkpointer:
         if not intra_epoch and self.save_best_only:
             self.remove_old_ckpts(ckpt_folder)
 
-    def save_json(
+    def _build_paths(self, ckpt_folder_name: str) -> dict:
+        paths = {}
+        for module_name in self.modules.keys():
+            module_path = self.base_path / ckpt_folder_name / f"{module_name}.pt"
+            paths[module_name] = module_path
+        paths["metadata"] = self.base_path / ckpt_folder_name / "metadata.json"
+        return paths
+
+    def _save_modules(self, paths: Dict[str, Path]):
+        for module_name in self.modules:
+            paths[module_name].parent.mkdir(exist_ok=True, parents=True)
+            torch.save(
+                self.modules[module_name].state_dict(),
+                paths[module_name],
+            )
+
+    def _save_json(
         self,
         time_str: str,
         metadata_path: Union[Path, str],
@@ -164,20 +174,25 @@ class Checkpointer:
     def load_checkpoints_meta(self) -> dict:
         ckpts_meta = {}
         for folder in self.base_path.iterdir():
-            if not str(folder.name).startswith("ckpt_") or not folder.is_dir():
+            if not folder.is_dir():
                 continue
 
-            metadata_path = folder / "metadata.json"
-            with open(metadata_path, "r") as f:
-                ckpts_meta[folder.name] = json.load(f)
+            if (
+                str(folder.name).startswith("ckpt_")
+                or str(folder.name) == "initial_weights"
+            ):
+                metadata_path = folder / "metadata.json"
+                with open(metadata_path, "r") as f:
+                    ckpts_meta[folder.name] = json.load(f)
 
-            ckpts_meta[folder.name]["time"] = datetime.strptime(
-                ckpts_meta[folder.name]["time"], "%Y-%m-%d %H:%M:%S.%f"
-            )
+                ckpts_meta[folder.name]["time"] = datetime.strptime(
+                    ckpts_meta[folder.name]["time"], "%Y-%m-%d %H:%M:%S.%f"
+                )
+
         return ckpts_meta
 
     def load_checkpoint_from_folder(self, ckpt_folder_name, metadata) -> bool:
-        paths = self.build_paths(ckpt_folder_name)
+        paths = self._build_paths(ckpt_folder_name)
         for module_name in self.modules:
             try:
                 self.modules[module_name].load_state_dict(

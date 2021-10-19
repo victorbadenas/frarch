@@ -99,6 +99,13 @@ class BaseTrainer:
                         f"{self.start_epoch} in step: {self.step}"
                     )
 
+        if self.start_epoch == 0:
+            self.save_initial_weights()
+
+    def save_initial_weights(self):
+        if self.checkpointer is not None:
+            self.checkpointer.save_initial_weights()
+
     def init_optimizers(self):
         if self.opt_class is not None:
             self.optimizer = self.opt_class(self.modules.parameters())
