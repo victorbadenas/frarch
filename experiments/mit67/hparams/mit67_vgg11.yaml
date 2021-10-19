@@ -17,20 +17,20 @@ data_folder: ./data/
 
 # training parameters
 epochs: 50
-batch_size: 32
+batch_size: 8
 shuffle: True
 
 embedding_size: 256
 num_clases: 67
 
 transform_tensor: !new:torchvision.transforms.ToTensor
-transform_crop: !new:torchvision.transforms.CenterCrop
-    size: 224
+transform_resize: !new:torchvision.transforms.Resize
+    size: [224, 224]
 
 preprocessing: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_tensor>,
-        !ref <transform_crop>
+        !ref <transform_resize>
     ]
 
 # dataset object
@@ -48,7 +48,7 @@ valid_dataset: !new:frarch.datasets.Mit67
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 0
+    num_workers: 4
 
 opt_class: !name:torch.optim.Adam
     lr: 0.001
@@ -72,6 +72,7 @@ modules:
 checkpointer: !new:frarch.modules.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
+    save_best_only: True
     modules:
         model: !ref <model>
         classifier: !ref <classifier>

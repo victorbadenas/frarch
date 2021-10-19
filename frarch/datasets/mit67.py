@@ -145,6 +145,7 @@ class Mit67(Dataset):
         transform: Callable = None,
         target_transform: Callable = None,
         download: bool = True,
+        toy: bool = False,
     ):
         self.root = root
         self.set = "train" if train else "test"
@@ -158,6 +159,8 @@ class Mit67(Dataset):
         try:
             self.classes = find_classes(self.root)
             self.images = make_dataset(self.root, self.classes, self.set)
+            if toy:
+                self.images = self.images[:100]
         except OSError as e:
             logger.error(
                 f"Files for MIT67 dataset not found. Download them manually in {root}"

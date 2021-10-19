@@ -49,9 +49,20 @@ class Checkpointer:
         paths["metadata"] = self.base_path / ckpt_folder_name / "metadata.json"
         return paths
 
-    def save(self, epoch: int, current_step: int, intra_epoch: bool = False, **metrics):
+    def save(
+        self,
+        epoch: int,
+        current_step: int,
+        intra_epoch: bool = False,
+        initial_weights: bool = False,
+        **metrics,
+    ):
         time_str = str(datetime.now())
-        ckpt_folder = f"ckpt_{time_str.replace(' ', '_')}"
+        ckpt_folder = (
+            f"ckpt_{time_str.replace(' ', '_')}"
+            if not initial_weights
+            else "initial_model"
+        )
         paths = self.build_paths(ckpt_folder)
 
         for module_name in self.modules:

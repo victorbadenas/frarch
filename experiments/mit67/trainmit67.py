@@ -1,7 +1,7 @@
 """
-Script to train a model to classify places365 dataset.
+Script to train a model to classify mit67 dataset.
 
-:Description: script to train the places365 task
+:Description: script to train the mit67 task
 
 :Authors: victor badenas (victor.badenas@gmail.com)
 
@@ -39,6 +39,11 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
         if stage == Stage.VALID and "metrics" in self.hparams:
             self.hparams["metrics"].update(predictions, labels)
         return loss
+
+    def on_fit_start(self):
+        if self.start_epoch == 0:
+            if self.checkpointer is not None:
+                self.checkpointer.save(epoch=self.current_epoch, current_step=self.step)
 
     def on_stage_start(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
