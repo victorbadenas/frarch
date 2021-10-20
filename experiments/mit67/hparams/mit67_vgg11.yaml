@@ -8,7 +8,7 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mnist"
+experiment_name: "mit67_vgg11_same"
 experiment_folder: "results/mit67_vgg11_same/"
 device: "cuda:0"
 
@@ -17,38 +17,51 @@ data_folder: ./data/
 
 # training parameters
 epochs: 50
-batch_size: 8
+batch_size: 16
 shuffle: True
 
-embedding_size: 256
 num_clases: 67
 
-transform_tensor: !new:torchvision.transforms.ToTensor
+transform_to_tensor: !new:torchvision.transforms.ToTensor
+transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
+    size: 224
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
+transform_normalize: !new:torchvision.transforms.Normalize
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
 
-preprocessing: !new:torchvision.transforms.Compose
+
+transform_train: !new:torchvision.transforms.Compose
     transforms: [
-        !ref <transform_tensor>,
-        !ref <transform_resize>
+        !ref <transform_random_resized_crop>,
+        !ref <transform_to_tensor>,
+        !ref <transform_normalize>
+    ]
+
+transform_valid: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_to_tensor>,
+        !ref <transform_normalize>
     ]
 
 # dataset object
 train_dataset: !new:frarch.datasets.Mit67
     root: !ref <data_folder>
     train: true
-    transform: !ref <preprocessing>
+    transform: !ref <transform_train>
 
 valid_dataset: !new:frarch.datasets.Mit67
     root: !ref <data_folder>
     train: false
-    transform: !ref <preprocessing>
+    transform: !ref <transform_valid>
 
 # dataloader options
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 4
+    num_workers: 16
 
 opt_class: !name:torch.optim.Adam
     lr: 0.001
