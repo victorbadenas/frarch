@@ -1,5 +1,6 @@
-from .fashionCNN import FashionCNN
-from .mnistCNN import MNISTCNN
+from .fashionCNN import FashionClassifier, FashionCNN
+from .mnistCNN import MNISTCNN, MNISTClassifier
+from .smallCNNs import MitCNN, MitCNNClassifier
 from .vgg import (
     VGG,
     VGGClassifier,

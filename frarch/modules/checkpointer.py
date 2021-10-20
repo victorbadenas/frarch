@@ -150,7 +150,7 @@ class Checkpointer:
 
     def exists_checkpoint(self) -> bool:
         for folder in self.base_path.iterdir():
-            if str(folder.name).startswith("ckpt_"):
+            if self.is_ckpt_dir(folder):
                 return True
         return False
 
@@ -177,10 +177,7 @@ class Checkpointer:
             if not folder.is_dir():
                 continue
 
-            if (
-                str(folder.name).startswith("ckpt_")
-                or str(folder.name) == "initial_weights"
-            ):
+            if self.is_ckpt_dir(folder):
                 metadata_path = folder / "metadata.json"
                 with open(metadata_path, "r") as f:
                     ckpts_meta[folder.name] = json.load(f)
@@ -201,12 +198,18 @@ class Checkpointer:
                     )
                 )
             except Exception as e:
+                logger.error(f"Failed loading ckpt from {ckpt_folder_name}.")
+                logger.error(e)
                 raise e
-                # return false in case we want to keep with
-                # the training and just warn the user.
-                return False
         self.metadata = metadata
+        logger.info(
+            f"Loaded ckpt from epoch {self.current_epoch} from {ckpt_folder_name}"
+        )
         return True
+
+    @staticmethod
+    def is_ckpt_dir(path: Union[str, Path]):
+        return str(path.name).startswith("ckpt_") or str(path.name) == "initial_weights"
 
     def is_intraepoch(self) -> bool:
         return self.metadata["intra_epoch"]
