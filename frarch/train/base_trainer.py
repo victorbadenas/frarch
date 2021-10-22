@@ -45,7 +45,7 @@ class BaseTrainer:
                 if value != hparams[name]:
                     logger.info(
                         f"Parameter {name} overriden from"
-                        f"default value and set to {hparams[name]}"
+                        f" default value and set to {hparams[name]}"
                     )
                 setattr(self, name, hparams[name])
             else:
