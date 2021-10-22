@@ -17,15 +17,18 @@ data_folder: ./data/
 
 # training parameters
 epochs: 50
-batch_size: 1
+batch_size: 16
 shuffle: True
 
-num_clases: 365
+num_classes: 365
 
 transform_tensor: !new:torchvision.transforms.ToTensor
+transform_resize: !new:torchvision.transforms.Resize
+    size: [224, 224]
 
 preprocessing: !new:torchvision.transforms.Compose
     transforms: [
+        !ref <transform_resize>,
         !ref <transform_tensor>,
     ]
 
@@ -48,7 +51,7 @@ valid_dataset: !new:torchvision.datasets.Places365
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 0
+    num_workers: 16
 
 opt_class: !name:torch.optim.Adam
     lr: 0.001
@@ -58,19 +61,15 @@ loss: !new:torch.nn.CrossEntropyLoss
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.cnn.vgg11
-    pretrained: false
-
-classifier: !apply:frarch.models.classification.cnn.vggclassifier
+model: !apply:torchvision.models.vgg11
+    num_classes: !ref <num_classes>
     pretrained: false
 
 modules:
     model: !ref <model>
-    classifier: !ref <classifier>
 
 checkpointer: !new:frarch.modules.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
     modules:
         model: !ref <model>
-        classifier: !ref <classifier>

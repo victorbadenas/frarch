@@ -43,7 +43,6 @@ transform_valid: !new:torchvision.transforms.Compose
         !ref <transform_normalize>
     ]
 
-dataset object
 train_dataset: !new:frarch.datasets.Mit67
     train: true
     transform: !ref <transform_train>
