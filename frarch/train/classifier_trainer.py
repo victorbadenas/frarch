@@ -87,7 +87,7 @@ class ClassifierTrainer(BaseTrainer):
                         and time.time() - last_ckpt_time
                         >= self.ckpt_interval_minutes * 60.0
                     ):
-                        self._save_intra_epoch_ckpt()
+                        self.save_intra_epoch_ckpt()
                         last_ckpt_time = time.time()
 
             # Run train "on_stage_end" on all processes

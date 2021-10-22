@@ -62,6 +62,12 @@ class PlacesTrainer(fr.train.ClassifierTrainer):
                     **metrics, epoch=self.current_epoch, current_step=self.step
                 )
 
+    def save_intra_epoch_ckpt(self):
+        if self.checkpointer is not None:
+            self.checkpointer.save(
+                epoch=self.current_epoch, current_step=self.step, intra_epoch=True
+            )
+
 
 if __name__ == "__main__":
     hparam_file, args = fr.parse_arguments()

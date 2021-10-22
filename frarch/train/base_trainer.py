@@ -118,6 +118,9 @@ class BaseTrainer:
     def on_train_interval(self, epoch=None):
         pass
 
+    def save_intra_epoch_ckpt(self):
+        raise NotImplementedError
+
     def forward(self, batch, stage):
         raise NotImplementedError
 

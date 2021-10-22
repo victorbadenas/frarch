@@ -74,10 +74,15 @@ class Checkpointer:
             step=current_step,
             **metrics,
         )
-        self.update_best_metric(**metrics)
+        if intra_epoch:
+            logger.info(f"Saved intra_epoch model to {ckpt_folder}")
+        else:
+            logger.info(f"Saved end_of_epoch model to {ckpt_folder}")
 
-        if not intra_epoch and self.save_best_only:
-            self.remove_old_ckpts(ckpt_folder)
+        if not intra_epoch:
+            self.update_best_metric(**metrics)
+            if self.save_best_only:
+                self.remove_old_ckpts(ckpt_folder)
 
     def _build_paths(self, ckpt_folder_name: str) -> dict:
         paths = {}
