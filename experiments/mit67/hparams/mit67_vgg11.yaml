@@ -48,12 +48,10 @@ transform_valid: !new:torchvision.transforms.Compose
 
 # dataset object
 train_dataset: !new:frarch.datasets.Mit67
-    root: !ref <data_folder>
     train: true
     transform: !ref <transform_train>
 
 valid_dataset: !new:frarch.datasets.Mit67
-    root: !ref <data_folder>
     train: false
     transform: !ref <transform_valid>
 
