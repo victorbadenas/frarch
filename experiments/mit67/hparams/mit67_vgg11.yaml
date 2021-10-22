@@ -22,38 +22,38 @@ shuffle: True
 
 num_clases: 67
 
-transform_to_tensor: !new:torchvision.transforms.ToTensor
 transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
     size: 224
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
 transform_normalize: !new:torchvision.transforms.Normalize
     mean: [0.485, 0.456, 0.406]
-    std: [0.229, 0.224, 0.225]
+    std: [1, 1, 1]
 
 
 transform_train: !new:torchvision.transforms.Compose
     transforms: [
-        !ref <transform_random_resized_crop>,
-#        !ref <transform_to_tensor>,
+        !ref <transform_resize>,
         !ref <transform_normalize>
     ]
 
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-#        !ref <transform_to_tensor>,
         !ref <transform_normalize>
     ]
 
-# dataset object
+dataset object
 train_dataset: !new:frarch.datasets.Mit67
     train: true
     transform: !ref <transform_train>
+    full: true
 
 valid_dataset: !new:frarch.datasets.Mit67
     train: false
     transform: !ref <transform_valid>
+    full: true
+
 
 # dataloader options
 dataloader_options:
@@ -65,20 +65,19 @@ opt_class: !name:torch.optim.Adam
     lr: 0.001
 
 loss: !new:torch.nn.CrossEntropyLoss
+    weight: !apply:frarch.utils.data.tensorInDevice
+        data: [596, 115, 216, 152, 97, 113, 346, 92, 243, 158, 91, 192, 96, 548, 209, 162, 108, 142, 456, 544, 102, 103, 99, 93, 105, 246, 412, 91, 486, 105, 313, 636, 150, 93, 140, 93, 342, 91, 192, 157, 159, 122, 91, 365, 130, 159, 118, 93, 249, 208, 99, 462, 114, 101, 464, 135, 138, 126, 97, 659, 225, 122, 178, 97, 100, 312, 233]
+        device: !ref <device>
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.cnn.vgg16
+model: !apply:torchvision.models.vgg11
+    num_classes: !ref <num_classes>
     pretrained: False
-
-classifier: !new:frarch.models.classification.cnn.VGGClassifier
-    pretrained: False
-    num_classes: !ref <num_clases>
 
 modules:
     model: !ref <model>
-    classifier: !ref <classifier>
 
 checkpointer: !new:frarch.modules.Checkpointer
     save_path: !ref <experiment_folder>
@@ -86,4 +85,3 @@ checkpointer: !new:frarch.modules.Checkpointer
     save_best_only: True
     modules:
         model: !ref <model>
-        classifier: !ref <classifier>
