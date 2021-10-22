@@ -13,7 +13,6 @@ __version__ = "0.1.0"
 __author__ = "victor badenas"
 
 import logging
-import sys
 import time
 
 import torch
@@ -68,7 +67,6 @@ class ClassifierTrainer(BaseTrainer):
                     self.step += 1
                     loss = self.fit_batch(batch)
                     self.avg_train_loss = self.update_average(loss, self.avg_train_loss)
-                    # t.set_postfix(train_loss=self.avg_train_loss)
                     if "metrics" in self.hparams:
                         t.set_postfix(
                             train_loss=self.avg_train_loss,

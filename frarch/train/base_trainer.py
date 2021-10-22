@@ -14,13 +14,9 @@ __author__ = "victor badenas"
 
 import logging
 import sys
-import time
 
 import torch
-from tqdm import tqdm
 
-from frarch.utils.data import create_dataloader
-from frarch.utils.logging import create_logger
 from frarch.utils.stages import Stage
 
 logger = logging.getLogger(__name__)
@@ -134,12 +130,11 @@ class BaseTrainer:
         raise NotImplementedError
 
     def fit_batch(self, batch):
+        self.optimizer.zero_grad()
         outputs = self.forward(batch, Stage.TRAIN)
         loss = self.compute_loss(outputs, batch, Stage.TRAIN)
         loss.backward()
         self.optimizer.step()
-        self.optimizer.zero_grad()
-
         return loss.detach().cpu()
 
     def update_average(self, loss, avg_loss):

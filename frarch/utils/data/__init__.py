@@ -82,3 +82,7 @@ def download_url(url, destination=None, progress_bar=True):
             filename, _ = urlretrieve(url, filename=destination, reporthook=my_hook(t))
     else:
         filename, _ = urlretrieve(url, filename=destination)
+
+
+def tensorInDevice(data, device="cpu", **kwargs):
+    return torch.Tensor(data, **kwargs).to(device)
