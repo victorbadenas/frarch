@@ -6,6 +6,8 @@ import tarfile
 from typing import Callable
 from urllib.parse import urlparse
 
+import numpy as np
+import torch
 from PIL import Image
 from torch.utils.data import Dataset
 
@@ -179,6 +181,7 @@ class Mit67(Dataset):
     def __getitem__(self, index):
         path, target = self.images[index]
         img = Image.open(os.path.join(self.path_images, path)).convert("RGB")
+        img = torch.Tensor(np.array(img)).permute((2, 0, 1)) / 255.0
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:

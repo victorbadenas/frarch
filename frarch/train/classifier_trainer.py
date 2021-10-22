@@ -68,7 +68,14 @@ class ClassifierTrainer(BaseTrainer):
                     self.step += 1
                     loss = self.fit_batch(batch)
                     self.avg_train_loss = self.update_average(loss, self.avg_train_loss)
-                    t.set_postfix(train_loss=self.avg_train_loss)
+                    # t.set_postfix(train_loss=self.avg_train_loss)
+                    if "metrics" in self.hparams:
+                        t.set_postfix(
+                            train_loss=self.avg_train_loss,
+                            **self.hparams["metrics"].get_metrics(mode="mean"),
+                        )
+                    else:
+                        t.set_postfix(valid_loss=self.avg_train_loss)
 
                     if not (self.step % self.train_interval):
                         self.on_train_interval(self.current_epoch)

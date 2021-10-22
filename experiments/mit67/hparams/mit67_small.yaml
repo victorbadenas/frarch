@@ -8,8 +8,8 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mit67_vgg11_same"
-experiment_folder: "results/mit67_vgg11_same/"
+experiment_name: "mit67_small"
+experiment_folder: "results/mit67_small/"
 device: "cuda:0"
 
 # data folder
@@ -17,7 +17,7 @@ data_folder: ./data/
 
 # training parameters
 epochs: 50
-batch_size: 8
+batch_size: 16
 shuffle: True
 
 num_clases: 67
@@ -61,21 +61,22 @@ valid_dataset: !new:frarch.datasets.Mit67
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 16
+    num_workers: 8
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.001
+    lr: 0.0001
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.cnn.vgg16
-    pretrained: False
+model: !new:frarch.models.classification.cnn.MitCNN
+    input_channels: 3
+    embedding_size: 256
 
-classifier: !new:frarch.models.classification.cnn.VGGClassifier
-    pretrained: False
+classifier: !new:frarch.models.classification.cnn.MitCNNClassifier
+    embedding_size: 256
     num_classes: !ref <num_clases>
 
 modules:

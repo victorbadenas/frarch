@@ -36,25 +36,26 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
         _, labels = batch
         labels = labels.to(self.device)
         loss = self.hparams["loss"](predictions, labels)
-        if stage == Stage.VALID and "metrics" in self.hparams:
-            self.hparams["metrics"].update(predictions, labels)
+        # if stage == Stage.VALID and "metrics" in self.hparams:
+        self.hparams["metrics"].update(predictions, labels)
         return loss
 
     def on_stage_start(self, stage, loss=None, epoch=None):
-        if stage == Stage.VALID:
-            self.hparams["metrics"].reset()
-            if self.debug:
-                metrics = self.hparams["metrics"].get_metrics(mode="mean")
-                logger.debug(metrics)
+        # if stage == Stage.VALID:
+        self.hparams["metrics"].reset()
+        if self.debug:
+            metrics = self.hparams["metrics"].get_metrics(mode="mean")
+            logger.debug(metrics)
 
     def on_stage_end(self, stage, loss=None, epoch=None):
+        # if stage == Stage.VALID:
+        metrics = self.hparams["metrics"].get_metrics(mode="mean")
+        metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
+        logging.info(
+            f"epoch {epoch}: train_loss {self.avg_train_loss:.4f}"
+            f" validation_loss {loss:.4f} metrics: {metrics_string}"
+        )
         if stage == Stage.VALID:
-            metrics = self.hparams["metrics"].get_metrics(mode="mean")
-            metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
-            logging.info(
-                f"epoch {epoch}: train_loss {self.avg_train_loss:.4f}"
-                f" validation_loss {loss:.4f} metrics: {metrics_string}"
-            )
             if self.checkpointer is not None:
                 metrics["train_loss"] = self.avg_train_loss
                 metrics["val_loss"] = loss

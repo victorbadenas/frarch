@@ -49,7 +49,7 @@ class Checkpointer:
         self._save_json(
             time_str,
             paths["metadata"],
-            epoch=0,
+            epoch=-1,
             intra_epoch=False,
             step=0,
         )
