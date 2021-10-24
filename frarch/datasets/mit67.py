@@ -61,7 +61,6 @@ class Mit67(Dataset):
     def __getitem__(self, index):
         path, target = self.images[index]
         img = Image.open(path).convert("RGB")
-        img = torch.Tensor(np.array(img)).permute(2, 0, 1) / 255.0
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:

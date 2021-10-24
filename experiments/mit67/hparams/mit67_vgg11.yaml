@@ -22,6 +22,7 @@ shuffle: True
 
 num_classes: 67
 
+transform_tensor: !new:torchvision.transforms.ToTensor
 transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
     size: 224
 transform_resize: !new:torchvision.transforms.Resize
@@ -34,13 +35,15 @@ transform_normalize: !new:torchvision.transforms.Normalize
 transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_normalize>
+        !ref <transform_tensor>,
+        !ref <transform_normalize>,
     ]
 
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_normalize>
+        !ref <transform_tensor>,
+        !ref <transform_normalize>,
     ]
 
 train_dataset: !new:frarch.datasets.Mit67
@@ -61,7 +64,7 @@ dataloader_options:
     num_workers: 16
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.0006
+    lr: 0.0001
 
 loss: !new:torch.nn.CrossEntropyLoss
 
