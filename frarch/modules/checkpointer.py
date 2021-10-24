@@ -3,7 +3,7 @@ import logging
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 import torch
 
@@ -59,7 +59,8 @@ class Checkpointer:
         epoch: int,
         current_step: int,
         intra_epoch: bool = False,
-        **metrics,
+        extra_data: Dict = None,
+        **metrics: Dict[str, Any],
     ):
         time_str = str(datetime.now())
         ckpt_folder = f"ckpt_{time_str.replace(' ', '_')}"
@@ -72,6 +73,7 @@ class Checkpointer:
             epoch=epoch,
             intra_epoch=intra_epoch,
             step=current_step,
+            extra_data=extra_data,
             **metrics,
         )
         if intra_epoch:
@@ -107,6 +109,7 @@ class Checkpointer:
         epoch: int,
         step: int,
         intra_epoch: bool = False,
+        extra_data: Dict = None,
         **metrics,
     ):
         self.metadata = {
@@ -114,8 +117,10 @@ class Checkpointer:
             "step": step,
             "epoch": epoch,
             "time": time_str,
+            "extra_info": extra_data,
             **metrics,
         }
+
         with open(metadata_path, "w") as metadata_handler:
             json.dump(self.metadata, metadata_handler, indent=4)
 
@@ -134,8 +139,11 @@ class Checkpointer:
                 continue
             with open(old_ckpt / "metadata.json", "r") as metadata_handler:
                 old_metadata = json.load(metadata_handler)
-            if not self.is_better(
-                old_metadata["classification_error"], self.best_metric
+
+            if self.reference_metric not in old_metadata:
+                shutil.rmtree(old_ckpt)
+            elif not self.is_better(
+                old_metadata[self.reference_metric], self.best_metric
             ):
                 shutil.rmtree(old_ckpt)
 
