@@ -48,13 +48,13 @@ class PlacesTrainer(fr.train.ClassifierTrainer):
         self.hparams["metrics"].reset()
 
     def on_stage_end(self, stage, loss=None, epoch=None):
-        metrics = self.hparams["metrics"].get_metrics(mode="mean")
-        metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
-        logging.info(
-            f"epoch {epoch}: train_loss {self.avg_train_loss:.4f} "
-            f"validation_loss {loss:.4f} metrics: {metrics_string}"
-        )
         if stage == Stage.VALID:
+            metrics = self.hparams["metrics"].get_metrics(mode="mean")
+            metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
+            logging.info(
+                f"epoch {epoch}: train_loss {self.avg_train_loss:.4f} "
+                f"validation_loss {loss:.4f} metrics: {metrics_string}"
+            )
             if self.checkpointer is not None:
                 metrics["train_loss"] = self.avg_train_loss
                 metrics["val_loss"] = loss
