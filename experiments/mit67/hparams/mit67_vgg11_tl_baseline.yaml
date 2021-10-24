@@ -8,8 +8,8 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mit67_vgg11_same"
-experiment_folder: "results/mit67_vgg11_same/"
+experiment_name: "mit67_vgg11_tl_2"
+experiment_folder: "results/mit67_vgg11_tl_2/"
 device: "cuda:0"
 
 # data folder
@@ -61,7 +61,7 @@ dataloader_options:
     num_workers: 16
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.0006
+    lr: 0.00006
 
 loss: !new:torch.nn.CrossEntropyLoss
 
@@ -69,7 +69,7 @@ metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
 model: !apply:frarch.models.classification.vgg11
-    pretrained: False
+    pretrained: True
 
 classifier: !apply:frarch.models.classification.vggclassifier
     num_classes: !ref <num_classes>
