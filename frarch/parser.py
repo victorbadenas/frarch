@@ -56,6 +56,7 @@ def parse_arguments():
         type=float,
         help="Amount of time between saving intra-epoch checkpoints "
         "in minutes. If non-positive, intra-epoch checkpoints are not saved.",
+        default=15,
     )
 
     parser.add_argument(
