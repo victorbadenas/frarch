@@ -94,12 +94,14 @@ class VGG(nn.Module):
         batch_norm: bool = True,
         init_weights: bool = True,
         pretrained: bool = False,
+        padding: str = "same",
     ) -> None:
         super(VGG, self).__init__()
         self.layers_cfg = layers_cfg
         self.batch_norm = batch_norm
+        self.padding = padding
         self.features = self.make_layers(layers_cfg, batch_norm)
-        self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
+        self.avgpool = nn.AdaptiveAvgPool2d((7, 7) if padding == "same" else (3, 3))
         if init_weights:
             self._initialize_weights()
         elif pretrained:
@@ -123,9 +125,8 @@ class VGG(nn.Module):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
 
-    @staticmethod
     def make_layers(
-        layers_cfg: List[Union[str, int]], batch_norm: bool = False
+        self, layers_cfg: List[Union[str, int]], batch_norm: bool = False
     ) -> nn.Sequential:
         layers: List[nn.Module] = []
         in_channels = 3
@@ -134,7 +135,7 @@ class VGG(nn.Module):
                 layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
             else:
                 v = cast(int, v)
-                conv2d = nn.Conv2d(in_channels, v, kernel_size=3, padding=1)
+                conv2d = nn.Conv2d(in_channels, v, kernel_size=3, padding=self.padding)
                 layers.append(conv2d)
                 if batch_norm:
                     layers.append(nn.BatchNorm2d(v))
@@ -166,10 +167,14 @@ class VGG(nn.Module):
 
 
 class VGGClassifier(nn.Module):
-    def __init__(self, num_classes, init_weights=True, pretrained=False, arch=""):
+    def __init__(
+        self, num_classes, init_weights=True, pretrained=False, arch="", padding="same"
+    ):
         super(VGGClassifier, self).__init__()
+        self.in_features = 25088 if padding == "same" else 4608
+        self.num_classes = num_classes
         self.classifier = nn.Sequential(
-            nn.Linear(512 * 7 * 7, 4096),
+            nn.Linear(self.in_features, 4096),
             nn.ReLU(True),
             nn.Dropout(),
             nn.Linear(4096, 4096),
