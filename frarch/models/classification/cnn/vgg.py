@@ -92,7 +92,6 @@ class VGG(nn.Module):
         self,
         layers_cfg: List[Union[str, int]],
         batch_norm: bool = True,
-        num_classes: int = 1000,
         init_weights: bool = True,
         pretrained: bool = False,
     ) -> None:
