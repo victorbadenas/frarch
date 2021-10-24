@@ -29,7 +29,8 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
     def forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
-        return self.modules.model(inputs)
+        outputs = self.modules.model(inputs)
+        return self.modules.classifier(outputs)
 
     def compute_loss(self, predictions, batch, stage):
         _, labels = batch
@@ -43,17 +44,35 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
 
     def on_stage_end(self, stage, loss=None, epoch=None):
         metrics = self.hparams["metrics"].get_metrics(mode="mean")
-        metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
-        logging.info(
-            f"epoch {epoch}: train_loss {self.avg_train_loss:.4f}"
-            f" validation_loss {loss:.4f} metrics: {metrics_string}"
-        )
-        if stage == Stage.VALID:
+        metrics_string = "".join([f"{k}={v:.4f}" for k, v in metrics.items()])
+
+        if stage == Stage.TRAIN:
+            self.train_metrics = metrics
+            self.train_metrics_string = metrics_string
+
+        elif stage == Stage.VALID:
+            logging.info(
+                f"epoch {epoch}: train_loss={self.avg_train_loss:.4f}"
+                f" validation_loss={loss:.4f}"
+                f" train_metrics: {self.train_metrics_string}"
+                f" validation_metrics: {metrics_string}"
+            )
             if self.checkpointer is not None:
                 metrics["train_loss"] = self.avg_train_loss
                 metrics["val_loss"] = loss
                 self.checkpointer.save(
-                    **metrics, epoch=self.current_epoch, current_step=self.step
+                    epoch=self.current_epoch,
+                    current_step=self.step,
+                    extra_data={"train": self.train_metrics, "val": metrics},
+                    **metrics,
+                )
+            with open(self.checkpointer.base_path / "metrics.csv", "a+") as f:
+                if self.current_epoch == 0:
+                    f.write("train_loss,val_loss,train_err,val_err\n")
+                f.write(
+                    f"{self.avg_train_loss},{loss},"
+                    f"{self.train_metrics[self.checkpointer.reference_metric]},"
+                    f"{metrics[self.checkpointer.reference_metric]}\n"
                 )
 
 
