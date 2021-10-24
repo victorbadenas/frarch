@@ -68,9 +68,9 @@ class Mit67Trainer(fr.train.ClassifierTrainer):
                 )
             with open(self.checkpointer.base_path / "metrics.csv", "a+") as f:
                 if self.current_epoch == 0:
-                    f.write("train_loss,val_loss,train_err,val_err\n")
+                    f.write("epoch,train_loss,val_loss,train_err,val_err\n")
                 f.write(
-                    f"{self.avg_train_loss},{loss},"
+                    f"{epoch},{self.avg_train_loss},{loss},"
                     f"{self.train_metrics[self.checkpointer.reference_metric]},"
                     f"{metrics[self.checkpointer.reference_metric]}\n"
                 )
