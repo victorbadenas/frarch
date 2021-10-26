@@ -1,6 +1,6 @@
 ################################################
 #                                              #
-#  Model:                                      #
+#  Model: VGG11                                #
 #  Author: vbadenas (victor.badenas@gmail.com) #
 #                                              #
 ################################################
@@ -8,44 +8,54 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "places365_vgg11"
-experiment_folder: "results/places365_vgg11/"
+experiment_name: "mit67_vgg11_tl_augment"
+experiment_folder: "results/mit67_vgg11_tl_augment/"
 device: "cuda:0"
 
 # data folder
 data_folder: ./data/
 
 # training parameters
-epochs: 50
+epochs: 20
 batch_size: 16
 shuffle: True
 
-num_classes: 365
+num_classes: 67
 
 transform_tensor: !new:torchvision.transforms.ToTensor
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
+transform_normalize: !new:torchvision.transforms.Normalize
+    mean: [0.485, 0.456, 0.406]
+    std: [1, 1, 1]
+transform_powerpil: !new:frarch.datasets.transforms.PowerPIL
 
-preprocessing: !new:torchvision.transforms.Compose
+
+transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
+        !ref <transform_powerpil>,
         !ref <transform_tensor>,
+        !ref <transform_normalize>,
+    ]
+transform_valid: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_powerpil>,
+        !ref <transform_tensor>,
+        !ref <transform_normalize>,
     ]
 
-# dataset object
-train_dataset: !new:torchvision.datasets.Places365
-    root: !ref <data_folder>
-    split: 'train-standard'
-    small: true
-    download: false
-    transform: !ref <preprocessing>
+train_dataset: !new:frarch.datasets.Mit67
+    train: true
+    transform: !ref <transform_train>
+    full: true
 
-valid_dataset: !new:torchvision.datasets.Places365
-    root: !ref <data_folder>
-    split: 'val'
-    small: true
-    download: false
-    transform: !ref <preprocessing>
+valid_dataset: !new:frarch.datasets.Mit67
+    train: false
+    transform: !ref <transform_valid>
+    full: true
+
 
 # dataloader options
 dataloader_options:
@@ -54,22 +64,28 @@ dataloader_options:
     num_workers: 16
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.0002
+    lr: 0.00006
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:torchvision.models.vgg11
+model: !apply:frarch.models.classification.vgg11
+    pretrained: True
+
+classifier: !apply:frarch.models.classification.vggclassifier
     num_classes: !ref <num_classes>
-    pretrained: false
+    pretrained: False
 
 modules:
     model: !ref <model>
+    classifier: !ref <classifier>
 
 checkpointer: !new:frarch.modules.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
+    save_best_only: True
     modules:
         model: !ref <model>
+        classifier: !ref <classifier>
