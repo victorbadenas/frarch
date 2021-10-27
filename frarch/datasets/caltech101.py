@@ -1,52 +1,48 @@
 import json
 import logging
 import random
-import tarfile
 from collections import Counter
 from pathlib import Path
 from typing import Callable, Union
-from urllib.parse import urlparse
 
 from PIL import Image
 from torch.utils.data import Dataset
 
-from frarch.utils.data import download_url
+from frarch.utils.exceptions import DatasetNotFoundError
 
 logger = logging.getLogger(__name__)
 
-urls = {
-    "images": "http://groups.csail.mit.edu/vision/LabelMe/NewImages/indoorCVPR_09.tar"
-}
 
-
-class Mit67(Dataset):
+class Caltech101(Dataset):
     def __init__(
         self,
-        train: bool = True,
+        subset: str = "train",
         transform: Callable = None,
         target_transform: Callable = None,
-        download: bool = True,
-        root: Union[str, Path] = "~/.cache/frarch/datasets/mit67/",
-        full: bool = False,
+        root: Union[str, Path] = "./data/",
     ):
+        if subset not in ["train", "valid"]:
+            raise ValueError(f"set must be train or test not {subset}")
+
         self.root = Path(root).expanduser()
-        self.set = "train" if train else "test"
+
+        self.set = subset
         self.transform = transform
         self.target_transform = target_transform
-        self.full = full
 
         self.train_lst_path = self.root / "train.lst"
         self.valid_lst_path = self.root / "valid.lst"
-        self.mapper_path = self.root / "class_map.json"
+        self.mapper_path = self.root / "classes.json"
 
-        if download and not self._detect_dataset():
-            self.download_mit_dataset()
         if not self._detect_dataset():
-            raise ValueError(
-                f"download flag not set and dataset not present in {self.root}"
+            raise DatasetNotFoundError(
+                self.root,
+                "Dataset not found at {path}. Please download"
+                "it from http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .",
             )
 
-        self._build_and_load_data_files()
+        self._build_and_load_lst()
+        # exit()
 
         print(
             f"Loaded {self.set} Split: {len(self.images)} instances"
@@ -68,28 +64,9 @@ class Mit67(Dataset):
     def get_number_classes(self):
         return len(self.classes)
 
-    def download_mit_dataset(self):
-        self.root.mkdir(parents=True, exist_ok=True)
-
-        # download train/val images/annotations
-        parts = urlparse(urls["images"])
-        filename = Path(parts.path).name
-        cached_file = self.root / filename
-
-        if not cached_file.exists():
-            print('Downloading: "{}" to {}\n'.format(urls["images"], cached_file))
-            download_url(urls["images"], cached_file)
-
-        # extract file
-        print(f"[dataset] Extracting tar file {cached_file} to {self.root}")
-        tar = tarfile.open(cached_file, "r")
-        tar.extractall(self.root)
-        tar.close()
-        print("[dataset] Done!")
-        cached_file.unlink()
-
     def _get_file_paths(self):
-        return list(self.root.glob("Images/*/*.jpg"))
+        all_files = list(self.root.glob("*/*.jpg"))
+        return list(filter(lambda x: x.parts[-2] != "BACKGROUND_Google", all_files))
 
     def _detect_dataset(self):
         if not self.root.exists():
@@ -98,7 +75,7 @@ class Mit67(Dataset):
             num_images = len(self._get_file_paths())
             return num_images > 0
 
-    def _build_and_load_data_files(self):
+    def _build_and_load_lst(self):
         all_paths = self._get_file_paths()
         self._load_class_map(all_paths)
         self._load_train_test_files(all_paths)
@@ -120,7 +97,7 @@ class Mit67(Dataset):
     def _load_train_test_files(self, all_paths):
         if not self.train_lst_path.exists() and not self.valid_lst_path.exists():
             self._build_train_test_files(all_paths)
-        self._load_set(self.set)
+        self._load_set()
 
     def _build_train_test_files(self, all_paths):
         classes_list = list(map(lambda path: path.parts[-2], all_paths))
@@ -132,13 +109,9 @@ class Mit67(Dataset):
                 filter(lambda x: x.parts[-2] == class_name, all_paths)
             )
             random.shuffle(class_instances)
-            if self.full:
-                valid_count = max(1, int(count / 10))
-                class_valid_instances = class_instances[:valid_count]
-                class_train_instances = class_instances[valid_count:]
-            else:
-                class_valid_instances = class_instances[:20]
-                class_train_instances = class_instances[20:100]
+            valid_count = max(1, int(count / 10))
+            class_valid_instances = class_instances[:valid_count]
+            class_train_instances = class_instances[valid_count:]
 
             valid_instances.extend(
                 [
@@ -169,8 +142,8 @@ class Mit67(Dataset):
             for line in valid_instances:
                 f.write(",".join(map(str, line)) + "\n")
 
-    def _load_set(self, set):
-        path = self.train_lst_path if set == "train" else self.valid_lst_path
+    def _load_set(self):
+        path = self.train_lst_path if self.set == "train" else self.valid_lst_path
         with path.open("r") as f:
             self.images = []
             for line in f:
