@@ -224,3 +224,4 @@ Temporary Items
 # experiments' data and results folder
 experiments/*/data
 experiments/*/results
+experiments/*/scripts

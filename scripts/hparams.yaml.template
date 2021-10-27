@@ -1,0 +1,53 @@
+################################################
+#                                              #
+#  Model:                                      #
+#  Author: <user_name>                         #
+#                                              #
+################################################
+
+# seeds
+seed: 42
+__set_seed: !apply:torch.manual_seed [!ref <seed>]
+experiment_name: <experiment_name>_test
+experiment_folder: "results/<experiment_name>_test/"
+device: "cuda:0"
+
+# data folder
+data_folder: !PLACEHOLDER  # replace with the data folder absolute path
+
+# training parameters
+epochs: 20
+batch_size: 16
+shuffle: True
+
+num_classes: !PLACEHOLDER  # replace with the number of classes
+
+train_dataset: !PLACEHOLDER
+
+valid_dataset: !PLACEHOLDER
+
+# dataloader options
+dataloader_options:
+    batch_size: !ref <batch_size>
+    shuffle: !ref <shuffle>
+    num_workers: 16
+
+opt_class: !name:torch.optim.Adam
+    lr: 0.0001
+
+loss: !new:torch.nn.CrossEntropyLoss
+
+metrics: !new:frarch.modules.metrics.MetricsWrapper
+    classification_error: !new:frarch.modules.metrics.ClassificationError
+
+model: !PLACEHOLDER
+
+modules:
+    model: !ref <model>
+
+checkpointer: !new:frarch.modules.Checkpointer
+    save_path: !ref <experiment_folder>
+    reference_metric: "classification_error"
+    save_best_only: True
+    modules:
+        model: !ref <model>
