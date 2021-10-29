@@ -29,14 +29,27 @@ from frarch.utils.stages import Stage
 class Caltech101Trainer(fr.train.ClassifierTrainer):
     def __init__(self, *args, **kwargs):
         super(Caltech101Trainer, self).__init__(*args, **kwargs)
-        if hasattr(self.hparams, "padding"):
+        if "padding" in self.hparams:
             if self.hparams["padding"] == "valid":
                 self.change_model_padding()
+            elif self.hparams["padding"] == "same":
+                logger.info("padding not changed. Defaulting to same.")
+            else:
+                logger.warning(
+                    "padding configuration not understood. Defaulting to same."
+                )
 
     def change_model_padding(self):
-        for _, layer in self.modules.model.named_modules():
-            if isinstance(layer, torch.nn.Conv2D):
-                print()
+        for layer_name, layer in self.modules.model.named_modules():
+            if isinstance(layer, torch.nn.Conv2d):
+                padding_conf = self.hparams["padding"]
+                logging.info(
+                    f"Changing {layer_name}'s padding from same to {padding_conf}"
+                )
+                layer._reversed_padding_repeated_twice = (0, 0, 0, 0)
+                layer.padding = (0, 0)
+        self.modules.model.avgpool.output_size = (3, 3)
+        self.modules.model.classifier[0] = torch.nn.Linear(512 * 3 * 3, 4096)
 
     def forward(self, batch, stage):
         inputs, _ = batch
