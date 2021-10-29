@@ -14,7 +14,7 @@ device: "cpu"
 train_interval: 100
 
 # data folder
-data_folder: "/home/vbadenas/Documents/MAI/frarch/experiments/caltech101/data"
+data_folder: !PLACEHOLDER
 
 # training parameters
 epochs: 20

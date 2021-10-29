@@ -14,7 +14,7 @@ device: "cuda:0"
 train_interval: 100
 
 # data folder
-data_folder: "/gpfs/scratch/bsc70/bsc70237/caltech101"
+data_folder: !PLACEHOLDER
 
 # training parameters
 epochs: 20
