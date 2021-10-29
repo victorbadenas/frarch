@@ -6,7 +6,7 @@ Script to train a model to classify caltech101 dataset.
 :Authors: victor badenas (victor.badenas@gmail.com)
 
 :Version: 0.1.0
-:Created on: mié 27 oct 2021 16:19:42 CEST
+:Created on: mie 27 oct 2021 16:19:42 CEST
 """
 
 __title__ = "train_caltech101"
@@ -15,6 +15,7 @@ __author__ = "victor badenas"
 
 import logging
 
+import torch
 from hyperpyyaml import load_hyperpyyaml
 
 import frarch as fr
@@ -25,7 +26,18 @@ from frarch.utils.data import build_experiment_structure
 from frarch.utils.stages import Stage
 
 
-class caltech101Trainer(fr.train.ClassifierTrainer):
+class Caltech101Trainer(fr.train.ClassifierTrainer):
+    def __init__(self, *args, **kwargs):
+        super(Caltech101Trainer, self).__init__(*args, **kwargs)
+        if hasattr(self.hparams, "padding"):
+            if self.hparams["padding"] == "valid":
+                self.change_model_padding()
+
+    def change_model_padding(self):
+        for _, layer in self.modules.model.named_modules():
+            if isinstance(layer, torch.nn.Conv2D):
+                print()
+
     def forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
@@ -53,7 +65,7 @@ class caltech101Trainer(fr.train.ClassifierTrainer):
             self.train_metrics_string = metrics_string
 
         elif stage == Stage.VALID:
-            logging.info(
+            logger.info(
                 f"epoch {epoch}: train_loss={self.avg_train_loss:.4f}"
                 f" validation_loss={loss:.4f}"
                 f" train_metrics: {self.train_metrics_string}"
@@ -93,7 +105,7 @@ if __name__ == "__main__":
         debug=hparams["debug"],
     )
 
-    trainer = caltech101Trainer(
+    trainer = Caltech101Trainer(
         modules=hparams["modules"],
         opt_class=hparams["opt_class"],
         hparams=hparams,

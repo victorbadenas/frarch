@@ -38,7 +38,7 @@ class Caltech101(Dataset):
             raise DatasetNotFoundError(
                 self.root,
                 "Dataset not found at {path}. Please download"
-                "it from http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .",
+                " it from http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .",
             )
 
         self._build_and_load_lst()

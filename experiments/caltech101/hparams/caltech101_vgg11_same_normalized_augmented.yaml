@@ -8,8 +8,8 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: caltech101_vgg11
-experiment_folder: "results/caltech101_vgg11/"
+experiment_name: caltech101_vgg11_normalized_aug
+experiment_folder: "results/caltech101_vgg11_normalized_aug/"
 device: "cuda:0"
 train_interval: 100
 
@@ -17,7 +17,7 @@ train_interval: 100
 data_folder: "/gpfs/scratch/bsc70/bsc70237/caltech101"
 
 # training parameters
-epochs: 20
+epochs: 50
 batch_size: 16
 shuffle: True
 
@@ -28,17 +28,25 @@ transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
     size: 224
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
+transform_normalize: !new:torchvision.transforms.Normalize
+    mean: [0.5460, 0.5286, 0.5019]
+    std: [0.2426, 0.2396, 0.2414]
+transform_powerpil: !new:frarch.datasets.transforms.PowerPIL
 
 transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
+        !ref <transform_powerpil>,
         !ref <transform_tensor>,
+        !ref <transform_normalize>
     ]
 
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
+        !ref <transform_powerpil>,
         !ref <transform_tensor>,
+        !ref <transform_normalize>
     ]
 
 train_dataset: !new:frarch.datasets.Caltech101
