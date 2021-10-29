@@ -1,0 +1,81 @@
+################################################
+#                                              #
+#  Model: VGG11 Same Padding                   #
+#  Author: vbadenas                            #
+#                                              #
+################################################
+
+# seeds
+seed: 42
+__set_seed: !apply:torch.manual_seed [!ref <seed>]
+experiment_name: caltech101_vgg11
+experiment_folder: "results/caltech101_vgg11/"
+device: "cpu"
+train_interval: 100
+
+# data folder
+data_folder: "/home/vbadenas/Documents/MAI/frarch/experiments/caltech101/data"
+
+# training parameters
+epochs: 20
+batch_size: 16
+shuffle: True
+padding: valid
+
+num_classes: 101
+
+transform_tensor: !new:torchvision.transforms.ToTensor
+transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
+    size: 224
+transform_resize: !new:torchvision.transforms.Resize
+    size: [224, 224]
+
+transform_train: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_tensor>,
+    ]
+
+transform_valid: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_tensor>,
+    ]
+
+train_dataset: !new:frarch.datasets.Caltech101
+    subset: train
+    root: !ref <data_folder>
+    transform: !ref <transform_train>
+
+valid_dataset: !new:frarch.datasets.Caltech101
+    subset: valid
+    root: !ref <data_folder>
+    transform: !ref <transform_valid>
+
+# dataloader options
+dataloader_options:
+    batch_size: !ref <batch_size>
+    shuffle: !ref <shuffle>
+    num_workers: 40
+
+opt_class: !name:torch.optim.Adam
+    lr: 0.0001
+
+loss: !new:torch.nn.CrossEntropyLoss
+
+metrics: !new:frarch.modules.metrics.MetricsWrapper
+    classification_error: !new:frarch.modules.metrics.ClassificationError
+
+model: !apply:torchvision.models.vgg11
+    pretrained: False
+    num_classes: !ref <num_classes>
+
+modules:
+    model: !ref <model>
+
+checkpointer: !new:frarch.modules.Checkpointer
+    save_path: !ref <experiment_folder>
+    reference_metric: "classification_error"
+    save_best_only: True
+    modules:
+        model: !ref <model>
