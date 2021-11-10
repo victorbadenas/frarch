@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import glob
 import os
 
@@ -41,44 +40,13 @@ if extras_require:
 
 
 # Import meta data from __meta__.py
-#
-# We use exec for this because __meta__.py runs its __init__.py first,
-# __init__.py may assume the requirements are already present, but this code
-# is being run during the `python setup.py install` step, before requirements
-# are installed.
-# https://packaging.python.org/guides/single-sourcing-package-version/
 meta = {}
 exec(read("frarch/__meta__.py"), meta)
 
 
 # Import the README and use it as the long-description.
 # If your readme path is different, add it here.
-possible_readme_names = ["README.rst", "README.md", "README.txt", "README"]
-
-# Handle turning a README file into long_description
-long_description = meta["description"]
-readme_fname = ""
-for fname in possible_readme_names:
-    try:
-        long_description = read(fname)
-    except IOError:
-        # doesn't exist
-        continue
-    else:
-        # exists
-        readme_fname = fname
-        break
-
-# Infer the content type of the README file from its extension.
-# If the contents of your README do not match its extension, manually assign
-# long_description_content_type to the appropriate value.
-readme_ext = os.path.splitext(readme_fname)[1]
-if readme_ext.lower() == ".rst":
-    long_description_content_type = "text/x-rst"
-elif readme_ext.lower() == ".md":
-    long_description_content_type = "text/markdown"
-else:
-    long_description_content_type = "text/plain"
+long_description = read("README.md")
 
 
 setup(
@@ -96,7 +64,7 @@ setup(
     author_email=meta["author_email"],
     description=meta["description"],
     long_description=long_description,
-    long_description_content_type=long_description_content_type,
+    long_description_content_type="text/markdown",
     license=meta["license"],
     url=meta["url"],
     classifiers=[
