@@ -43,7 +43,7 @@ class Caltech101Trainer(fr.train.ClassifierTrainer):
         for layer_name, layer in self.modules.model.named_modules():
             if isinstance(layer, torch.nn.Conv2d):
                 padding_conf = self.hparams["padding"]
-                logging.info(
+                logger.info(
                     f"Changing {layer_name}'s padding from same to {padding_conf}"
                 )
                 layer._reversed_padding_repeated_twice = (0, 0, 0, 0)
