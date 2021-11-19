@@ -50,6 +50,7 @@ class Caltech101Trainer(fr.train.ClassifierTrainer):
                 layer.padding = (0, 0)
         self.modules.model.avgpool.output_size = (3, 3)
         self.modules.model.classifier[0] = torch.nn.Linear(512 * 3 * 3, 4096)
+        self.modules = self.modules.to(self.device)
 
     def forward(self, batch, stage):
         inputs, _ = batch
