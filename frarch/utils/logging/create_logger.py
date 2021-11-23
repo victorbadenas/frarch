@@ -3,11 +3,9 @@ import sys
 from pathlib import Path
 from typing import Union
 
-NoneType = type(None)
-
 
 def create_logger_file(log_file_path: Union[str, Path], debug=False, stdout=False):
-    if not isinstance(log_file_path, (str, Path, NoneType)):
+    if not isinstance(log_file_path, (str, Path)):
         raise ValueError("path must be a string or Path object")
     if not isinstance(debug, bool):
         raise ValueError("debug must be boolean")

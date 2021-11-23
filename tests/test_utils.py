@@ -1,7 +1,7 @@
+import logging as logging_module
 import shutil
 import unittest
 from pathlib import Path
-from unittest import mock
 
 import torch
 
@@ -80,10 +80,40 @@ class TestData(unittest.TestCase):
         self.assertTrue((experiment_folder / "save").exists())
 
 
+def is_file_handler_in_logging(file_path):
+    for h in logging_module.root.handlers:
+        print(str(Path(file_path).absolute()))
+        if h.baseFilename == str(Path(file_path).absolute()):
+            return True
+    else:
+        return False
+
+
 class TestLogging(unittest.TestCase):
-    def test_dummy(self):
-        a = 1
-        self.assertTrue(1, a)
+    TMP_LOG = Path("tmp.log")
+
+    def setUp(self):
+        if self.TMP_LOG.exists():
+            self.TMP_LOG.unlink()
+        return super().tearDown()
+
+    def test_create_logger_file(self):
+        logging.create_logger_file(self.TMP_LOG)
+
+    def test_create_logger_file_stdout(self):
+        logging.create_logger_file(self.TMP_LOG, stdout=True)
+
+    def test_create_logger_file_not_str(self):
+        with self.assertRaises(ValueError):
+            logging.create_logger_file(0)
+
+    def test_create_logger_debug_not_bool(self):
+        with self.assertRaises(ValueError):
+            logging.create_logger_file(self.TMP_LOG, debug=0)
+
+    def test_create_logger_stdout_not_bool(self):
+        with self.assertRaises(ValueError):
+            logging.create_logger_file(self.TMP_LOG, stdout=0)
 
 
 if __name__ == "__main__":
