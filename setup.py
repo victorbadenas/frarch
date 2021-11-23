@@ -25,27 +25,19 @@ def read(fname):
 
 install_requires = read("requirements.txt").splitlines()
 
-# Dynamically determine extra dependencies
 extras_require = {}
 extra_req_files = glob.glob("requirements-*.txt")
 for extra_req_file in extra_req_files:
     name = os.path.splitext(extra_req_file)[0].replace("requirements-", "", 1)
     extras_require[name] = read(extra_req_file).splitlines()
 
-# If there are any extras, add a catch-all case that includes everything.
-# This assumes that entries in extras_require are lists (not single strings),
-# and that there are no duplicated packages across the extras.
 if extras_require:
     extras_require["all"] = sorted({x for v in extras_require.values() for x in v})
 
 
-# Import meta data from __meta__.py
 meta = {}
 exec(read("frarch/__meta__.py"), meta)
 
-
-# Import the README and use it as the long-description.
-# If your readme path is different, add it here.
 long_description = read("README.md")
 
 
@@ -73,7 +65,6 @@ setup(
         "Natural Language :: English",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

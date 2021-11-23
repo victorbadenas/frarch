@@ -6,7 +6,7 @@ import torch
 from hyperpyyaml import resolve_references
 from tqdm import tqdm
 
-from frarch.utils.logging import create_logger
+from frarch.utils.logging import create_logger_file
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ def build_experiment_structure(
         f.write(hparams)
 
     log_file_path = base_path / "train.log"
-    create_logger(log_file_path, debug=debug, stdout=debug)
+    create_logger_file(log_file_path, debug=debug, stdout=debug)
 
     logger.info(f"experiment folder {str(base_path)} created successfully")
 
