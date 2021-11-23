@@ -5,12 +5,12 @@ from pathlib import Path
 
 import torch
 
-from frarch.utils import data, logging
+from frarch.utils import data, exceptions, logging
 
 DATA_FOLDER = Path("./tests/data/")
 
 
-class DummyDataset(torch.utils.data.Dataset):
+class MockDataset(torch.utils.data.Dataset):
     def __init__(self):
         self.items = [torch.Tensor(i) for i in range(10)]
 
@@ -19,6 +19,15 @@ class DummyDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.items)
+
+
+def is_file_handler_in_logging(file_path):
+    for h in logging_module.root.handlers:
+        print(str(Path(file_path).absolute()))
+        if h.baseFilename == str(Path(file_path).absolute()):
+            return True
+    else:
+        return False
 
 
 class TestData(unittest.TestCase):
@@ -33,7 +42,7 @@ class TestData(unittest.TestCase):
         return super().tearDown()
 
     def test_create_dataloader(self):
-        dataset = DummyDataset()
+        dataset = MockDataset()
         dataloader = data.create_dataloader(dataset)
         self.assertIsInstance(dataloader, torch.utils.data.DataLoader)
 
@@ -80,15 +89,6 @@ class TestData(unittest.TestCase):
         self.assertTrue((experiment_folder / "save").exists())
 
 
-def is_file_handler_in_logging(file_path):
-    for h in logging_module.root.handlers:
-        print(str(Path(file_path).absolute()))
-        if h.baseFilename == str(Path(file_path).absolute()):
-            return True
-    else:
-        return False
-
-
 class TestLogging(unittest.TestCase):
     TMP_LOG = Path("tmp.log")
 
@@ -114,6 +114,18 @@ class TestLogging(unittest.TestCase):
     def test_create_logger_stdout_not_bool(self):
         with self.assertRaises(ValueError):
             logging.create_logger_file(self.TMP_LOG, stdout=0)
+
+
+class TestExceptions(unittest.TestCase):
+    def test_dataset_not_found(self):
+        path = Path("some_path")
+        e = exceptions.DatasetNotFoundError(path)
+        self.assertIn(path, e.msg)
+
+    def test_dataset_not_found_raise(self):
+        path = Path("some_path")
+        with self.assertRaises(exceptions.DatasetNotFoundError):
+            raise exceptions.DatasetNotFoundError(path)
 
 
 if __name__ == "__main__":
