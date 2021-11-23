@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Union
 from urllib.request import urlretrieve
 
 import torch
@@ -12,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 def create_dataloader(dataset: torch.utils.data.Dataset, **dataloader_kwargs):
+    if not isinstance(dataset, torch.utils.data.Dataset):
+        raise ValueError("dataset needs to be a child or torch.utils.data.Dataset")
     return torch.utils.data.DataLoader(dataset, **dataloader_kwargs)
 
 
@@ -65,7 +68,7 @@ def download_url(url, destination=None, progress_bar=True):
         https://github.com/tqdm/tqdm
     """
 
-    def my_hook(t):
+    def update_progressbar(t):
         last_b = [0]
 
         def inner(b=1, bsize=1, tsize=None):
@@ -79,10 +82,16 @@ def download_url(url, destination=None, progress_bar=True):
 
     if progress_bar:
         with tqdm(unit="B", unit_scale=True, miniters=1, desc=url.split("/")[-1]) as t:
-            filename, _ = urlretrieve(url, filename=destination, reporthook=my_hook(t))
+            filename, _ = urlretrieve(
+                url, filename=destination, reporthook=update_progressbar(t)
+            )
     else:
         filename, _ = urlretrieve(url, filename=destination)
 
 
 def tensorInDevice(data, device="cpu", **kwargs):
     return torch.Tensor(data, **kwargs).to(device)
+
+
+def read_file(filepath: Union[str, Path]):
+    return Path(filepath).read_text()
