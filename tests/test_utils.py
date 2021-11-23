@@ -120,7 +120,7 @@ class TestExceptions(unittest.TestCase):
     def test_dataset_not_found(self):
         path = Path("some_path")
         e = exceptions.DatasetNotFoundError(path)
-        self.assertIn(path, e.msg)
+        self.assertIn(str(path), e.msg)
 
     def test_dataset_not_found_raise(self):
         path = Path("some_path")
