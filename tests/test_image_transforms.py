@@ -2,8 +2,8 @@ import unittest
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
 import torch
+from PIL import Image
 
 import frarch.datasets.transforms as t
 
@@ -36,10 +36,7 @@ class TestImageTransforms(unittest.TestCase):
             self.assertEqual(out_image.size, self.SYM_IMG.size)
 
     def test_RandomRotate_asymetric(self):
-        possible_sizes = [
-            self.ASYM_IMG.size,
-            tuple(reversed(self.ASYM_IMG.size))
-        ]
+        possible_sizes = [self.ASYM_IMG.size, tuple(reversed(self.ASYM_IMG.size))]
         for _ in range(10):
             out_image = t.RandomRotate()(self.ASYM_IMG)
             self.assertIn(out_image.size, possible_sizes)
@@ -159,6 +156,7 @@ class TestImageTransforms(unittest.TestCase):
     def test_RandomOrder_transforms_not_iterable(self):
         def fn(*args):
             return args
+
         with self.assertRaises(ValueError):
             t.RandomOrder(fn)
 
@@ -217,7 +215,8 @@ class TestImageTransforms(unittest.TestCase):
             colorbalance=0.4,
             contrast=0.4,
             brightness=0.4,
-            sharpness=0.4)
+            sharpness=0.4,
+        )
         self.assertEqual(len(pp.transforms), 6)
 
 

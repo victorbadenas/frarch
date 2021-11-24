@@ -11,6 +11,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 from frarch.utils.data import download_url
+from frarch.utils.exceptions import DatasetNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +28,11 @@ class Mit67(Dataset):
         target_transform: Callable = None,
         download: bool = True,
         root: Union[str, Path] = "~/.cache/frarch/datasets/mit67/",
-        full: bool = False,
     ):
         self.root = Path(root).expanduser()
         self.set = "train" if train else "test"
         self.transform = transform
         self.target_transform = target_transform
-        self.full = full
 
         self.train_lst_path = self.root / "train.lst"
         self.valid_lst_path = self.root / "valid.lst"
@@ -42,7 +41,7 @@ class Mit67(Dataset):
         if download and not self._detect_dataset():
             self.download_mit_dataset()
         if not self._detect_dataset():
-            raise ValueError(
+            raise DatasetNotFoundError(
                 f"download flag not set and dataset not present in {self.root}"
             )
 
@@ -132,13 +131,9 @@ class Mit67(Dataset):
                 filter(lambda x: x.parts[-2] == class_name, all_paths)
             )
             random.shuffle(class_instances)
-            if self.full:
-                valid_count = max(1, int(count / 10))
-                class_valid_instances = class_instances[:valid_count]
-                class_train_instances = class_instances[valid_count:]
-            else:
-                class_valid_instances = class_instances[:20]
-                class_train_instances = class_instances[20:100]
+            valid_count = max(1, int(count / 10))
+            class_valid_instances = class_instances[:valid_count]
+            class_train_instances = class_instances[valid_count:]
 
             valid_instances.extend(
                 [

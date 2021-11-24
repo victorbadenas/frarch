@@ -8,6 +8,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 from frarch.utils.data import download_url
+from frarch.utils.exceptions import DatasetNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +28,7 @@ class OxfordPets(Dataset):
         root: Union[str, Path] = "~/.cache/frarch/datasets/oxford_pets/",
     ):
         if subset not in ["train", "valid"]:
-            raise ValueError(f"set must be train or test not {subset}")
+            raise ValueError(f"set must be train or valid not {subset}")
 
         self.root = Path(root).expanduser()
         self.images_root = self.root / "images"
@@ -43,7 +44,7 @@ class OxfordPets(Dataset):
             self.download_dataset()
             self.download_annotations()
         if not self._detect_dataset():
-            raise ValueError(
+            raise DatasetNotFoundError(
                 f"download flag not set and dataset not present in {self.root}"
             )
 

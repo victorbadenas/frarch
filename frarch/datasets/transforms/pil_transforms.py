@@ -1,10 +1,10 @@
 import random
 from typing import Callable, Iterable, Union
 
-from PIL.Image import Image
 import PIL.Image as im
 import PIL.ImageEnhance as ie
 import torch
+from PIL.Image import Image
 
 NoneType = type(None)
 
@@ -54,9 +54,7 @@ class RandomRotate(object):
 class PILColorBalance(object):
     def __init__(self, var: float):
         if not isinstance(var, float):
-            raise ValueError(
-                f"{self.__class__.__name__}.var must be a float value"
-            )
+            raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
             raise ValueError(
                 f"{self.__class__.__name__}.var must be a float value between 0 and 1"
@@ -74,9 +72,7 @@ class PILColorBalance(object):
 class PILContrast(object):
     def __init__(self, var: float):
         if not isinstance(var, float):
-            raise ValueError(
-                f"{self.__class__.__name__}.var must be a float value"
-            )
+            raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
             raise ValueError(
                 f"{self.__class__.__name__}.var must be a float value between 0 and 1"
@@ -94,9 +90,7 @@ class PILContrast(object):
 class PILBrightness(object):
     def __init__(self, var: float):
         if not isinstance(var, float):
-            raise ValueError(
-                f"{self.__class__.__name__}.var must be a float value"
-            )
+            raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
             raise ValueError(
                 f"{self.__class__.__name__}.var must be a float value between 0 and 1"
@@ -114,9 +108,7 @@ class PILBrightness(object):
 class PILSharpness(object):
     def __init__(self, var: float):
         if not isinstance(var, float):
-            raise ValueError(
-                f"{self.__class__.__name__}.var must be a float value"
-            )
+            raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
             raise ValueError(
                 f"{self.__class__.__name__}.var must be a float value between 0 and 1"
@@ -141,9 +133,7 @@ class RandomOrder(object):
             if len(transforms) == 0:
                 transforms = None
             elif not all(isinstance(x, Callable) for x in transforms):
-                raise ValueError(
-                    "all objects in transforms must be callable"
-                )
+                raise ValueError("all objects in transforms must be callable")
         self.transforms = transforms
 
     def __call__(self, img: Image):
