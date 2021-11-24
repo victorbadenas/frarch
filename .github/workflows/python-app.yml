@@ -60,7 +60,7 @@ jobs:
         coverage run -m unittest discover
         coverage report -m --omit='tests/*'
 
-    - if: ${{ matrix.python == '3.9'}} && ${{ matrix.os == ubuntu-latest}}
+    - if: ${{ matrix.python == '3.9'}} && ${{ matrix.os == 'ubuntu-latest'}}
       name: Get Coverage for badge
       run: |
         apt-get install jq
