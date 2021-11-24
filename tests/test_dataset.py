@@ -163,6 +163,15 @@ class TestOxfordPets(unittest.TestCase):
     def setUpClass(cls):
         if cls.MOCK_DATASET_ROOT.exists():
             shutil.rmtree(cls.MOCK_DATASET_ROOT)
+        cls.MOCK_DATASET_ROOT.mkdir(exist_ok=True, parents=True)
+        (cls.MOCK_DATASET_ROOT / "images").mkdir(exist_ok=True, parents=True)
+        shutil.copytree(
+            str(DATA_FOLDER / "oxford_pets_lst"), str(cls.trainlst_path.parent)
+        )
+        with open(DATA_FOLDER / "oxford_pets_lst" / "trainval.txt") as f:
+            for line in f:
+                fname = line.split(" ")[0]
+                (cls.MOCK_DATASET_ROOT / "images" / f"{fname}.jpg").touch()
 
     @classmethod
     def tearDownClass(cls):
