@@ -57,5 +57,31 @@ jobs:
         python setup.py install
     - name: test
       run: |
-        coverage run ./setup.py test
+        coverage run -m unittest discover
         coverage report -m --omit='tests/*'
+
+    - if: ${{ matrix.python == '3.9'}} && ${{ matrix.os == ubuntu-latest}}
+      name: Get Coverage for badge
+      run: |
+        apt-get install jq
+        coverage json
+        COVERAGE=$(LC_NUMERIC="en_US.UTF-8" printf "%.2f%%" $(cat coverage.json | jq .totals.percent_covered))
+        echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+        REF=${{ github.ref }}
+        echo "github.ref: $REF"
+        IFS='/' read -ra PATHS <<< "$REF"
+        BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+        echo $BRANCH_NAME
+        echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+
+    # - if: ${{ matrix.node-version == '14.x' }}
+    #   name: Create the Badge
+    #   uses: schneegans/dynamic-badges-action@v1.0.0
+    #   with:
+    #     auth: ${{ secrets.GIST_SECRET }}
+    #     gistID: 7d4c25ef2e97e8de523ef7c1fee26e8e
+    #     filename: your-repo-name__${{ env.BRANCH }}.json
+    #     label: Test Coverage
+    #     message: ${{ env.COVERAGE }}
+    #     color: green
+    #     namedLogo: jest
