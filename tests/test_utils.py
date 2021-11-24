@@ -69,14 +69,18 @@ class TestData(unittest.TestCase):
         data.download_url("https://www.google.com", destination="./tmp")
 
     def test_downloadUrl_progressbar(self):
+        file_dest = Path("./tmp")
         data.download_url(
-            "https://www.google.com", destination="./tmp", progress_bar=True
+            "https://www.google.com", destination=file_dest, progress_bar=True
         )
+        self.assertTrue(file_dest.exists())
 
     def test_downloadUrl_no_progressbar(self):
+        file_dest = Path("./tmp")
         data.download_url(
-            "https://www.google.com", destination="./tmp", progress_bar=False
+            "https://www.google.com", destination=file_dest, progress_bar=False
         )
+        self.assertTrue(file_dest.exists())
 
     def test_build_experiment_structure(self):
         hparam_path = DATA_FOLDER / "hparam_sample.yaml"
