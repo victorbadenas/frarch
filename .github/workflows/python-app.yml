@@ -69,7 +69,7 @@ jobs:
         REF=${{ github.ref }}
         echo "github.ref: $REF"
         IFS='/' read -ra PATHS <<< "$REF"
-        BRANCH_NAME="${PATHS[2]}/${PATHS[3]}"
+        BRANCH_NAME="${PATHS[2]}_${PATHS[3]}"
         echo $BRANCH_NAME
         echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
 
