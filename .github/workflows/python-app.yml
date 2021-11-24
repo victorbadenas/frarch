@@ -8,14 +8,14 @@ on:
     branches:
       - master
       - development
-      - feature/*
-      - fix/*
+      - feature_*
+      - fix_*
   pull_request:
     branches:
       - master
       - development
-      - feature/*
-      - fix/*
+      - feature_*
+      - fix_*
 
 jobs:
   build:
@@ -69,7 +69,7 @@ jobs:
         REF=${{ github.ref }}
         echo "github.ref: $REF"
         IFS='/' read -ra PATHS <<< "$REF"
-        BRANCH_NAME="${PATHS[2]}_${PATHS[3]}"
+        BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
         echo $BRANCH_NAME
         echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
 
