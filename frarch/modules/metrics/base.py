@@ -1,5 +1,3 @@
-import torch
-
 AGGREGATION_MODES = ["mean", "max", "min"]
 
 
