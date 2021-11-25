@@ -3,7 +3,7 @@ import logging
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Dict, Mapping, Union
 
 import torch
 
@@ -16,15 +16,22 @@ LOAD_MODES = ["last", "best"]
 class Checkpointer:
     def __init__(
         self,
-        save_path,
-        modules,
+        save_path: Union[str, Path],
+        modules: Mapping[str, torch.nn.Module],
         save_best_only: bool = True,
         reference_metric: str = None,
         mode: str = "min",
     ):
+        if not isinstance(modules, (dict, torch.nn.ModuleDict)):
+            raise ValueError("modules must be a dict or torch.nn.ModuleDict instance")
+        elif not all(isinstance(k, str) and isinstance(v, torch.nn.Module) for k, v in modules.items()):
+            raise ValueError("modules must have string keys and torch.nn.Module values")
+        if not isinstance(save_path, (str, Path)):
+            raise ValueError("path must be a string or Path object")
+
         if "metadata" in modules:
             raise ValueError(
-                "metadata in moddules is reserved for metadata json object"
+                "metadata in modules is reserved for metadata json object"
             )
         if mode not in METRIC_MODES:
             raise ValueError(f"metric mode must be in {METRIC_MODES} not {mode}")
@@ -33,8 +40,9 @@ class Checkpointer:
                 "specify the metric name to consider while save_best_only=True"
             )
 
-        self.modules = modules
         self.base_path = Path(save_path) / "save"
+        self.base_path.mkdir(exist_ok=True, parents=True)
+        self.modules = modules
         self.metadata = {}
         self.save_best_only = save_best_only
         self.best_metric = None
@@ -81,7 +89,7 @@ class Checkpointer:
         else:
             logger.info(f"Saved end_of_epoch model to {ckpt_folder}")
 
-        if not intra_epoch:
+        if not intra_epoch and self.reference_metric is not None:
             self.update_best_metric(**metrics)
             if self.save_best_only:
                 self.remove_old_ckpts(ckpt_folder)
