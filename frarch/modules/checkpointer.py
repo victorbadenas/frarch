@@ -169,6 +169,7 @@ class Checkpointer:
 
     def load_best_checkpoint(self) -> bool:
         ckpts_meta = self.load_checkpoints_meta()
+        ckpts_meta.pop("initial_weights")
         cmp_fn = min if self.mode == "min" else max
         best_ckpt_name = cmp_fn(
             ckpts_meta, key=lambda i: ckpts_meta[i][self.reference_metric]
