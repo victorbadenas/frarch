@@ -1,6 +1,11 @@
+from .base import Metric
+
+
 class MetricsWrapper:
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
+            if not isinstance(v, Metric):
+                raise ValueError(f"value for key {k} should inherit from Metric")
             setattr(self, k, v)
 
     def reset(self):
