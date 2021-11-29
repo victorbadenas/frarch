@@ -84,3 +84,21 @@ jobs:
         message: ${{ env.COVERAGE }}
         color: green
         namedLogo: Python
+
+  release-and-package:
+    # if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    strategy:
+      runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: install
+        # pip install twine
+        # python setup.py sdist
+        echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
+        # twine upload dist/* -u ${{ secrets.PyPIUser }} -p ${{ secrets.PyPIPass }} --repository-url

@@ -4,7 +4,7 @@ name = "frarch"
 path = name.lower().replace("-", "_").replace(" ", "_")
 # Version number should follow https://python.org/dev/peps/pep-0440 and
 # https://semver.org
-version = "0.1.dev0"
+version = "0.1.0"
 author = "vbadenas"
 author_email = "victor.badenas@gmail.com"
 description = "Training Framework for PyTorch projects"  # One-liner
