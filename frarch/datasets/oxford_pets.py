@@ -8,7 +8,6 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 from frarch.utils.data import download_url
-from frarch.utils.exceptions import DatasetNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +27,7 @@ class OxfordPets(Dataset):
         root: Union[str, Path] = "~/.cache/frarch/datasets/oxford_pets/",
     ):
         if subset not in ["train", "valid"]:
-            raise ValueError(f"set must be train or valid not {subset}")
+            raise ValueError(f"set must be train or test not {subset}")
 
         self.root = Path(root).expanduser()
         self.images_root = self.root / "images"
@@ -44,13 +43,13 @@ class OxfordPets(Dataset):
             self.download_dataset()
             self.download_annotations()
         if not self._detect_dataset():
-            raise DatasetNotFoundError(
+            raise ValueError(
                 f"download flag not set and dataset not present in {self.root}"
             )
 
         self._load_set()
 
-        print(
+        logger.info(
             f"Loaded {self.set} Split: {len(self.images)} instances"
             f" in {len(self.classes)} classes"
         )
@@ -85,15 +84,15 @@ class OxfordPets(Dataset):
         cached_file = self.root / filename
 
         if not cached_file.exists():
-            print('Downloading: "{}" to {}\n'.format(urls[url_key], cached_file))
+            logger.info('Downloading: "{}" to {}\n'.format(urls[url_key], cached_file))
             download_url(urls[url_key], cached_file)
 
         # extract file
-        print(f"Extracting tar file {cached_file} to {self.root}")
+        logger.info(f"Extracting tar file {cached_file} to {self.root}")
         tar = tarfile.open(cached_file, "r")
         tar.extractall(self.root)
         tar.close()
-        print(f"Done! Removing dached file {cached_file}...")
+        logger.info(f"Done! Removing dached file {cached_file}...")
         cached_file.unlink()
 
     def _get_file_paths(self):

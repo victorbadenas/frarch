@@ -43,7 +43,7 @@ class Caltech101(Dataset):
 
         self._build_and_load_lst()
 
-        print(
+        logger.info(
             f"Loaded {self.set} Split: {len(self.images)} instances"
             f" in {len(self.classes)} classes"
         )
@@ -82,9 +82,9 @@ class Caltech101(Dataset):
 
     def _build_class_mapper(self, all_paths):
         classes_set = set(map(lambda path: path.parts[-2], all_paths))
-        print(f"found {len(classes_set)} classes.")
+        logger.info(f"found {len(classes_set)} classes.")
         class_mapper = dict(zip(classes_set, range(len(classes_set))))
-        print(f"class mapper built: {class_mapper}")
+        logger.info(f"class mapper built: {class_mapper}")
         self._dump_class_map(class_mapper)
 
     def _load_train_test_files(self, all_paths):
@@ -119,11 +119,11 @@ class Caltech101(Dataset):
                 ]
             )
 
-        print(
+        logger.info(
             f"Built Train Split: {len(train_instances)} instances"
             f" in {len(self.classes)} classes"
         )
-        print(
+        logger.info(
             f"Built Valid Split: {len(valid_instances)} instances"
             f" in {len(self.classes)} classes"
         )

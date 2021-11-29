@@ -23,7 +23,6 @@ class MockDataset(torch.utils.data.Dataset):
 
 def is_file_handler_in_logging(file_path):
     for h in logging_module.root.handlers:
-        print(str(Path(file_path).absolute()))
         if h.baseFilename == str(Path(file_path).absolute()):
             return True
     else:
