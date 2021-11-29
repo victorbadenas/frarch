@@ -100,4 +100,4 @@ jobs:
       run: |
         pip install twine
         python setup.py sdist
-        twine upload -u "${{ secrets.PYPIUSER }}" -p "${{ secrets.PYPIPASS }}" --repository-url $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --disable-progress-bar dist/*
+        twine upload -u "${{ secrets.PYPIUSER }}" -p "${{ secrets.PYPIPASS }}" --disable-progress-bar dist/*
