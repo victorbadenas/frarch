@@ -98,6 +98,7 @@ jobs:
         python-version: 3.7
 
     - name: install
+      run: |
         # pip install twine
         # python setup.py sdist
         echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
