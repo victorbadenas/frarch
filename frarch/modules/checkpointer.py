@@ -161,11 +161,11 @@ class Checkpointer:
         elif self.mode == "max":
             return new_metric >= old_metric
 
-    def load(self, mode="last") -> bool:
+    def load(self, mode="last", **load_kwargs) -> bool:
         if mode == "best":
-            return self.load_best_checkpoint()
+            return self.load_best_checkpoint(**load_kwargs)
         elif mode == "last":
-            return self.load_last_checkpoint()
+            return self.load_last_checkpoint(**load_kwargs)
         else:
             raise ValueError('load\'s mode kwarg can be "best" or "last"')
 
@@ -175,7 +175,7 @@ class Checkpointer:
                 return True
         return False
 
-    def load_best_checkpoint(self) -> bool:
+    def load_best_checkpoint(self, **load_kwargs) -> bool:
         ckpts_meta = self.load_checkpoints_meta()
         ckpts_meta.pop("initial_weights")
         cmp_fn = min if self.mode == "min" else max
@@ -183,14 +183,14 @@ class Checkpointer:
             ckpts_meta, key=lambda i: ckpts_meta[i][self.reference_metric]
         )
         return self.load_checkpoint_from_folder(
-            best_ckpt_name, ckpts_meta[best_ckpt_name]
+            best_ckpt_name, ckpts_meta[best_ckpt_name], **load_kwargs
         )
 
-    def load_last_checkpoint(self) -> bool:
+    def load_last_checkpoint(self, **load_kwargs) -> bool:
         ckpts_meta = self.load_checkpoints_meta()
         latest_ckpt_name = max(ckpts_meta, key=lambda i: ckpts_meta[i]["time"])
         return self.load_checkpoint_from_folder(
-            latest_ckpt_name, ckpts_meta[latest_ckpt_name]
+            latest_ckpt_name, ckpts_meta[latest_ckpt_name], **load_kwargs
         )
 
     def load_checkpoints_meta(self) -> dict:
@@ -210,13 +210,14 @@ class Checkpointer:
 
         return ckpts_meta
 
-    def load_checkpoint_from_folder(self, ckpt_folder_name, metadata) -> bool:
+    def load_checkpoint_from_folder(self, ckpt_folder_name, metadata, **load_kwargs) -> bool:
         paths = self._build_paths(ckpt_folder_name)
         for module_name in self.modules:
             try:
                 self.modules[module_name].load_state_dict(
                     torch.load(
                         paths[module_name],
+                        **load_kwargs
                     )
                 )
             except Exception as e:
