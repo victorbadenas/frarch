@@ -249,6 +249,25 @@ class TestCheckPointer(unittest.TestCase):
         ckpter.load(mode="last")
         self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
 
+    def test_load_checkpoint_map_location(self):
+        modules = copy.deepcopy(self.modules)
+        ckpter = Checkpointer(
+            save_path=self.TMP_CKPT_PATH,
+            modules=modules,
+            save_best_only=True,
+            reference_metric="metric",
+            mode="max"
+        )
+        ckpter.save(
+            epoch=1,
+            current_step=1000,
+            intra_epoch=False,
+            metric=.5
+        )
+        modules.model.fc = torch.nn.Linear(2, 1)
+        ckpter.load(mode="last", map_location='cpu')
+        self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
+
     def test_properies_end_of_epoch(self):
         ckpter = Checkpointer(
             save_path=self.TMP_CKPT_PATH,
