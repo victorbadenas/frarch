@@ -1,0 +1,14 @@
+frarch.models.classification package
+====================================
+
+.. automodule:: frarch.models.classification
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   frarch.models.classification.cnn

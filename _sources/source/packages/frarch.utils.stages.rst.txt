@@ -1,0 +1,7 @@
+frarch.utils.stages module
+==========================
+
+.. automodule:: frarch.utils.stages
+   :members:
+   :undoc-members:
+   :show-inheritance:

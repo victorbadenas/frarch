@@ -1,0 +1,23 @@
+frarch.utils package
+====================
+
+.. automodule:: frarch.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   frarch.utils.data
+   frarch.utils.logging
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.utils.exceptions
+   frarch.utils.stages

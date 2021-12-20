@@ -1,0 +1,7 @@
+frarch.train.base\_trainer module
+=================================
+
+.. automodule:: frarch.train.base_trainer
+   :members:
+   :undoc-members:
+   :show-inheritance:

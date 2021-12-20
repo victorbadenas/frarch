@@ -1,0 +1,7 @@
+frarch.datasets.caltech101 module
+=================================
+
+.. automodule:: frarch.datasets.caltech101
+   :members:
+   :undoc-members:
+   :show-inheritance:

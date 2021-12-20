@@ -1,0 +1,7 @@
+frarch.modules.metrics.wrapper module
+=====================================
+
+.. automodule:: frarch.modules.metrics.wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:

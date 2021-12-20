@@ -1,0 +1,7 @@
+frarch.modules.metrics.classification\_error module
+===================================================
+
+.. automodule:: frarch.modules.metrics.classification_error
+   :members:
+   :undoc-members:
+   :show-inheritance:

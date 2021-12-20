@@ -1,0 +1,7 @@
+frarch.utils.exceptions module
+==============================
+
+.. automodule:: frarch.utils.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:

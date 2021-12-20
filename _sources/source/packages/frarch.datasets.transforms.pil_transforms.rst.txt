@@ -1,0 +1,7 @@
+frarch.datasets.transforms.pil\_transforms module
+=================================================
+
+.. automodule:: frarch.datasets.transforms.pil_transforms
+   :members:
+   :undoc-members:
+   :show-inheritance:

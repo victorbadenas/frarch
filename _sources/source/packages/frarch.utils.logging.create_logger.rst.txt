@@ -1,0 +1,7 @@
+frarch.utils.logging.create\_logger module
+==========================================
+
+.. automodule:: frarch.utils.logging.create_logger
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,25 @@
+frarch package
+==============
+
+.. automodule:: frarch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   frarch.datasets
+   frarch.models
+   frarch.modules
+   frarch.train
+   frarch.utils
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.parser

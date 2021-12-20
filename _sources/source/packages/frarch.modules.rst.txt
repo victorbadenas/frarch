@@ -1,0 +1,21 @@
+frarch.modules package
+======================
+
+.. automodule:: frarch.modules
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   frarch.modules.metrics
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.modules.checkpointer

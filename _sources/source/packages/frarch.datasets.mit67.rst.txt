@@ -1,0 +1,7 @@
+frarch.datasets.mit67 module
+============================
+
+.. automodule:: frarch.datasets.mit67
+   :members:
+   :undoc-members:
+   :show-inheritance:

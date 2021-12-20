@@ -1,0 +1,7 @@
+frarch.models.mock module
+=========================
+
+.. automodule:: frarch.models.mock
+   :members:
+   :undoc-members:
+   :show-inheritance:

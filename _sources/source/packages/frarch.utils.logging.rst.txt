@@ -1,0 +1,14 @@
+frarch.utils.logging package
+============================
+
+.. automodule:: frarch.utils.logging
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.utils.logging.create_logger

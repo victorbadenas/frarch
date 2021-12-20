@@ -1,0 +1,15 @@
+frarch.train package
+====================
+
+.. automodule:: frarch.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.train.base_trainer
+   frarch.train.classifier_trainer

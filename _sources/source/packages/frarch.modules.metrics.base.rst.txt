@@ -1,0 +1,7 @@
+frarch.modules.metrics.base module
+==================================
+
+.. automodule:: frarch.modules.metrics.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

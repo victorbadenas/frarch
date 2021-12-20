@@ -1,0 +1,7 @@
+frarch.models.classification.cnn.fashionCNN module
+==================================================
+
+.. automodule:: frarch.models.classification.cnn.fashionCNN
+   :members:
+   :undoc-members:
+   :show-inheritance:

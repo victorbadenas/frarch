@@ -1,0 +1,7 @@
+frarch.models.classification.cnn.vgg module
+===========================================
+
+.. automodule:: frarch.models.classification.cnn.vgg
+   :members:
+   :undoc-members:
+   :show-inheritance:

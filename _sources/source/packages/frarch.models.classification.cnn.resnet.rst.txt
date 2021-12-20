@@ -1,0 +1,7 @@
+frarch.models.classification.cnn.resnet module
+==============================================
+
+.. automodule:: frarch.models.classification.cnn.resnet
+   :members:
+   :undoc-members:
+   :show-inheritance:

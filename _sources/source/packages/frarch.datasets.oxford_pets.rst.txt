@@ -1,0 +1,7 @@
+frarch.datasets.oxford\_pets module
+===================================
+
+.. automodule:: frarch.datasets.oxford_pets
+   :members:
+   :undoc-members:
+   :show-inheritance:

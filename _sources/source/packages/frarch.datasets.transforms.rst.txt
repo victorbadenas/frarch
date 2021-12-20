@@ -1,0 +1,14 @@
+frarch.datasets.transforms package
+==================================
+
+.. automodule:: frarch.datasets.transforms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.datasets.transforms.pil_transforms

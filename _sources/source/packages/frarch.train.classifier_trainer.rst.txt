@@ -1,0 +1,7 @@
+frarch.train.classifier\_trainer module
+=======================================
+
+.. automodule:: frarch.train.classifier_trainer
+   :members:
+   :undoc-members:
+   :show-inheritance:

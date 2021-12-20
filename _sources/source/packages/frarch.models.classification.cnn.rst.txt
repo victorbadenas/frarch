@@ -1,0 +1,18 @@
+frarch.models.classification.cnn package
+========================================
+
+.. automodule:: frarch.models.classification.cnn
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.models.classification.cnn.fashionCNN
+   frarch.models.classification.cnn.mnistCNN
+   frarch.models.classification.cnn.resnet
+   frarch.models.classification.cnn.smallCNNs
+   frarch.models.classification.cnn.vgg

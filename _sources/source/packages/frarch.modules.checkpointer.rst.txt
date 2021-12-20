@@ -1,0 +1,7 @@
+frarch.modules.checkpointer module
+==================================
+
+.. automodule:: frarch.modules.checkpointer
+   :members:
+   :undoc-members:
+   :show-inheritance:

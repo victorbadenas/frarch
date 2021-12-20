@@ -1,0 +1,7 @@
+frarch.models.classification.cnn.mnistCNN module
+================================================
+
+.. automodule:: frarch.models.classification.cnn.mnistCNN
+   :members:
+   :undoc-members:
+   :show-inheritance:

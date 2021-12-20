@@ -1,0 +1,7 @@
+frarch.parser module
+====================
+
+.. automodule:: frarch.parser
+   :members:
+   :undoc-members:
+   :show-inheritance:

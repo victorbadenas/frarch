@@ -1,0 +1,16 @@
+frarch.modules.metrics package
+==============================
+
+.. automodule:: frarch.modules.metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.modules.metrics.base
+   frarch.modules.metrics.classification_error
+   frarch.modules.metrics.wrapper

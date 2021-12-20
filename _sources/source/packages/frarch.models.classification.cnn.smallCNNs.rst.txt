@@ -1,0 +1,7 @@
+frarch.models.classification.cnn.smallCNNs module
+=================================================
+
+.. automodule:: frarch.models.classification.cnn.smallCNNs
+   :members:
+   :undoc-members:
+   :show-inheritance:

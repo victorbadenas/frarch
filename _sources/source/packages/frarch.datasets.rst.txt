@@ -1,0 +1,23 @@
+frarch.datasets package
+=======================
+
+.. automodule:: frarch.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   frarch.datasets.transforms
+
+Submodules
+----------
+
+.. toctree::
+
+   frarch.datasets.caltech101
+   frarch.datasets.mit67
+   frarch.datasets.oxford_pets
