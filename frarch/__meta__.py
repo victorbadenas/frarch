@@ -9,4 +9,4 @@ author = "vbadenas"
 author_email = "victor.badenas@gmail.com"
 description = "Training Framework for PyTorch projects"  # One-liner
 url = "https://github.com/vbadenas/frarch"  # your project homepage
-license = "MIT"  # See https://choosealicense.com
+license = "Apache 2.0"  # See https://choosealicense.com
