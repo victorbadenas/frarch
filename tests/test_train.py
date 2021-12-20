@@ -90,3 +90,7 @@ class TestTrainers(unittest.TestCase):
                 train_set=self.train_dataset,
                 valid_set=self.test_dataset,
             )
+
+
+if __name__ == "__main__":
+    unittest.main()
