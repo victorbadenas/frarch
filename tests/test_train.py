@@ -38,7 +38,6 @@ class TestClassifierTrainer(ClassifierTrainer):
     def compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
-        print(predictions.shape, labels.shape)
         return self.hparams["loss"](predictions, labels)
 
 
