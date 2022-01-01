@@ -48,7 +48,7 @@ class TestTrainers(unittest.TestCase):
     opt_class = torch.optim.Adam
 
     def test_init(self):
-        BaseTrainer({"model": self.model}, self.opt_class, {})
+        BaseTrainer({"model": self.model}, self.opt_class, {"noprogressbar": True})
 
     def test_init_ckpt_interval_negative(self):
         with self.assertRaises(ValueError):
@@ -57,13 +57,15 @@ class TestTrainers(unittest.TestCase):
             )
 
     def test_ClassifierTrainer_init(self):
-        TestClassifierTrainer({"model": self.model}, self.opt_class, {})
+        TestClassifierTrainer(
+            {"model": self.model}, self.opt_class, {"noprogressbar": True}
+        )
 
     def test_ClassifierTrainer_fit(self):
         trainer = TestClassifierTrainer(
             {"model": self.model},
             self.opt_class,
-            {"epochs": 1, "loss": torch.nn.CrossEntropyLoss()},
+            {"epochs": 1, "loss": torch.nn.CrossEntropyLoss(), "noprogressbar": True},
         )
         trainer.fit(
             train_set=self.train_dataset,
@@ -72,7 +74,9 @@ class TestTrainers(unittest.TestCase):
 
     def test_ClassifierTrainer_fit_epochs_not_specified(self):
         trainer = TestClassifierTrainer(
-            {"model": self.model}, self.opt_class, {"loss": torch.nn.CrossEntropyLoss()}
+            {"model": self.model},
+            self.opt_class,
+            {"loss": torch.nn.CrossEntropyLoss(), "noprogressbar": True},
         )
         with self.assertRaises(KeyError):
             trainer.fit(
@@ -82,7 +86,7 @@ class TestTrainers(unittest.TestCase):
 
     def test_ClassifierTrainer_fit_loss_not_specified(self):
         trainer = TestClassifierTrainer(
-            {"model": self.model}, self.opt_class, {"epochs": 1}
+            {"model": self.model}, self.opt_class, {"epochs": 1, "noprogressbar": True}
         )
         with self.assertRaises(KeyError):
             trainer.fit(
