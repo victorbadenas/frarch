@@ -1,4 +1,5 @@
-# **Frarch**
+# Frarch
+<img src="docs/logo.png" alt="drawing" width="200"/>
 
 ![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/vbadenas/9b54bd086e121233d2ad9a62d2136258/raw/frarch__heads_master.json&style=flat)
 ![CI](https://github.com/vbadenas/frarch/actions/workflows/python-app.yml/badge.svg?style=flat)
