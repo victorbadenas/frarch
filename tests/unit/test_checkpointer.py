@@ -1,9 +1,11 @@
-import torch
 import copy
-import unittest
-import shutil
 import json
+import shutil
+import unittest
 from pathlib import Path
+
+import torch
+
 from frarch.modules.checkpointer import Checkpointer
 
 DATA_FOLDER = Path("./tests/data/")
@@ -29,9 +31,7 @@ class TestCheckPointer(unittest.TestCase):
 
     def test_init_ok(self):
         ckpter = Checkpointer(
-            save_path=self.TMP_CKPT_PATH,
-            modules=self.modules,
-            save_best_only=False
+            save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=False
         )
         self.assertEqual(self.modules, ckpter.modules)
         self.assertEqual(self.TMP_CKPT_PATH / "save", ckpter.base_path)
@@ -43,73 +43,58 @@ class TestCheckPointer(unittest.TestCase):
 
     def test_init_path_not_string(self):
         with self.assertRaises(ValueError):
-            Checkpointer(
-                save_path=0.0,
-                modules=self.modules
-            )
+            Checkpointer(save_path=0.0, modules=self.modules)
 
     def test_init_modules_not_ok(self):
         with self.assertRaises(ValueError):
-            Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=[MockModel()]
-            )
+            Checkpointer(save_path=self.TMP_CKPT_PATH, modules=[MockModel()])
 
     def test_metadata_in_modules(self):
         nok_modules = copy.deepcopy(self.modules)
         nok_modules["metadata"] = MockModel()
         with self.assertRaises(ValueError):
-            Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=nok_modules
-            )
+            Checkpointer(save_path=self.TMP_CKPT_PATH, modules=nok_modules)
 
     def test_key_not_string_in_modules(self):
         nok_modules = dict(copy.deepcopy(self.modules))
         nok_modules[0] = MockModel()
         with self.assertRaises(ValueError):
-            Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=nok_modules
-            )
+            Checkpointer(save_path=self.TMP_CKPT_PATH, modules=nok_modules)
 
     def test_value_not_module_in_modules(self):
         nok_modules = dict(copy.deepcopy(self.modules))
         nok_modules["module3"] = "not-a-module"
         with self.assertRaises(ValueError):
-            Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=nok_modules
-            )
+            Checkpointer(save_path=self.TMP_CKPT_PATH, modules=nok_modules)
 
     def test_mode_not_valid(self):
         with self.assertRaises(ValueError):
             Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=self.modules,
-                mode="not-valid"
+                save_path=self.TMP_CKPT_PATH, modules=self.modules, mode="not-valid"
             )
 
     def test_save_best_only_no_reference_metric(self):
         with self.assertRaises(ValueError):
             Checkpointer(
-                save_path=self.TMP_CKPT_PATH,
-                modules=self.modules,
-                save_best_only=True
+                save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=True
             )
 
     def test_save_initial_weights(self):
         ckpter = Checkpointer(
-            save_path=self.TMP_CKPT_PATH,
-            modules=self.modules,
-            save_best_only=False
+            save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=False
         )
         ckpter.save_initial_weights()
-        self.assertTrue((self.TMP_CKPT_PATH/"save"/"initial_weights").exists())
-        metadata = read_json(self.TMP_CKPT_PATH/"save"/"initial_weights"/"metadata.json")
+        self.assertTrue((self.TMP_CKPT_PATH / "save" / "initial_weights").exists())
+        metadata = read_json(
+            self.TMP_CKPT_PATH / "save" / "initial_weights" / "metadata.json"
+        )
         self.assertEqual(metadata["epoch"], -1)
-        self.assertTrue((self.TMP_CKPT_PATH/"save"/"initial_weights"/"model.pt").exists())
-        self.assertTrue((self.TMP_CKPT_PATH/"save"/"initial_weights"/"model2.pt").exists())
+        self.assertTrue(
+            (self.TMP_CKPT_PATH / "save" / "initial_weights" / "model.pt").exists()
+        )
+        self.assertTrue(
+            (self.TMP_CKPT_PATH / "save" / "initial_weights" / "model2.pt").exists()
+        )
 
     def test_save_end_of_epoch(self):
         Checkpointer(
@@ -117,15 +102,12 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=False,
             reference_metric=None,
-            mode="min"
+            mode="min",
         ).save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            extra_data={"test": "test"}
+            epoch=1, current_step=1000, intra_epoch=False, extra_data={"test": "test"}
         )
-        pt_paths = list(self.TMP_CKPT_PATH.glob('**/*.pt'))
-        metadata_paths = list(self.TMP_CKPT_PATH.glob('**/metadata.json'))
+        pt_paths = list(self.TMP_CKPT_PATH.glob("**/*.pt"))
+        metadata_paths = list(self.TMP_CKPT_PATH.glob("**/metadata.json"))
         self.assertEqual(len(pt_paths), len(self.modules))
         metadata = read_json(metadata_paths[0])
         self.assertFalse(metadata["intra_epoch"])
@@ -139,14 +121,14 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=False,
             reference_metric=None,
-            mode="min"
+            mode="min",
         ).save(
             epoch=1,
             current_step=1000,
             intra_epoch=True,
         )
-        pt_paths = list(self.TMP_CKPT_PATH.glob('**/*.pt'))
-        metadata_paths = list(self.TMP_CKPT_PATH.glob('**/metadata.json'))
+        pt_paths = list(self.TMP_CKPT_PATH.glob("**/*.pt"))
+        metadata_paths = list(self.TMP_CKPT_PATH.glob("**/metadata.json"))
         self.assertEqual(len(pt_paths), len(self.modules))
         metadata = read_json(metadata_paths[0])
         self.assertTrue(metadata["intra_epoch"])
@@ -159,14 +141,11 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=False,
             reference_metric=None,
-            mode="min"
+            mode="min",
         ).save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=True,
-            extra_data={"test": "test"}
+            epoch=1, current_step=1000, intra_epoch=True, extra_data={"test": "test"}
         )
-        metadata_paths = list(self.TMP_CKPT_PATH.glob('**/metadata.json'))
+        metadata_paths = list(self.TMP_CKPT_PATH.glob("**/metadata.json"))
         metadata = read_json(metadata_paths[0])
         self.assertDictEqual(metadata["extra_info"], {"test": "test"})
 
@@ -176,15 +155,10 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=True,
             reference_metric="metric",
-            mode="min"
+            mode="min",
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
-        self.assertEqual(ckpter.best_metric, .5)
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
+        self.assertEqual(ckpter.best_metric, 0.5)
 
     def test_save_metric_update_min(self):
         ckpter = Checkpointer(
@@ -192,21 +166,11 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=True,
             reference_metric="metric",
-            mode="min"
+            mode="min",
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.1
-        )
-        self.assertEqual(ckpter.best_metric, .1)
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.1)
+        self.assertEqual(ckpter.best_metric, 0.1)
 
     def test_save_metric_update_max(self):
         ckpter = Checkpointer(
@@ -214,21 +178,11 @@ class TestCheckPointer(unittest.TestCase):
             modules=self.modules,
             save_best_only=True,
             reference_metric="metric",
-            mode="max"
+            mode="max",
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.1
-        )
-        self.assertEqual(ckpter.best_metric, .5)
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.1)
+        self.assertEqual(ckpter.best_metric, 0.5)
 
     def test_load_checkpoint(self):
         modules = copy.deepcopy(self.modules)
@@ -237,14 +191,9 @@ class TestCheckPointer(unittest.TestCase):
             modules=modules,
             save_best_only=True,
             reference_metric="metric",
-            mode="max"
+            mode="max",
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
         modules.model.fc = torch.nn.Linear(2, 1)
         ckpter.load(mode="last")
         self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
@@ -256,30 +205,18 @@ class TestCheckPointer(unittest.TestCase):
             modules=modules,
             save_best_only=True,
             reference_metric="metric",
-            mode="max"
+            mode="max",
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
         modules.model.fc = torch.nn.Linear(2, 1)
-        ckpter.load(mode="last", map_location='cpu')
+        ckpter.load(mode="last", map_location="cpu")
         self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
 
     def test_properies_end_of_epoch(self):
         ckpter = Checkpointer(
-            save_path=self.TMP_CKPT_PATH,
-            modules=self.modules,
-            save_best_only=False
+            save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=False
         )
-        ckpter.save(
-            epoch=1,
-            current_step=1000,
-            intra_epoch=False,
-            metric=.5
-        )
+        ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
         self.assertEqual(ckpter.is_intraepoch(), False)
         self.assertEqual(ckpter.current_epoch, 1)
         self.assertEqual(ckpter.next_epoch, 2)
@@ -287,9 +224,7 @@ class TestCheckPointer(unittest.TestCase):
 
     def test_properies_intra_epoch(self):
         ckpter = Checkpointer(
-            save_path=self.TMP_CKPT_PATH,
-            modules=self.modules,
-            save_best_only=False
+            save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=False
         )
         ckpter.save(
             epoch=1,

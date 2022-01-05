@@ -62,8 +62,8 @@ jobs:
 
     - name: test
       run: |
-        coverage run -m unittest discover
-        coverage report -m --omit='tests/*'
+        coverage run -m unittest discover -s tests/unit
+        coverage report -m --omit='tests/unit/*'
 
     - if: ${{ matrix.python == '3.9' && matrix.os == 'ubuntu-latest' }}
       name: Get Coverage for badge
@@ -89,6 +89,27 @@ jobs:
         message: ${{ env.COVERAGE }}
         color: green
         namedLogo: codecov
+
+  functional:
+    strategy:
+      matrix:
+        python: [3.7, 3.8, 3.9]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - name: install
+      run: |
+        python -m pip install --upgrade pip
+        pip install coverage
+        python setup.py -q install
+    - name: functional-test
+      run: |
+        cd tests/functional
+        ./runFunctionalTests.sh
 
   package-and-release:
     runs-on: ubuntu-latest

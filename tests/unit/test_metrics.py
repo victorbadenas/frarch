@@ -1,5 +1,7 @@
-import torch
 import unittest
+
+import torch
+
 from frarch.modules import metrics
 from frarch.modules.metrics.base import Metric
 
@@ -69,25 +71,16 @@ class TestMetrics(unittest.TestCase):
             m.update(predictions, truth)
 
     def test_metricsWrapper_init(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         self.assertTrue(hasattr(mw, "metric0"))
         self.assertTrue(hasattr(mw, "metric1"))
 
     def test_metricsWrapper_not_metric(self):
         with self.assertRaises(ValueError):
-            metrics.MetricsWrapper(
-                metric0=MockMetric(),
-                metric1="not-a-metric"
-            )
+            metrics.MetricsWrapper(metric0=MockMetric(), metric1="not-a-metric")
 
     def test_metricsWrapper_reset(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         mw.metric0.metrics = [0, 1, 2]
         mw.metric1.metrics = [0]
         mw.reset()
@@ -95,39 +88,27 @@ class TestMetrics(unittest.TestCase):
         self.assertEqual(len(mw.metric1), 0)
 
     def test_metricsWrapper_update(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         mw.update(1)
         self.assertEquals(mw.metric0.metrics, [1])
         self.assertEquals(mw.metric1.metrics, [1])
 
     def test_metricsWrapper_get_metrics_mean(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         mw.update(0)
         mw.update(1)
         m = mw.get_metrics(mode="mean")
         self.assertDictEqual(m, {"metric0": 0.5, "metric1": 0.5})
 
     def test_metricsWrapper_get_metrics_max(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         mw.update(0)
         mw.update(1)
         m = mw.get_metrics(mode="max")
         self.assertDictEqual(m, {"metric0": 1, "metric1": 1})
 
     def test_metricsWrapper_get_metrics_min(self):
-        mw = metrics.MetricsWrapper(
-            metric0=MockMetric(),
-            metric1=MockMetric()
-        )
+        mw = metrics.MetricsWrapper(metric0=MockMetric(), metric1=MockMetric())
         mw.update(0)
         mw.update(1)
         m = mw.get_metrics(mode="min")
