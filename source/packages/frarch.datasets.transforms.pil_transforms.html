@@ -33,7 +33,7 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.datasets.caltech101 module" href="frarch.datasets.caltech101.html" />
@@ -295,7 +295,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -313,12 +313,87 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>frarch.datasets.transforms.pil_transforms module</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="module-frarch.datasets.transforms.pil_transforms">
+<span id="frarch-datasets-transforms-pil-transforms-module"></span><h1>frarch.datasets.transforms.pil_transforms module<a class="headerlink" href="#module-frarch.datasets.transforms.pil_transforms" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.PILBrightness">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILBrightness</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILBrightness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILBrightness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.PILColorBalance">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILColorBalance</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILColorBalance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILColorBalance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.PILContrast">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILContrast</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILContrast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILContrast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.PILSharpness">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILSharpness</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILSharpness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILSharpness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.PowerPIL">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PowerPIL</code><span class="sig-paren">(</span><em class="sig-param">rotate: bool = True</em>, <em class="sig-param">flip: bool = True</em>, <em class="sig-param">colorbalance: float = 0.4</em>, <em class="sig-param">contrast: float = 0.4</em>, <em class="sig-param">brightness: float = 0.4</em>, <em class="sig-param">sharpness: float = 0.4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PowerPIL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PowerPIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frarch.datasets.transforms.pil_transforms.RandomOrder" title="frarch.datasets.transforms.pil_transforms.RandomOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.datasets.transforms.pil_transforms.RandomOrder</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.RandomFlip">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">RandomFlip</code><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#RandomFlip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.RandomFlip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly flips the given PIL.Image.</p>
+<p>Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.RandomOrder">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">RandomOrder</code><span class="sig-paren">(</span><em class="sig-param">transforms: Optional[Iterable[Callable]]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#RandomOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.RandomOrder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Composes several transforms together in random order.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frarch.datasets.transforms.pil_transforms.RandomRotate">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">RandomRotate</code><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#RandomRotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.RandomRotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly rotate the given PIL.Image.</p>
+<p>Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.</p>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -405,15 +480,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By vbadenas<br/>
-        
-            &copy; Copyright 2021, vbadenas.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By vbadenas<br/>
+    
+        &copy; Copyright 2022, vbadenas.<br/>
+  </p>
+</footer>
 </main>
 
 

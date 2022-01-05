@@ -33,7 +33,7 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.modules package" href="frarch.modules.html" />
@@ -295,7 +295,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -313,12 +313,59 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>frarch.models.mock module</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="module-frarch.models.mock">
+<span id="frarch-models-mock-module"></span><h1>frarch.models.mock module<a class="headerlink" href="#module-frarch.models.mock" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="frarch.models.mock.BypassModel">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.models.mock.</code><code class="sig-name descname">BypassModel</code><a class="reference internal" href="../../_modules/frarch/models/mock.html#BypassModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.mock.BypassModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="method">
+<dt id="frarch.models.mock.BypassModel.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/mock.html#BypassModel.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.mock.BypassModel.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="frarch.models.mock.BypassModel.training">
+<code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.mock.BypassModel.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -377,15 +424,13 @@ registered hooks while the latter silently ignores them.</p>
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By vbadenas<br/>
-        
-            &copy; Copyright 2021, vbadenas.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By vbadenas<br/>
+    
+        &copy; Copyright 2022, vbadenas.<br/>
+  </p>
+</footer>
 </main>
 
 

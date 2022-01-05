@@ -33,7 +33,7 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.utils package" href="frarch.utils.html" />
@@ -295,7 +295,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -313,12 +313,77 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>frarch.train.classifier_trainer module</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="module-frarch.train.classifier_trainer">
+<span id="frarch-train-classifier-trainer-module"></span><h1>frarch.train.classifier_trainer module<a class="headerlink" href="#module-frarch.train.classifier_trainer" title="Permalink to this headline">¶</a></h1>
+<p>Base class for classifier network training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Description</dt>
+<dd class="field-odd"><p>base trainer class for training a classifier network</p>
+</dd>
+<dt class="field-even">Authors</dt>
+<dd class="field-even"><p>victor badenas (<a class="reference external" href="mailto:victor&#46;badenas&#37;&#52;&#48;gmail&#46;com">victor<span>&#46;</span>badenas<span>&#64;</span>gmail<span>&#46;</span>com</a>)</p>
+</dd>
+<dt class="field-odd">Version</dt>
+<dd class="field-odd"><p>0.1.0</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer">
+<em class="property">class </em><code class="sig-prename descclassname">frarch.train.classifier_trainer.</code><code class="sig-name descname">ClassifierTrainer</code><span class="sig-paren">(</span><em class="sig-param">modules</em>, <em class="sig-param">opt_class</em>, <em class="sig-param">hparams</em>, <em class="sig-param">checkpointer=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer" title="frarch.train.base_trainer.BaseTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.train.base_trainer.BaseTrainer</span></code></a></p>
+<dl class="method">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">train_set</em>, <em class="sig-param">valid_set=None</em>, <em class="sig-param">train_loader_kwargs: dict = None</em>, <em class="sig-param">valid_loader_kwargs: dict = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer.get_iterable">
+<code class="sig-name descname">get_iterable</code><span class="sig-paren">(</span><em class="sig-param">dataset: torch.utils.data.dataloader.DataLoader</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.get_iterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.get_iterable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress">
+<code class="sig-name descname">update_progress</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">step</em>, <em class="sig-param">stage=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress_console">
+<code class="sig-name descname">update_progress_console</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">step</em>, <em class="sig-param">stage=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress_console"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_console" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress_tqdm">
+<code class="sig-name descname">update_progress_tqdm</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress_tqdm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_tqdm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -395,15 +460,13 @@
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By vbadenas<br/>
-        
-            &copy; Copyright 2021, vbadenas.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By vbadenas<br/>
+    
+        &copy; Copyright 2022, vbadenas.<br/>
+  </p>
+</footer>
 </main>
 
 

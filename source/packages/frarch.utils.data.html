@@ -33,7 +33,7 @@
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
-    <script src="../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.utils.logging package" href="frarch.utils.logging.html" />
@@ -295,7 +295,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -313,12 +313,81 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
+    <!-- Table of contents that is only displayed when printing the page -->
+    <div id="jb-print-docs-body" class="onlyprint">
+        <h1>frarch.utils.data package</h1>
+        <!-- Table of contents -->
+        <div id="print-main-content" class="row">
+            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
+            <div id="jb-print-toc">
+                
+            </div>
+            
+              <div>
+                
+  <div class="section" id="module-frarch.utils.data">
+<span id="frarch-utils-data-package"></span><h1>frarch.utils.data package<a class="headerlink" href="#module-frarch.utils.data" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="frarch.utils.data.build_experiment_structure">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">build_experiment_structure</code><span class="sig-paren">(</span><em class="sig-param">hparams_file</em>, <em class="sig-param">overrides=None</em>, <em class="sig-param">experiment_folder: str = 'results/debug/'</em>, <em class="sig-param">debug: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#build_experiment_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.build_experiment_structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="frarch.utils.data.create_dataloader">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">create_dataloader</code><span class="sig-paren">(</span><em class="sig-param">dataset: torch.utils.data.dataset.Dataset</em>, <em class="sig-param">**dataloader_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#create_dataloader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.create_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="frarch.utils.data.download_url">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">download_url</code><span class="sig-paren">(</span><em class="sig-param">url</em>, <em class="sig-param">destination=None</em>, <em class="sig-param">progress_bar=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#download_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.download_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a URL to a local file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The URL to download.</p></li>
+<li><p><strong>destination</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – The destination of the file. If None is given the file is saved to
+a temporary directory.</p></li>
+<li><p><strong>progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to show a command-line progress bar while downloading.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filename</strong> – The location of the downloaded file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Progress bar use/example adapted from tqdm documentation:</dt><dd><p><a class="reference external" href="https://github.com/tqdm/tqdm">https://github.com/tqdm/tqdm</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.utils.data.read_file">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param">filepath: Union[str, pathlib.Path]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.read_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="frarch.utils.data.tensorInDevice">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">tensorInDevice</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">device='cpu'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#tensorInDevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.tensorInDevice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    <div id="main-content" class="row noprint">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
         
               <div>
@@ -399,15 +468,13 @@ a temporary directory.</p></li>
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By vbadenas<br/>
-        
-            &copy; Copyright 2021, vbadenas.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By vbadenas<br/>
+    
+        &copy; Copyright 2022, vbadenas.<br/>
+  </p>
+</footer>
 </main>
 
 
