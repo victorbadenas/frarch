@@ -318,14 +318,17 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>frarch.models.classification.cnn.smallCNNs module</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>frarch.models.classification.cnn.smallCNNs module</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
             </div>
             
               <div>
@@ -387,73 +390,8 @@ registered hooks while the latter silently ignores them.</p>
 
               </div>
               
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="module-frarch.models.classification.cnn.smallCNNs">
-<span id="frarch-models-classification-cnn-smallcnns-module"></span><h1>frarch.models.classification.cnn.smallCNNs module<a class="headerlink" href="#module-frarch.models.classification.cnn.smallCNNs" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNN">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.smallCNNs.</code><code class="sig-name descname">MitCNN</code><span class="sig-paren">(</span><em class="sig-param">input_channels=1</em>, <em class="sig-param">embedding_size=256</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/smallCNNs.html#MitCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/smallCNNs.html#MitCNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNN.training">
-<code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNN.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNNClassifier">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.smallCNNs.</code><code class="sig-name descname">MitCNNClassifier</code><span class="sig-paren">(</span><em class="sig-param">embedding_size=256</em>, <em class="sig-param">num_classes=10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/smallCNNs.html#MitCNNClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNNClassifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNNClassifier.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/smallCNNs.html#MitCNNClassifier.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNNClassifier.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="frarch.models.classification.cnn.smallCNNs.MitCNNClassifier.training">
-<code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.classification.cnn.smallCNNs.MitCNNClassifier.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-
-
-              </div>
-              
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.resnet.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -470,7 +408,7 @@ registered hooks while the latter silently ignores them.</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">

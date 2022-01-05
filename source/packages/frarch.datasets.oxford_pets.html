@@ -318,14 +318,17 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>frarch.datasets.oxford_pets module</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>frarch.datasets.oxford_pets module</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
             </div>
             
               <div>
@@ -336,25 +339,44 @@
 <dt id="frarch.datasets.oxford_pets.OxfordPets">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.oxford_pets.</code><code class="sig-name descname">OxfordPets</code><span class="sig-paren">(</span><em class="sig-param">subset: str = 'train'</em>, <em class="sig-param">transform: Callable = None</em>, <em class="sig-param">target_transform: Callable = None</em>, <em class="sig-param">download: bool = True</em>, <em class="sig-param">root: Union[str</em>, <em class="sig-param">pathlib.Path] = '~/.cache/frarch/datasets/oxford_pets/'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataset.Dataset</span></code></p>
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_annotations">
-<code class="sig-name descname">download_annotations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_annotations" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_dataset">
-<code class="sig-name descname">download_dataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_dataset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_file">
-<code class="sig-name descname">download_file</code><span class="sig-paren">(</span><em class="sig-param">url_key</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Oxford Pets dataset object.</p>
+<p>Data loader for the Oxford Pets dataset for pet recognition. The dataset can be
+obtained from <a class="reference external" href="https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz">https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz</a> and
+their corresponding labels in
+<a class="reference external" href="https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz">https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – “train” or “valid”. Subset to load. Defaults to “train”.</p></li>
+<li><p><strong>transform</strong> (<em>Callable</em>) – a callable object that takes an <cite>PIL.Image</cite> object and
+returns a modified <cite>PIL.Image</cite> object. Defaults to None, which won’t apply
+any transformation.</p></li>
+<li><p><strong>target_transform</strong> (<em>Callable</em>) – a callable object that the label data and returns
+modified label data. Defaults to None, which won’t apply any transformation.</p></li>
+<li><p><strong>download</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – True for downloading and storing the dataset data in the <cite>root</cite>
+directory if it’s not present. Defaults to True.</p></li>
+<li><p><strong>root</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – root directory for the dataset.
+Defaults to <cite>~/.cache/frarch/datasets/oxford_pets/</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.robots.ox.ac.uk/~vgg/data/pets/">https://www.robots.ox.ac.uk/~vgg/data/pets/</a></p></li>
+</ul>
 <dl class="method">
 <dt id="frarch.datasets.oxford_pets.OxfordPets.get_number_classes">
-<code class="sig-name descname">get_number_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.get_number_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.get_number_classes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">get_number_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.get_number_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.get_number_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of target labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>number of target labels.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -363,49 +385,8 @@
 
               </div>
               
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="module-frarch.datasets.oxford_pets">
-<span id="frarch-datasets-oxford-pets-module"></span><h1>frarch.datasets.oxford_pets module<a class="headerlink" href="#module-frarch.datasets.oxford_pets" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="frarch.datasets.oxford_pets.OxfordPets">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.oxford_pets.</code><code class="sig-name descname">OxfordPets</code><span class="sig-paren">(</span><em class="sig-param">subset: str = 'train'</em>, <em class="sig-param">transform: Callable = None</em>, <em class="sig-param">target_transform: Callable = None</em>, <em class="sig-param">download: bool = True</em>, <em class="sig-param">root: Union[str</em>, <em class="sig-param">pathlib.Path] = '~/.cache/frarch/datasets/oxford_pets/'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataset.Dataset</span></code></p>
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_annotations">
-<code class="sig-name descname">download_annotations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_annotations" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_dataset">
-<code class="sig-name descname">download_dataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_dataset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.download_file">
-<code class="sig-name descname">download_file</code><span class="sig-paren">(</span><em class="sig-param">url_key</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.download_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.datasets.oxford_pets.OxfordPets.get_number_classes">
-<code class="sig-name descname">get_number_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.get_number_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.get_number_classes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-
-
-              </div>
-              
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="frarch.datasets.mit67.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -422,7 +403,7 @@
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">

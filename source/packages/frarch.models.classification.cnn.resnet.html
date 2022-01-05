@@ -318,14 +318,17 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>frarch.models.classification.cnn.resnet module</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>frarch.models.classification.cnn.resnet module</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
             </div>
             
               <div>
@@ -521,207 +524,8 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
 
               </div>
               
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="module-frarch.models.classification.cnn.resnet">
-<span id="frarch-models-classification-cnn-resnet-module"></span><h1>frarch.models.classification.cnn.resnet module<a class="headerlink" href="#module-frarch.models.classification.cnn.resnet" title="Permalink to this headline">¶</a></h1>
-<p>ResNet definition. Slightly tweaked pytorch implementation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Description</dt>
-<dd class="field-odd"><p>ResNet</p>
-</dd>
-<dt class="field-even">Authors</dt>
-<dd class="field-even"><p>victor badenas (<a class="reference external" href="mailto:victor&#46;badenas&#37;&#52;&#48;gmail&#46;com">victor<span>&#46;</span>badenas<span>&#64;</span>gmail<span>&#46;</span>com</a>),
-pytorch.org</p>
-</dd>
-<dt class="field-odd">Version</dt>
-<dd class="field-odd"><p>0.1.0</p>
-</dd>
-<dt class="field-even">Created on</dt>
-<dd class="field-even"><p>21/07/2021 19:00</p>
-</dd>
-</dl>
-<dl class="class">
-<dt id="frarch.models.classification.cnn.resnet.ResNet">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param">block: frarch.models.classification.cnn.resnet.ResNetBlock, layers: List[int], num_classes: int = 1000, zero_init_residual: bool = False, groups: int = 1, width_per_group: int = 64, replace_stride_with_dilation: Optional[List[bool]] = None, norm_layer: Optional[Callable[[...], torch.nn.modules.module.Module]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="frarch.models.classification.cnn.resnet.ResNet.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="frarch.models.classification.cnn.resnet.ResNet.training">
-<code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet18">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet18</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet18"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet18" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-18 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet34">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet34</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet34"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet34" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-34 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet50">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet50</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet50"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet50" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-50 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet101">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet101</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet101" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-101 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet152">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet152</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet152"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet152" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-152 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnext50_32x4d">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnext50_32x4d</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext50_32x4d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext50_32x4d" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNeXt-50 32x4d model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnext101_32x8d">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnext101_32x8d</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext101_32x8d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext101_32x8d" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNeXt-101 32x8d model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.wide_resnet50_2">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">wide_resnet50_2</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet50_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet50_2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wide ResNet-50-2 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a>.
-The model is the same as ResNet except for the bottleneck number of channels
-which is twice larger in every block. The number of channels in outer 1x1
-convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
-channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.wide_resnet101_2">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">wide_resnet101_2</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet101_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet101_2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wide ResNet-101-2 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a>.
-The model is the same as ResNet except for the bottleneck number of channels
-which is twice larger in every block. The number of channels in outer 1x1
-convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
-channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-
-
-              </div>
-              
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.mnistCNN.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -738,7 +542,7 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">

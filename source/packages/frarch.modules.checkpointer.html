@@ -318,14 +318,17 @@
         </div>
     </div>
 </div>
-    <!-- Table of contents that is only displayed when printing the page -->
-    <div id="jb-print-docs-body" class="onlyprint">
-        <h1>frarch.modules.checkpointer module</h1>
-        <!-- Table of contents -->
-        <div id="print-main-content" class="row">
-            <div class="col-12 col-md-12 pl-md-5 pr-md-5">
-            <div id="jb-print-toc">
-                
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>frarch.modules.checkpointer module</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
             </div>
             
               <div>
@@ -423,109 +426,8 @@
 
               </div>
               
-            </div>
-        </div>
-    </div>
-    <div id="main-content" class="row noprint">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
-                
-  <div class="section" id="module-frarch.modules.checkpointer">
-<span id="frarch-modules-checkpointer-module"></span><h1>frarch.modules.checkpointer module<a class="headerlink" href="#module-frarch.modules.checkpointer" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="frarch.modules.checkpointer.Checkpointer">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.modules.checkpointer.</code><code class="sig-name descname">Checkpointer</code><span class="sig-paren">(</span><em class="sig-param">save_path: Union[str, pathlib.Path], modules: Mapping[str, torch.nn.modules.module.Module], save_best_only: bool = True, reference_metric: str = None, mode: str = 'min'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.current_epoch">
-<em class="property">property </em><code class="sig-name descname">current_epoch</code><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.current_epoch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.exists_checkpoint">
-<code class="sig-name descname">exists_checkpoint</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.exists_checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.exists_checkpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.is_better">
-<code class="sig-name descname">is_better</code><span class="sig-paren">(</span><em class="sig-param">new_metric</em>, <em class="sig-param">old_metric</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.is_better"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.is_better" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.is_ckpt_dir">
-<em class="property">static </em><code class="sig-name descname">is_ckpt_dir</code><span class="sig-paren">(</span><em class="sig-param">path: Union[str, pathlib.Path]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.is_ckpt_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.is_ckpt_dir" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.is_intraepoch">
-<code class="sig-name descname">is_intraepoch</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.is_intraepoch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.is_intraepoch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.load">
-<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">mode='last'</em>, <em class="sig-param">**load_kwargs</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.load_best_checkpoint">
-<code class="sig-name descname">load_best_checkpoint</code><span class="sig-paren">(</span><em class="sig-param">**load_kwargs</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.load_best_checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.load_best_checkpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.load_checkpoint_from_folder">
-<code class="sig-name descname">load_checkpoint_from_folder</code><span class="sig-paren">(</span><em class="sig-param">ckpt_folder_name</em>, <em class="sig-param">metadata</em>, <em class="sig-param">**load_kwargs</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.load_checkpoint_from_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.load_checkpoint_from_folder" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.load_checkpoints_meta">
-<code class="sig-name descname">load_checkpoints_meta</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.load_checkpoints_meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.load_checkpoints_meta" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.load_last_checkpoint">
-<code class="sig-name descname">load_last_checkpoint</code><span class="sig-paren">(</span><em class="sig-param">**load_kwargs</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.load_last_checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.load_last_checkpoint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.next_epoch">
-<em class="property">property </em><code class="sig-name descname">next_epoch</code><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.next_epoch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.remove_old_ckpts">
-<code class="sig-name descname">remove_old_ckpts</code><span class="sig-paren">(</span><em class="sig-param">curr_ckpt_folder</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.remove_old_ckpts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.remove_old_ckpts" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">epoch: int, current_step: int, intra_epoch: bool = False, extra_data: Dict = None, **metrics: Dict[str, Any]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.save_initial_weights">
-<code class="sig-name descname">save_initial_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.save_initial_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.save_initial_weights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.step">
-<em class="property">property </em><code class="sig-name descname">step</code><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.step" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.modules.checkpointer.Checkpointer.update_best_metric">
-<code class="sig-name descname">update_best_metric</code><span class="sig-paren">(</span><em class="sig-param">**metrics</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/checkpointer.html#Checkpointer.update_best_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.checkpointer.Checkpointer.update_best_metric" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-
-
-              </div>
-              
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="frarch.modules.metrics.wrapper.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -542,7 +444,7 @@
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
