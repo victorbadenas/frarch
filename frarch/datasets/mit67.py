@@ -42,6 +42,18 @@ class Mit67(Dataset):
 
     References:
         - http://web.mit.edu/torralba/www/indoor.html
+
+    Examples:
+        Simple usage of the dataset class::
+
+            from frarch.datasets import Mit67
+            from frarch.utils.data import create_dataloader
+            from torchvision.transforms import ToTensor
+
+            dataset = Mit67(True, ToTensor, None, True, "./data/")
+            dataloader = create_dataloader(dataset)
+            for batch_idx, (batch, labels) in enumerate(dataloader):
+                # process batch
     """
 
     def __init__(

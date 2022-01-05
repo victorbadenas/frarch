@@ -12,7 +12,14 @@ NoneType = type(None)
 class RandomFlip(object):
     """Randomly flips the given PIL.Image.
 
-    Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is
+    Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is.
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_flip = RandomFlip()
+            processed_image = random_flip(image)
     """
 
     def __call__(self, img: Image):

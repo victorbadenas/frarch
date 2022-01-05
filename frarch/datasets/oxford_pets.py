@@ -40,6 +40,18 @@ class OxfordPets(Dataset):
 
     References:
         - https://www.robots.ox.ac.uk/~vgg/data/pets/
+
+    Examples:
+        Simple usage of the dataset class::
+
+            from frarch.datasets import Mit67
+            from frarch.utils.data import create_dataloader
+            from torchvision.transforms import ToTensor
+
+            dataset = OxfordPets( "train", ToTensor, None, True, "./data/")
+            dataloader = create_dataloader(dataset)
+            for batch_idx, (batch, labels) in enumerate(dataloader):
+                # process batch
     """
 
     def __init__(

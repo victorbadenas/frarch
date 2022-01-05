@@ -31,6 +31,17 @@ class Caltech101(Dataset):
 
     References:
         - http://www.vision.caltech.edu/Image_Datasets/Caltech101/
+
+    Examples:
+        Simple usage of the dataset class::
+
+            from frarch.datasets import Caltech101
+            from frarch.utils.data import create_dataloader
+            from torchvision.transforms import ToTensor
+            dataset = Caltech101("train", ToTensor, None, "./data/")
+            dataloader = create_dataloader(dataset)
+            for batch_idx, (batch, labels) in enumerate(dataloader):
+                # process batch
     """
 
     def __init__(
