@@ -120,3 +120,70 @@ if __name__ == "__main__":
         valid_loader_kwargs=hparams["dataloader_options"],
     )
 ```
+
+And the hparams yaml file used to configure the experiment:
+
+```yaml
+# seeds
+seed: 42
+__set_seed: !apply:torch.manual_seed [!ref <seed>]
+experiment_name: "mnist"
+experiment_folder: "results/mnist_demo/"
+device: "cpu"
+
+# data folder
+data_folder: /tmp/
+
+# training parameters
+epochs: 2
+batch_size: 128
+shuffle: True
+num_clases: 10
+
+transform_tensor: !new:torchvision.transforms.ToTensor
+preprocessing: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_tensor>,
+    ]
+
+# dataset object
+train_dataset: !new:torchvision.datasets.MNIST
+    root: !ref <data_folder>
+    train: true
+    download: true
+    transform: !ref <preprocessing>
+
+valid_dataset: !new:torchvision.datasets.MNIST
+    root: !ref <data_folder>
+    train: false
+    download: true
+    transform: !ref <preprocessing>
+
+# dataloader options
+dataloader_options:
+    batch_size: !ref <batch_size>
+    shuffle: !ref <shuffle>
+    num_workers: 8
+
+opt_class: !name:torch.optim.Adam
+    lr: 0.001
+
+loss: !new:torch.nn.CrossEntropyLoss
+
+model: !apply:torchvision.models.vgg11
+    pretrained: false
+
+modules:
+    model: !ref <model>
+
+checkpointer: !new:frarch.modules.Checkpointer
+    save_path: !ref <experiment_folder>
+    modules: !ref <modules>
+
+```
+
+For the code execution run:
+
+```bash
+python train.py mnist.yaml
+```
