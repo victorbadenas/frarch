@@ -19,6 +19,29 @@ urls = {
 
 
 class OxfordPets(Dataset):
+    """Oxford Pets dataset object.
+
+    Data loader for the Oxford Pets dataset for pet recognition. The dataset can be
+    obtained from https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz and
+    their corresponding labels in
+    https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz.
+
+    Args:
+        subset (str): "train" or "valid". Subset to load. Defaults to "train".
+        transform (Callable): a callable object that takes an `PIL.Image` object and
+            returns a modified `PIL.Image` object. Defaults to None, which won't apply
+            any transformation.
+        target_transform (Callable): a callable object that the label data and returns
+            modified label data. Defaults to None, which won't apply any transformation.
+        download (bool): True for downloading and storing the dataset data in the `root`
+            directory if it's not present. Defaults to True.
+        root (Union[str, Path]): root directory for the dataset.
+            Defaults to `~/.cache/frarch/datasets/oxford_pets/`.
+
+    References:
+        - https://www.robots.ox.ac.uk/~vgg/data/pets/
+    """
+
     def __init__(
         self,
         subset: str = "train",
@@ -41,8 +64,8 @@ class OxfordPets(Dataset):
         self.valid_lst_path = self.root / "annotations" / "test.txt"
 
         if download and not self._detect_dataset():
-            self.download_dataset()
-            self.download_annotations()
+            self._download_dataset()
+            self._download_annotations()
         if not self._detect_dataset():
             raise DatasetNotFoundError(
                 f"download flag not set and dataset not present in {self.root}"
@@ -67,16 +90,21 @@ class OxfordPets(Dataset):
     def __len__(self):
         return len(self.images)
 
-    def get_number_classes(self):
+    def get_number_classes(self) -> int:
+        """Get number of target labels.
+
+        Returns:
+            int: number of target labels.
+        """
         return len(self.classes)
 
-    def download_annotations(self):
-        self.download_file("images")
+    def _download_annotations(self):
+        self._download_file("images")
 
-    def download_dataset(self):
-        self.download_file("annotations")
+    def _download_dataset(self):
+        self._download_file("annotations")
 
-    def download_file(self, url_key):
+    def _download_file(self, url_key):
         self.root.mkdir(parents=True, exist_ok=True)
 
         # download train/val images/annotations

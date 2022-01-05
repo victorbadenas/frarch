@@ -21,6 +21,29 @@ urls = {
 
 
 class Mit67(Dataset):
+    """Mit 67 dataset object.
+
+    Data loader for the Mit 67 dataset for indoor scene recognition. The dataset can
+    be obtained from
+    http://groups.csail.mit.edu/vision/LabelMe/NewImages/indoorCVPR_09.tar.
+
+    Args:
+        train (bool): True for loading the train subset and False for valid. Defaults
+            to True.
+        transform (Callable): a callable object that takes an `PIL.Image` object and
+            returns a modified `PIL.Image` object. Defaults to None, which won't apply
+            any transformation.
+        target_transform (Callable): a callable object that the label data and returns
+            modified label data. Defaults to None, which won't apply any transformation.
+        download (bool): True for downloading and storing the dataset data in the `root`
+            directory if it's not present. Defaults to True.
+        root (Union[str, Path]): root directory for the dataset.
+            Defaults to `~/.cache/frarch/datasets/mit67/`.
+
+    References:
+        - http://web.mit.edu/torralba/www/indoor.html
+    """
+
     def __init__(
         self,
         train: bool = True,
@@ -39,7 +62,7 @@ class Mit67(Dataset):
         self.mapper_path = self.root / "class_map.json"
 
         if download and not self._detect_dataset():
-            self.download_mit_dataset()
+            self._download_mit_dataset()
         if not self._detect_dataset():
             raise DatasetNotFoundError(
                 f"download flag not set and dataset not present in {self.root}"
@@ -64,10 +87,15 @@ class Mit67(Dataset):
     def __len__(self):
         return len(self.images)
 
-    def get_number_classes(self):
+    def get_number_classes(self) -> int:
+        """Get number of target labels.
+
+        Returns:
+            int: number of target labels.
+        """
         return len(self.classes)
 
-    def download_mit_dataset(self):
+    def _download_mit_dataset(self):
         self.root.mkdir(parents=True, exist_ok=True)
 
         # download train/val images/annotations

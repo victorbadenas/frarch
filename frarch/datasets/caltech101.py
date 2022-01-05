@@ -14,6 +14,25 @@ logger = logging.getLogger(__name__)
 
 
 class Caltech101(Dataset):
+    """Caltech 101 dataset object.
+
+    Data loader for the Caltech 101 dataset for object classification. The dataset can
+    be obtained from
+    http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz.
+
+    Args:
+        subset (str): "train" or "valid". Subset to load. Defaults to "train".
+        transform (Callable): a callable object that takes an `PIL.Image` object and
+            returns a modified `PIL.Image` object. Defaults to None, which won't apply
+            any transformation.
+        target_transform (Callable): a callable object that the label data and returns
+            modified label data. Defaults to None, which won't apply any transformation.
+        root (Union[str, Path]): root directory for the dataset. Defaults to `./data/`.
+
+    References:
+        - http://www.vision.caltech.edu/Image_Datasets/Caltech101/
+    """
+
     def __init__(
         self,
         subset: str = "train",
@@ -60,7 +79,12 @@ class Caltech101(Dataset):
     def __len__(self):
         return len(self.images)
 
-    def get_number_classes(self):
+    def get_number_classes(self) -> int:
+        """Get number of target labels.
+
+        Returns:
+            int: number of target labels.
+        """
         return len(self.classes)
 
     def _detect_dataset(self):

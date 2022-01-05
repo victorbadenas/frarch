@@ -24,15 +24,16 @@ class Checkpointer:
     ):
         if not isinstance(modules, (dict, torch.nn.ModuleDict)):
             raise ValueError("modules must be a dict or torch.nn.ModuleDict instance")
-        elif not all(isinstance(k, str) and isinstance(v, torch.nn.Module) for k, v in modules.items()):
+        elif not all(
+            isinstance(k, str) and isinstance(v, torch.nn.Module)
+            for k, v in modules.items()
+        ):
             raise ValueError("modules must have string keys and torch.nn.Module values")
         if not isinstance(save_path, (str, Path)):
             raise ValueError("path must be a string or Path object")
 
         if "metadata" in modules:
-            raise ValueError(
-                "metadata in modules is reserved for metadata json object"
-            )
+            raise ValueError("metadata in modules is reserved for metadata json object")
         if mode not in METRIC_MODES:
             raise ValueError(f"metric mode must be in {METRIC_MODES} not {mode}")
         if save_best_only and reference_metric is None:
@@ -210,15 +211,14 @@ class Checkpointer:
 
         return ckpts_meta
 
-    def load_checkpoint_from_folder(self, ckpt_folder_name, metadata, **load_kwargs) -> bool:
+    def load_checkpoint_from_folder(
+        self, ckpt_folder_name, metadata, **load_kwargs
+    ) -> bool:
         paths = self._build_paths(ckpt_folder_name)
         for module_name in self.modules:
             try:
                 self.modules[module_name].load_state_dict(
-                    torch.load(
-                        paths[module_name],
-                        **load_kwargs
-                    )
+                    torch.load(paths[module_name], **load_kwargs)
                 )
             except Exception as e:
                 logger.error(f"Failed loading ckpt from {ckpt_folder_name}.")
