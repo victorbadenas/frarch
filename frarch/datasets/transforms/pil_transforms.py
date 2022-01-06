@@ -12,7 +12,7 @@ NoneType = type(None)
 class RandomFlip(object):
     """Randomly flips the given PIL.Image.
 
-    Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is.
+    Probability of 0.25 horizontal flip, 0.25 vertical flip, 0.5 no flip.
 
     Example:
         Simple usage of the class::
@@ -40,6 +40,13 @@ class RandomRotate(object):
     """Randomly rotate the given PIL.Image.
 
     Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_rotate = RandomRotate()
+            processed_image = random_rotate(image)
     """
 
     def __call__(self, img: Image):
@@ -59,6 +66,21 @@ class RandomRotate(object):
 
 
 class PILColorBalance(object):
+    """Randomly dim or enhance color of an image.
+
+    Randomly dim or enhance color of an image given as an input. Given var value,
+    enhance color from a 1-var factor to a 1+var factor.
+
+    Args:
+        var (float): float value to get random alpha value from [1-var, 1+var].
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_color_balance = PILColorBalance()
+            processed_image = random_color_balance(image)
+    """
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -77,6 +99,21 @@ class PILColorBalance(object):
 
 
 class PILContrast(object):
+    """Randomly dim or enhance contrast of an image.
+
+    Randomly dim or enhance contrast of an image given as an input. Given var value,
+    enhance contrast from a 1-var factor to a 1+var factor.
+
+    Args:
+        var (float): float value to get random alpha value from [1-var, 1+var].
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_contrast = PILContrast()
+            processed_image = random_contrast(image)
+    """
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -95,6 +132,21 @@ class PILContrast(object):
 
 
 class PILBrightness(object):
+    """Randomly dim or enhance brightness of an image.
+
+    Randomly dim or enhance brightness of an image given as an input. Given var value,
+    enhance brightness from a 1-var factor to a 1+var factor.
+
+    Args:
+        var (float): float value to get random alpha value from [1-var, 1+var].
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_brightness = PILBrightness()
+            processed_image = random_brightness(image)
+    """
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -113,6 +165,21 @@ class PILBrightness(object):
 
 
 class PILSharpness(object):
+    """Randomly dim or enhance sharpness of an image.
+
+    Randomly dim or enhance sharpness of an image given as an input. Given var value,
+    enhance sharpness from a 1-var factor to a 1+var factor.
+
+    Args:
+        var (float): float value to get random alpha value from [1-var, 1+var].
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_sharpness = PILSharpness()
+            processed_image = random_sharpness(image)
+    """
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -131,7 +198,28 @@ class PILSharpness(object):
 
 
 class RandomOrder(object):
-    """Composes several transforms together in random order."""
+    """Composes several transforms together in random order.
+    
+    Args:
+        transforms (Iterable[Callable]): An iterable containing callable objects
+            which take PIL.Image as input and outputs the same object type.
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_sharpness = RandomOrder(
+                [
+                    RandomFlip(),
+                    RandomRotate(),
+                    PILColorBalance(0.1),
+                    PILContrast(0.1),
+                    PILBrightness(0.1),
+                    PILSharpness(0.1),
+                ]
+            )
+            processed_image = random_sharpness(image)
+    """
 
     def __init__(self, transforms: Union[Iterable[Callable], NoneType]):
         if not isinstance(transforms, (Iterable, NoneType)):
@@ -156,6 +244,28 @@ class RandomOrder(object):
 
 
 class PowerPIL(RandomOrder):
+    """Composes several transforms together in random order.
+    
+    Args:
+        transforms (Iterable[Callable]): An iterable containing callable objects
+            which take PIL.Image as input and outputs the same object type.
+
+    Example:
+        Simple usage of the class::
+
+            image = PIL.Image.open("testimage.jpg")
+            random_sharpness = RandomOrder(
+                [
+                    RandomFlip(),
+                    RandomRotate(),
+                    PILColorBalance(0.1),
+                    PILContrast(0.1),
+                    PILBrightness(0.1),
+                    PILSharpness(0.1),
+                ]
+            )
+            processed_image = random_sharpness(image)
+    """
     def __init__(
         self,
         rotate: bool = True,

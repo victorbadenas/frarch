@@ -57,6 +57,16 @@ python setup.py install
 python -m unittest discover
 ```
 
+### Documentation
+
+To create the documentation, run the following command:
+
+```bash
+make -C docs html
+sensible-browser docs/_build/html/index.html
+make -C docs latexpdf
+```
+
 ## Running an experiment
 
 Frarch provides training classes such as [`ClassifierTrainer`](https://vbadenas.github.io/frarch/source/packages/frarch.train.classifier_trainer.html) which provides methods to train a classifier model.
@@ -187,3 +197,4 @@ For the code execution run:
 ```bash
 python train.py mnist.yaml
 ```
+
