@@ -254,17 +254,8 @@ class PowerPIL(RandomOrder):
         Simple usage of the class::
 
             image = PIL.Image.open("testimage.jpg")
-            random_sharpness = RandomOrder(
-                [
-                    RandomFlip(),
-                    RandomRotate(),
-                    PILColorBalance(0.1),
-                    PILContrast(0.1),
-                    PILBrightness(0.1),
-                    PILSharpness(0.1),
-                ]
-            )
-            processed_image = random_sharpness(image)
+            powerpil = PowerPIL(True, True, 0.1, 0.1, 0.1, 0.1)
+            processed_image = powerpil(image)
     """
     def __init__(
         self,
