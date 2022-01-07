@@ -41,7 +41,7 @@ class FashionCNN(nn.Module):
             x (torch.Tensor): input to the model.
 
         Returns:
-            torch.Tensor: same tensor as the input.
+            torch.Tensor: output of the model.
         """
         out = self.layer1(x)
         out = self.layer2(out)
@@ -74,6 +74,6 @@ class FashionClassifier(nn.Module):
             x (torch.Tensor): input to the model.
 
         Returns:
-            torch.Tensor: same tensor as the input.
+            torch.Tensor: output of the model.
         """
         return self.fc(x)

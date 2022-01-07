@@ -158,6 +158,23 @@ class Bottleneck(ResNetBlock):
 
 
 class ResNet(nn.Module):
+    """Residual network architecture model.
+
+    Args:
+        block (ResNetBlock): basic construction block for architecture.
+        layers (List[int]): layer configuration. I.e. [2, 2, 2, 2].
+        num_classes (int)): output classes. Defaults to 1000.
+        zero_init_residual (bool): True to initialize the residual layers with zeros.
+            Default False.
+        groups (int): groups for convolutional layers in residual blocks.
+            Defaults to 1.
+        width_per_group (int): Width for convolutional residual blocks. Defaults to 64.
+        replace_stride_with_dilation (Optional[List[bool]]): Optional list of boolean
+            values to replace stride with dilation. Defaults to None.
+        norm_layer (Optional[Callable[..., nn.Module]]): Norm layer. If None, defaults
+            to BatchNorm2d. Defautls to None.
+    """
+
     def __init__(
         self,
         block: ResNetBlock,
@@ -273,7 +290,6 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def _forward_impl(self, x: Tensor) -> Tensor:
-        # See note [TorchScript super()]
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
@@ -291,6 +307,16 @@ class ResNet(nn.Module):
         return x
 
     def forward(self, x: Tensor) -> Tensor:
+        """Define the computation performed at every call.
+
+        forward computation for ResNet.
+
+        Args:
+            x (torch.Tensor): input to the model.
+
+        Returns:
+            torch.Tensor: output of the model.
+        """
         return self._forward_impl(x)
 
 
@@ -315,8 +341,7 @@ def resnet18(pretrained: bool = False, progress: bool = True, **kwargs: Any) -> 
     From `"Deep Residual Learning for Image Recognition"
     <https://arxiv.org/pdf/1512.03385.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -329,8 +354,7 @@ def resnet34(pretrained: bool = False, progress: bool = True, **kwargs: Any) -> 
     From `"Deep Residual Learning for Image Recognition"
     <https://arxiv.org/pdf/1512.03385.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -343,8 +367,7 @@ def resnet50(pretrained: bool = False, progress: bool = True, **kwargs: Any) -> 
     From `"Deep Residual Learning for Image Recognition"
     <https://arxiv.org/pdf/1512.03385.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -357,8 +380,7 @@ def resnet101(pretrained: bool = False, progress: bool = True, **kwargs: Any) ->
     From `"Deep Residual Learning for Image Recognition"
     <https://arxiv.org/pdf/1512.03385.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -373,8 +395,7 @@ def resnet152(pretrained: bool = False, progress: bool = True, **kwargs: Any) ->
     From `"Deep Residual Learning for Image Recognition"
     <https://arxiv.org/pdf/1512.03385.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -391,8 +412,7 @@ def resnext50_32x4d(
     From `"Aggregated Residual Transformation for Deep Neural Networks"
     <https://arxiv.org/pdf/1611.05431.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -411,8 +431,7 @@ def resnext101_32x8d(
     From `"Aggregated Residual Transformation for Deep Neural Networks"
     <https://arxiv.org/pdf/1611.05431.pdf>`_.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -434,8 +453,7 @@ def wide_resnet50_2(
     convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
     channels, and in Wide ResNet-50-2 has 2048-1024-2048.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
@@ -456,8 +474,7 @@ def wide_resnet101_2(
     convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
     channels, and in Wide ResNet-50-2 has 2048-1024-2048.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """

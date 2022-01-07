@@ -30,7 +30,7 @@ class MitCNN(nn.Module):
             x (torch.Tensor): input to the model.
 
         Returns:
-            torch.Tensor: same tensor as the input.
+            torch.Tensor: output of the model.
         """
         x = F.relu(self.conv1(x))
         x = F.relu(F.max_pool2d(self.conv2(x), 2))
@@ -68,7 +68,7 @@ class MitCNNClassifier(nn.Module):
             x (torch.Tensor): input to the model.
 
         Returns:
-            torch.Tensor: same tensor as the input.
+            torch.Tensor: output of the model.
         """
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)

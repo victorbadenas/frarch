@@ -16,11 +16,10 @@ from typing import Any, Dict, List, Union, cast
 
 import torch
 import torch.nn as nn
+import torchvision
 from torch.hub import load_state_dict_from_url
 
-__all__ = [
-    "VGG",
-]
+__all__ = torchvision.models.vgg.__all__
 
 l11 = [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"]
 l13 = [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"]
@@ -88,6 +87,20 @@ model_urls = {
 
 
 class VGG(nn.Module):
+    """VGG network definition.
+
+    From `"Very Deep Convolutional Networks for Large-Scale Image Recognition"
+    <https://arxiv.org/pdf/1409.1556.pdf>`_.
+
+    Args:
+        layers_cfg (List[Union[str, int]]): vgg layer configuration.
+        batch_norm (bool, optional): Boolean flag for doing batch normalization.
+            Defaults to True.
+        init_weights (bool, optional): Force weight initialization.
+            Defaults to True.
+        pretrained (bool, optional): Get pretrained model. Defaults to False.
+    """
+
     def __init__(
         self,
         layers_cfg: List[Union[str, int]],
@@ -98,7 +111,7 @@ class VGG(nn.Module):
         super(VGG, self).__init__()
         self.layers_cfg = layers_cfg
         self.batch_norm = batch_norm
-        self.features = self.make_layers(layers_cfg, batch_norm)
+        self.features = self._make_layers(layers_cfg, batch_norm)
         self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         if init_weights:
             self._initialize_weights()
@@ -106,6 +119,16 @@ class VGG(nn.Module):
             self._load_pretrained(layers_cfg, batch_norm)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Define the computation performed at every call.
+
+        forward computation for VGG.
+
+        Args:
+            x (torch.Tensor): input to the model.
+
+        Returns:
+            torch.Tensor: output of the model.
+        """
         x = self.features(x)
         x = self.avgpool(x)
         return torch.flatten(x, 1)
@@ -123,7 +146,7 @@ class VGG(nn.Module):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
 
-    def make_layers(
+    def _make_layers(
         self, layers_cfg: List[Union[str, int]], batch_norm: bool = False
     ) -> nn.Sequential:
         layers: List[nn.Module] = []
@@ -165,6 +188,15 @@ class VGG(nn.Module):
 
 
 class VGGClassifier(nn.Module):
+    """VGG classifier network.
+
+    Args:
+        num_classes ([type]): number of output classes.
+        init_weights (bool, optional): Initialize weights. Defaults to True.
+        pretrained (bool, optional): Pretrained architecture. Defaults to False.
+        arch (str, optional): Architecture to load as pretrained. Defaults to "".
+    """
+
     def __init__(self, num_classes, init_weights=True, pretrained=False, arch=""):
         super(VGGClassifier, self).__init__()
         self.in_features = 25088
@@ -204,6 +236,16 @@ class VGGClassifier(nn.Module):
         self.load_state_dict(classifier_state_dict)
 
     def forward(self, x):
+        """Define the computation performed at every call.
+
+        forward computation for VGG.
+
+        Args:
+            x (torch.Tensor): input to the model.
+
+        Returns:
+            torch.Tensor: output of the model.
+        """
         x = self.classifier(x)
         return x
 
@@ -251,96 +293,104 @@ def vggclassifier(
 
 
 def vgg11(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 11-layer model from <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 11-layer model.
 
-    The required minimum input size of the model is 32x32.
+    VGG 11-layer model from `"Very Deep Convolutional Networks for Large-Scale Image
+    Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_. The required minimum input
+    size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("11", False, pretrained, **kwargs)
 
 
 def vgg11_bn(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 11-layer model with batch normalization <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 11-layer with batch normalization model.
 
+    VGG 11-layer model with batch normalization from `"Very Deep Convolutional Networks
+    for Large-Scale Image Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_.
     The required minimum input size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("11", True, pretrained, **kwargs)
 
 
 def vgg13(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 13-layer model <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 13-layer model.
 
-    The required minimum input size of the model is 32x32.
+    VGG 13-layer model from `"Very Deep Convolutional Networks for Large-Scale Image
+    Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_. The required minimum input
+    size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("13", False, pretrained, **kwargs)
 
 
 def vgg13_bn(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 13-layer model with batch normalization <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 13-layer with batch normalization model.
 
+    VGG 13-layer model with batch normalization from `"Very Deep Convolutional Networks
+    for Large-Scale Image Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_.
     The required minimum input size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("13", True, pretrained, **kwargs)
 
 
 def vgg16(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 16-layer model <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 16-layer model.
 
-    The required minimum input size of the model is 32x32.
+    VGG 16-layer model from `"Very Deep Convolutional Networks for Large-Scale Image
+    Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_. The required minimum input
+    size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("16", False, pretrained, **kwargs)
 
 
 def vgg16_bn(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 16-layer model with batch normalization <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 16-layer with batch normalization model.
 
+    VGG 16-layer model with batch normalization from `"Very Deep Convolutional Networks
+    for Large-Scale Image Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_.
     The required minimum input size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("16", True, pretrained, **kwargs)
 
 
 def vgg19(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 19-layer model <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 19-layer model.
 
-    The required minimum input size of the model is 32x32.
+    VGG 19-layer model from `"Very Deep Convolutional Networks for Large-Scale Image
+    Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_. The required minimum input
+    size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("19", False, pretrained, **kwargs)
 
 
 def vgg19_bn(pretrained: bool = False, **kwargs: Any) -> VGG:
-    r"""VGG 19-layer modelith batch normalization <https://arxiv.org/pdf/1409.1556.pdf>`_.
+    """Create VGG 19-layer with batch normalization model.
 
+    VGG 19-layer model with batch normalization from `"Very Deep Convolutional Networks
+    for Large-Scale Image Recognition" <https://arxiv.org/pdf/1409.1556.pdf>`_.
     The required minimum input size of the model is 32x32.
 
-    Args
-    ----
+    Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     return _vgg("19", True, pretrained, **kwargs)
