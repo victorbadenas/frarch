@@ -81,6 +81,7 @@ class PILColorBalance(object):
             random_color_balance = PILColorBalance()
             processed_image = random_color_balance(image)
     """
+
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -114,6 +115,7 @@ class PILContrast(object):
             random_contrast = PILContrast()
             processed_image = random_contrast(image)
     """
+
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -147,6 +149,7 @@ class PILBrightness(object):
             random_brightness = PILBrightness()
             processed_image = random_brightness(image)
     """
+
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -180,6 +183,7 @@ class PILSharpness(object):
             random_sharpness = PILSharpness()
             processed_image = random_sharpness(image)
     """
+
     def __init__(self, var: float):
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
@@ -199,7 +203,7 @@ class PILSharpness(object):
 
 class RandomOrder(object):
     """Composes several transforms together in random order.
-    
+
     Args:
         transforms (Iterable[Callable]): An iterable containing callable objects
             which take PIL.Image as input and outputs the same object type.
@@ -245,7 +249,7 @@ class RandomOrder(object):
 
 class PowerPIL(RandomOrder):
     """Composes several transforms together in random order.
-    
+
     Args:
         transforms (Iterable[Callable]): An iterable containing callable objects
             which take PIL.Image as input and outputs the same object type.
@@ -257,6 +261,7 @@ class PowerPIL(RandomOrder):
             powerpil = PowerPIL(True, True, 0.1, 0.1, 0.1, 0.1)
             processed_image = powerpil(image)
     """
+
     def __init__(
         self,
         rotate: bool = True,

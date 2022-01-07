@@ -1,8 +1,16 @@
+import torch
 import torch.nn as nn
 
 
 class FashionCNN(nn.Module):
-    def __init__(self, out_size=128):
+    """Small CNN network for FashionMNIST dataset.
+
+    Args:
+        out_size (int): Size of the output embedding for the feature extraction
+            network. Defaults to 128.
+    """
+
+    def __init__(self, out_size: int = 128):
         super(FashionCNN, self).__init__()
 
         self.layer1 = nn.Sequential(
@@ -24,7 +32,17 @@ class FashionCNN(nn.Module):
         self.fc2 = nn.Linear(in_features=512, out_features=out_size)
         self.relu = nn.ReLU()
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
+        """Define the computation performed at every call.
+
+        forward computation for FashionCNN.
+
+        Args:
+            x (torch.Tensor): input to the model.
+
+        Returns:
+            torch.Tensor: same tensor as the input.
+        """
         out = self.layer1(x)
         out = self.layer2(out)
         out = out.view(out.size(0), -1)
@@ -36,9 +54,26 @@ class FashionCNN(nn.Module):
 
 
 class FashionClassifier(nn.Module):
-    def __init__(self, embedding_size=128, classes=10):
+    """Classifier network for FashionCNN.
+
+    Args:
+        embedding_size (int): embedding size from FashionCNN network. Defaults to 128.
+        classes (int): number of output classes for the classifier. Defaults to 10.
+    """
+
+    def __init__(self, embedding_size: int = 128, classes: int = 10):
         super(FashionClassifier, self).__init__()
         self.fc = nn.Linear(in_features=embedding_size, out_features=classes)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
+        """Define the computation performed at every call.
+
+        forward computation for FashionCNN.
+
+        Args:
+            x (torch.Tensor): input to the model.
+
+        Returns:
+            torch.Tensor: same tensor as the input.
+        """
         return self.fc(x)

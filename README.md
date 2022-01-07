@@ -197,4 +197,3 @@ For the code execution run:
 ```bash
 python train.py mnist.yaml
 ```
-
