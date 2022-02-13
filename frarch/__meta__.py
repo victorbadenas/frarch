@@ -8,5 +8,5 @@ version = "0.1.3"
 author = "vbadenas"
 author_email = "victor.badenas@gmail.com"
 description = "Training Framework for PyTorch projects"  # One-liner
-url = "https://github.com/vbadenas/frarch"  # your project homepage
+url = "https://github.com/victorbadenas/frarch"  # your project homepage
 license = "Apache 2.0"  # See https://choosealicense.com
