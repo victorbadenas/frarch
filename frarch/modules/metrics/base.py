@@ -1,20 +1,25 @@
+import abc
+
+import torch
+
 AGGREGATION_MODES = ["mean", "max", "min"]
 
 
-class Metric:
-    def __init__(self):
+class Metric(metaclass=abc.ABCMeta):
+    def __init__(self) -> None:
         self.reset()
 
-    def reset(self):
+    def reset(self) -> None:
         self.metrics = []
 
-    def update(self):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def update(self, predictions: torch.Tensor, truth: torch.Tensor) -> None:
+        pass
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.metrics)
 
-    def get_metric(self, mode="mean"):
+    def get_metric(self, mode="mean") -> float:
         if len(self) == 0:
             return 0.0
 

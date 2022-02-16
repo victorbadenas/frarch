@@ -1,22 +1,26 @@
+from typing import Any, Mapping
+
 from .base import Metric
 
 
 class MetricsWrapper:
-    def __init__(self, **kwargs):
+    """Class to store a set of metrics and perform operations in all of them simultaneously."""
+    def __init__(self, **kwargs: Metric) -> None:
         for k, v in kwargs.items():
             if not isinstance(v, Metric):
                 raise ValueError(f"value for key {k} should inherit from Metric")
             setattr(self, k, v)
 
-    def reset(self):
+    def reset(self) -> None:
+        """Calls reset for all metrics in the MetricsWrapper class."""
         for _, v in self.__dict__.items():
             v.reset()
 
-    def update(self, *args, **kwargs):
+    def update(self, *args: Any, **kwargs: Any) -> None:
         for _, v in self.__dict__.items():
             v.update(*args, **kwargs)
 
-    def get_metrics(self, *args, **kwargs):
+    def get_metrics(self, *args: Any, **kwargs: Any) -> Mapping[str, Metric]:
         metrics = {}
         for k, v in self.__dict__.items():
             metrics[k] = v.get_metric(*args, **kwargs)
