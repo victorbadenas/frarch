@@ -4,9 +4,10 @@ import random
 import tarfile
 from collections import Counter
 from pathlib import Path
-from typing import Callable, Union
+from typing import Callable, Union, List
 from urllib.parse import urlparse
 
+import torch
 from PIL import Image
 from torch.utils.data import Dataset
 
@@ -63,7 +64,7 @@ class Mit67(Dataset):
         target_transform: Callable = None,
         download: bool = True,
         root: Union[str, Path] = "~/.cache/frarch/datasets/mit67/",
-    ):
+    ) -> None:
         self.root = Path(root).expanduser()
         self.set = "train" if train else "test"
         self.transform = transform
@@ -87,7 +88,7 @@ class Mit67(Dataset):
             f" in {len(self.classes)} classes"
         )
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Union[torch.Tensor, int]:
         path, target = self.images[index]
         img = Image.open(path).convert("RGB")
         if self.transform is not None:
@@ -96,7 +97,7 @@ class Mit67(Dataset):
             target = self.target_transform(target)
         return img, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.images)
 
     def get_number_classes(self) -> int:
@@ -107,7 +108,7 @@ class Mit67(Dataset):
         """
         return len(self.classes)
 
-    def _download_mit_dataset(self):
+    def _download_mit_dataset(self) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
 
         # download train/val images/annotations
@@ -127,28 +128,28 @@ class Mit67(Dataset):
         logger.info("[dataset] Done!")
         cached_file.unlink()
 
-    def _get_file_paths(self):
+    def _get_file_paths(self) -> List[Path]:
         return list(self.root.glob("Images/*/*.jpg"))
 
-    def _detect_dataset(self):
+    def _detect_dataset(self) -> bool:
         if not self.root.exists():
             return False
         else:
             num_images = len(self._get_file_paths())
             return num_images > 0
 
-    def _build_and_load_data_files(self):
+    def _build_and_load_data_files(self) -> None:
         all_paths = self._get_file_paths()
         self._load_class_map(all_paths)
         self._load_train_test_files(all_paths)
 
-    def _load_class_map(self, all_paths):
+    def _load_class_map(self, all_paths: List[Path]) -> None:
         if not self.mapper_path.exists():
             self._build_class_mapper(all_paths)
         with self.mapper_path.open("r") as f:
             self.classes = json.load(f)
 
-    def _build_class_mapper(self, all_paths):
+    def _build_class_mapper(self, all_paths: List[Path]) -> None:
         classes_set = set(map(lambda path: path.parts[-2], all_paths))
         logger.info(f"found {len(classes_set)} classes.")
         class_mapper = dict(zip(classes_set, range(len(classes_set))))
@@ -156,12 +157,12 @@ class Mit67(Dataset):
         with self.mapper_path.open("w") as f:
             json.dump(class_mapper, f)
 
-    def _load_train_test_files(self, all_paths):
+    def _load_train_test_files(self, all_paths: List[Path]) -> None:
         if not self.train_lst_path.exists() and not self.valid_lst_path.exists():
             self._build_train_test_files(all_paths)
         self._load_set(self.set)
 
-    def _build_train_test_files(self, all_paths):
+    def _build_train_test_files(self, all_paths: List[Path]) -> None:
         classes_list = list(map(lambda path: path.parts[-2], all_paths))
         instance_counter = Counter(classes_list)
 
@@ -204,7 +205,7 @@ class Mit67(Dataset):
             for line in valid_instances:
                 f.write(",".join(map(str, line)) + "\n")
 
-    def _load_set(self, set):
+    def _load_set(self, set: str) -> None:
         path = self.train_lst_path if set == "train" else self.valid_lst_path
         with path.open("r") as f:
             self.images = []

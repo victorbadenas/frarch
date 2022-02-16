@@ -3,8 +3,9 @@ import logging
 import random
 from collections import Counter
 from pathlib import Path
-from typing import Callable, Union
+from typing import Callable, Union, Tuple, List, Iterable, Mapping
 
+import torch
 from PIL import Image
 from torch.utils.data import Dataset
 
@@ -50,7 +51,7 @@ class Caltech101(Dataset):
         transform: Callable = None,
         target_transform: Callable = None,
         root: Union[str, Path] = "./data/",
-    ):
+    ) -> None:
         if subset not in ["train", "valid"]:
             raise ValueError(f"set must be train or test not {subset}")
 
@@ -78,7 +79,7 @@ class Caltech101(Dataset):
             f" in {len(self.classes)} classes"
         )
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Tuple[torch.Tensor, int]:
         path, target = self.images[index]
         img = Image.open(path).convert("RGB")
         if self.transform is not None:
@@ -87,7 +88,7 @@ class Caltech101(Dataset):
             target = self.target_transform(target)
         return img, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.images)
 
     def get_number_classes(self) -> int:
@@ -98,36 +99,36 @@ class Caltech101(Dataset):
         """
         return len(self.classes)
 
-    def _detect_dataset(self):
+    def _detect_dataset(self) -> bool:
         if not self.root.exists():
             return False
         else:
             num_images = len(self._get_file_paths())
             return num_images > 0
 
-    def _build_and_load_lst(self):
+    def _build_and_load_lst(self) -> None:
         all_paths = self._get_file_paths()
         self._build_and_load_class_map(all_paths)
         self._load_train_test_files(all_paths)
 
-    def _build_and_load_class_map(self, all_paths):
+    def _build_and_load_class_map(self, all_paths: List[Path]) -> None:
         if not self.mapper_path.exists():
             self._build_class_mapper(all_paths)
         self._load_class_map()
 
-    def _build_class_mapper(self, all_paths):
+    def _build_class_mapper(self, all_paths: List[Path]) -> None:
         classes_set = set(map(lambda path: path.parts[-2], all_paths))
         logger.info(f"found {len(classes_set)} classes.")
         class_mapper = dict(zip(classes_set, range(len(classes_set))))
         logger.info(f"class mapper built: {class_mapper}")
         self._dump_class_map(class_mapper)
 
-    def _load_train_test_files(self, all_paths):
+    def _load_train_test_files(self, all_paths: List[Path]) -> None:
         if not self.train_lst_path.exists() and not self.valid_lst_path.exists():
             self._build_train_test_files(all_paths)
         self._load_set()
 
-    def _build_train_test_files(self, all_paths):
+    def _build_train_test_files(self, all_paths: List[Path]) -> None:
         classes_list = list(map(lambda path: path.parts[-2], all_paths))
         instance_counter = Counter(classes_list)
 
@@ -167,16 +168,16 @@ class Caltech101(Dataset):
         self._write_lst(self.valid_lst_path, valid_instances)
 
     @staticmethod
-    def _write_lst(path, instances):
+    def _write_lst(path: Path, instances: Iterable) -> None:
         with path.open("w") as f:
             for line in instances:
                 f.write(",".join(map(str, line)) + "\n")
 
-    def _get_file_paths(self):
+    def _get_file_paths(self) -> List[Path]:
         all_files = list(self.root.glob("*/*.jpg"))
         return list(filter(lambda x: x.parts[-2] != "BACKGROUND_Google", all_files))
 
-    def _load_set(self):
+    def _load_set(self) -> None:
         path = self.train_lst_path if self.set == "train" else self.valid_lst_path
         with path.open("r") as f:
             self.images = []
@@ -184,10 +185,10 @@ class Caltech101(Dataset):
                 path, label = line.strip().split(",")
                 self.images.append((path, int(label)))
 
-    def _dump_class_map(self, class_mapper):
+    def _dump_class_map(self, class_mapper: Mapping) -> None:
         with self.mapper_path.open("w") as f:
             json.dump(class_mapper, f)
 
-    def _load_class_map(self):
+    def _load_class_map(self) -> None:
         with self.mapper_path.open("r") as f:
             self.classes = json.load(f)

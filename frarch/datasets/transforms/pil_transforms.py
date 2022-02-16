@@ -1,5 +1,5 @@
 import random
-from typing import Callable, Iterable, Union
+from typing import Callable, Iterable, Optional, Union
 
 import PIL.Image as im
 import PIL.ImageEnhance as ie
@@ -22,7 +22,7 @@ class RandomFlip(object):
             processed_image = random_flip(image)
     """
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -49,7 +49,7 @@ class RandomRotate(object):
             processed_image = random_rotate(image)
     """
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -82,7 +82,7 @@ class PILColorBalance(object):
             processed_image = random_color_balance(image)
     """
 
-    def __init__(self, var: float):
+    def __init__(self, var: float) -> None:
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
@@ -91,7 +91,7 @@ class PILColorBalance(object):
             )
         self.var = var
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -116,7 +116,7 @@ class PILContrast(object):
             processed_image = random_contrast(image)
     """
 
-    def __init__(self, var: float):
+    def __init__(self, var: float) -> None:
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
@@ -125,7 +125,7 @@ class PILContrast(object):
             )
         self.var = var
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -150,7 +150,7 @@ class PILBrightness(object):
             processed_image = random_brightness(image)
     """
 
-    def __init__(self, var: float):
+    def __init__(self, var: float) -> None:
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
@@ -159,7 +159,7 @@ class PILBrightness(object):
             )
         self.var = var
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -184,7 +184,7 @@ class PILSharpness(object):
             processed_image = random_sharpness(image)
     """
 
-    def __init__(self, var: float):
+    def __init__(self, var: float) -> None:
         if not isinstance(var, float):
             raise ValueError(f"{self.__class__.__name__}.var must be a float value")
         if var < 0 or var > 1:
@@ -193,7 +193,7 @@ class PILSharpness(object):
             )
         self.var = var
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -225,7 +225,7 @@ class RandomOrder(object):
             processed_image = random_sharpness(image)
     """
 
-    def __init__(self, transforms: Union[Iterable[Callable], NoneType]):
+    def __init__(self, transforms: Optional[Iterable[Callable]]) -> None:
         if not isinstance(transforms, (Iterable, NoneType)):
             raise ValueError("transforms must be an iterable object")
         if transforms is not None:
@@ -235,7 +235,7 @@ class RandomOrder(object):
                 raise ValueError("all objects in transforms must be callable")
         self.transforms = transforms
 
-    def __call__(self, img: Image):
+    def __call__(self, img: Image) -> Image:
         if not isinstance(img, Image):
             raise ValueError(f"img is {type(img)} not a PIL.Image object")
 
@@ -270,7 +270,7 @@ class PowerPIL(RandomOrder):
         contrast: float = 0.4,
         brightness: float = 0.4,
         sharpness: float = 0.4,
-    ):
+    ) -> None:
         self._check_parameters(
             rotate, flip, colorbalance, contrast, brightness, sharpness
         )
@@ -289,7 +289,7 @@ class PowerPIL(RandomOrder):
             self.transforms.append(PILSharpness(sharpness))
 
     @staticmethod
-    def _check_parameters(rotate, flip, colorbalance, contrast, brightness, sharpness):
+    def _check_parameters(rotate, flip, colorbalance, contrast, brightness, sharpness) -> None:
         if not isinstance(rotate, bool):
             raise ValueError("rotate must be boolean")
         if not isinstance(flip, bool):
