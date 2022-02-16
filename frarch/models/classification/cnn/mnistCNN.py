@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -12,14 +13,14 @@ class MNISTCNN(nn.Module):
             network. Defaults to 256.
     """
 
-    def __init__(self, input_channels: int = 1, embedding_size: int = 256):
+    def __init__(self, input_channels: int = 1, embedding_size: int = 256) -> None:
         super(MNISTCNN, self).__init__()
         self.conv1 = nn.Conv2d(input_channels, 32, kernel_size=10, padding="same")
         self.conv2 = nn.Conv2d(32, 32, kernel_size=10, padding="same")
         self.conv3 = nn.Conv2d(32, 64, kernel_size=10, padding="same")
         self.fc1 = nn.Linear(64 * 7 * 7, embedding_size)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Define the computation performed at every call.
 
         forward computation for MNISTCNN.
@@ -49,11 +50,11 @@ class MNISTClassifier(nn.Module):
         classes (int): number of output classes for the classifier. Defaults to 10.
     """
 
-    def __init__(self, embedding_size: int = 256, num_classes: int = 10):
+    def __init__(self, embedding_size: int = 256, num_classes: int = 10) -> None:
         super(MNISTClassifier, self).__init__()
         self.fc2 = nn.Linear(embedding_size, num_classes)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Define the computation performed at every call.
 
         forward computation for MNISTClassifier.

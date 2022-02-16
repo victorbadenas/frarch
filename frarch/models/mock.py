@@ -7,10 +7,10 @@ class BypassModel(torch.nn.Module):
     Module that returns the same argument that is given.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(BypassModel, self).__init__()
 
-    def forward(self, x: torch.Tensor):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Compute forward for bypass model.
 
         Args:

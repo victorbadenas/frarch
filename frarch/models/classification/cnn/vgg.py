@@ -12,7 +12,7 @@ VGG definition. Slightly modified pytorch implementation.
 
 import logging
 from collections import OrderedDict
-from typing import Any, Dict, List, Union, cast
+from typing import Any, Dict, List, Union, cast, Mapping, Iterable
 
 import torch
 import torch.nn as nn
@@ -197,7 +197,7 @@ class VGGClassifier(nn.Module):
         arch (str, optional): Architecture to load as pretrained. Defaults to "".
     """
 
-    def __init__(self, num_classes, init_weights=True, pretrained=False, arch=""):
+    def __init__(self, num_classes: int, init_weights: bool = True, pretrained: bool = False, arch: str = "") -> None:
         super(VGGClassifier, self).__init__()
         self.in_features = 25088
         self.num_classes = num_classes
@@ -228,14 +228,14 @@ class VGGClassifier(nn.Module):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
 
-    def _load_pretrained(self, arch):
+    def _load_pretrained(self, arch: str) -> None:
         state_dict = load_state_dict_from_url(model_urls[arch], progress=True)
         _, classifier_state_dict = split_state_dict(
             state_dict, "features", "classifier"
         )
         self.load_state_dict(classifier_state_dict)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Define the computation performed at every call.
 
         forward computation for VGG.
@@ -250,7 +250,7 @@ class VGGClassifier(nn.Module):
         return x
 
 
-def split_state_dict(state_dict, *search_strings):
+def split_state_dict(state_dict: Mapping, *search_strings: Iterable[str]) -> List[Mapping]:
     results = [OrderedDict() for _ in range(len(search_strings))]
     for i, string in enumerate(search_strings):
         for k in state_dict.keys():
