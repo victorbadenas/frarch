@@ -4,7 +4,8 @@ from .base import Metric
 
 
 class MetricsWrapper:
-    """Class to store a set of metrics and perform operations in all of them simultaneously."""
+    """Store a set of metrics and perform operations in all of them simultaneously."""
+
     def __init__(self, **kwargs: Metric) -> None:
         for k, v in kwargs.items():
             if not isinstance(v, Metric):
@@ -12,7 +13,7 @@ class MetricsWrapper:
             setattr(self, k, v)
 
     def reset(self) -> None:
-        """Calls reset for all metrics in the MetricsWrapper class."""
+        """Call reset in all metrics in the MetricsWrapper class."""
         for _, v in self.__dict__.items():
             v.reset()
 

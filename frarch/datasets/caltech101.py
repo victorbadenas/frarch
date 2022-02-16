@@ -3,7 +3,7 @@ import logging
 import random
 from collections import Counter
 from pathlib import Path
-from typing import Callable, Union, Tuple, List, Iterable, Mapping
+from typing import Callable, Iterable, List, Mapping, Tuple, Union
 
 import torch
 from PIL import Image

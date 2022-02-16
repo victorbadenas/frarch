@@ -1,7 +1,7 @@
 import logging
 import tarfile
 from pathlib import Path
-from typing import Callable, Union, List
+from typing import Callable, List, Union
 from urllib.parse import urlparse
 
 import torch

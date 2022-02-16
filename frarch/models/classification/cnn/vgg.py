@@ -12,7 +12,7 @@ VGG definition. Slightly modified pytorch implementation.
 
 import logging
 from collections import OrderedDict
-from typing import Any, Dict, List, Union, cast, Mapping, Iterable
+from typing import Any, Dict, Iterable, List, Mapping, Union, cast
 
 import torch
 import torch.nn as nn
@@ -197,7 +197,13 @@ class VGGClassifier(nn.Module):
         arch (str, optional): Architecture to load as pretrained. Defaults to "".
     """
 
-    def __init__(self, num_classes: int, init_weights: bool = True, pretrained: bool = False, arch: str = "") -> None:
+    def __init__(
+        self,
+        num_classes: int,
+        init_weights: bool = True,
+        pretrained: bool = False,
+        arch: str = "",
+    ) -> None:
         super(VGGClassifier, self).__init__()
         self.in_features = 25088
         self.num_classes = num_classes
@@ -250,7 +256,9 @@ class VGGClassifier(nn.Module):
         return x
 
 
-def split_state_dict(state_dict: Mapping, *search_strings: Iterable[str]) -> List[Mapping]:
+def split_state_dict(
+    state_dict: Mapping, *search_strings: Iterable[str]
+) -> List[Mapping]:
     results = [OrderedDict() for _ in range(len(search_strings))]
     for i, string in enumerate(search_strings):
         for k in state_dict.keys():

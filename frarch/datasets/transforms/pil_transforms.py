@@ -289,7 +289,9 @@ class PowerPIL(RandomOrder):
             self.transforms.append(PILSharpness(sharpness))
 
     @staticmethod
-    def _check_parameters(rotate, flip, colorbalance, contrast, brightness, sharpness) -> None:
+    def _check_parameters(
+        rotate, flip, colorbalance, contrast, brightness, sharpness
+    ) -> None:
         if not isinstance(rotate, bool):
             raise ValueError("rotate must be boolean")
         if not isinstance(flip, bool):
