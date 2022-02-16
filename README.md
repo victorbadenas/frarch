@@ -14,7 +14,7 @@ Frarch is a **Fra**mework for Pyto**rch** experiments inspired by [speechbrain's
 
 - `CPU` and `CUDA` computations. Note that CUDA must be installed for Pytorch and as such frarch to compute in an NVIDIA GPU. Multi-GPU is not supported at the moment, but will be supported in the future.
 - Minimize the size of training scripts.
-- Support for Python's 3.7, 3.8 and 3.9 versions
+- Support for Python's 3.7, 3.8, 3.9 and 3.10 versions
 - yaml definition of training hyperparameters.
 - organisation of output models and their hyperparameters, training scripts and logs.
 
