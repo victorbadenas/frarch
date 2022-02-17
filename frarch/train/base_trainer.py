@@ -14,14 +14,17 @@ __author__ = "victor badenas"
 
 import logging
 import sys
+from typing import Any, Mapping, Optional, Type, Union
 
 import torch
+from torch.utils.data import DataLoader, Dataset
 
+from frarch.modules import Checkpointer
 from frarch.utils.stages import Stage
 
 logger = logging.getLogger(__name__)
 PYTHON_VERSION_MAJOR = 3
-PYTHON_VERSION_MINOR = 6
+PYTHON_VERSION_MINOR = 7
 
 default_values = {
     "debug": False,
@@ -35,7 +38,28 @@ default_values = {
 
 
 class BaseTrainer:
-    def __init__(self, modules, opt_class, hparams, checkpointer=None):
+    """Abstract class for trainer managers.
+
+    Args:
+        modules (Mapping[str, torch.nn.Module]): trainable modules in the training.
+        opt_class (Type[torch.optim.Optimizer]): optimizer class for training.
+        hparams (Mapping[str, Any]): hparams dict-like structure from hparams file.
+        checkpointer (Optional[Checkpointer], optional): Checkpointer class for saving
+            the model and the hyperparameters needed. If None, no checkpoints are saved.
+            Defaults to None.
+
+    Raises:
+        ValueError: ckpt_interval_minutes must be > 0 or None
+        SystemError: Python version not supported. Python version must be >= 3.7
+    """
+
+    def __init__(
+        self,
+        modules: Mapping[str, torch.nn.Module],
+        opt_class: Type[torch.optim.Optimizer],
+        hparams: Mapping[str, Any],
+        checkpointer: Optional[Checkpointer] = None,
+    ) -> None:
         self.hparams = hparams
         self.opt_class = opt_class
         self.checkpointer = checkpointer
@@ -74,11 +98,33 @@ class BaseTrainer:
         self.step = 0
 
     def __call__(self, *args, **kwargs):
+        """Alias for fit."""
         return self.fit(*args, **kwargs)
 
-    def on_fit_start(self):
+    def fit(
+        self,
+        train_set: Union[Dataset, DataLoader],
+        valid_set: Optional[Union[Dataset, DataLoader]] = None,
+        train_loader_kwargs: dict = None,
+        valid_loader_kwargs: dict = None,
+    ) -> None:
+        """Fit the modules to the dataset. Main function of the Trainer class.
+
+        Args:
+            train_set (Union[Dataset, DataLoader]): dataset for training.
+            valid_set (Optional[Union[Dataset, DataLoader]], optional): dataset for
+                validation. If not provided, validation will not be performed.
+                Defaults to None.
+            train_loader_kwargs (dict, optional): optional kwargs for train dataloader.
+                Defaults to None.
+            valid_loader_kwargs (dict, optional): optional kwargs for valid dataloader.
+                Defaults to None.
+        """
+        raise NotImplementedError
+
+    def _on_fit_start(self):
         # Initialize optimizers
-        self.init_optimizers()
+        self._init_optimizers()
 
         # set first epoch index
         self.start_epoch = 0
@@ -96,61 +142,54 @@ class BaseTrainer:
                     )
 
         if self.start_epoch == 0:
-            self.save_initial_weights()
+            self._save_initial_weights()
 
-    def save_initial_weights(self):
+    def _save_initial_weights(self):
         if self.checkpointer is not None:
             self.checkpointer.save_initial_weights()
 
-    def init_optimizers(self):
+    def _init_optimizers(self):
         if self.opt_class is not None:
             self.optimizer = self.opt_class(self.modules.parameters())
 
-    def on_fit_end(self, epoch=None):
+    def _on_fit_end(self, epoch: Optional[int] = None):
         pass
 
-    def on_stage_start(self, stage, epoch=None):
+    def _on_stage_start(self, stage: Stage, epoch: Optional[int] = None):
         pass
 
-    def on_stage_end(self, stage, loss=None, epoch=None):
+    def _on_stage_end(self, stage: Stage, loss=None, epoch: Optional[int] = None):
         pass
 
-    def on_train_interval(self, epoch=None):
+    def _on_train_interval(self, epoch: Optional[int] = None):
         pass
 
-    def save_intra_epoch_ckpt(self):
+    def _save_intra_epoch_ckpt(self):
         raise NotImplementedError
 
-    def forward(self, batch, stage):
+    def _forward(self, batch: torch.Tensor, stage: Stage):
         raise NotImplementedError
 
-    def evaluate_batch(self, batch, stage):
-        out = self.forward(batch, stage=stage)
-        loss = self.compute_loss(out, batch, stage=stage)
+    def _evaluate_batch(self, batch: torch.Tensor, stage: Stage):
+        out = self._forward(batch, stage=stage)
+        loss = self._compute_loss(out, batch, stage=stage)
         return loss.detach().cpu()
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(
+        self, predictions: torch.Tensor, batch: torch.Tensor, stage: Stage
+    ):
         raise NotImplementedError
 
-    def fit_batch(self, batch):
+    def _fit_batch(self, batch: torch.Tensor):
         self.optimizer.zero_grad()
-        outputs = self.forward(batch, Stage.TRAIN)
-        loss = self.compute_loss(outputs, batch, Stage.TRAIN)
+        outputs = self._forward(batch, Stage.TRAIN)
+        loss = self._compute_loss(outputs, batch, Stage.TRAIN)
         loss.backward()
         self.optimizer.step()
         return loss.detach().cpu()
 
-    def update_average(self, loss, avg_loss):
+    def _update_average(self, loss: torch.Tensor, avg_loss: torch.Tensor):
         if torch.isfinite(loss):
             avg_loss -= avg_loss / self.step
             avg_loss += float(loss) / self.step
         return avg_loss
-
-    def fit(
-        self,
-        train_set,
-        valid_set=None,
-        train_loader_kwargs: dict = None,
-        valid_loader_kwargs: dict = None,
-    ):
-        raise NotImplementedError

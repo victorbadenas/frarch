@@ -31,12 +31,12 @@ from frarch.utils.stages import Stage
 
 
 class PlacesTrainer(fr.train.ClassifierTrainer):
-    def forward(self, batch, stage):
+    def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
         return self.modules.model(inputs)
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
         loss = self.hparams["loss"](predictions, labels)
@@ -44,10 +44,10 @@ class PlacesTrainer(fr.train.ClassifierTrainer):
             self.hparams["metrics"].update(predictions, labels)
         return loss
 
-    def on_stage_start(self, stage, loss=None, epoch=None):
+    def _on_stage_start(self, stage, loss=None, epoch=None):
         self.hparams["metrics"].reset()
 
-    def on_stage_end(self, stage, loss=None, epoch=None):
+    def _on_stage_end(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             metrics = self.hparams["metrics"].get_metrics(mode="mean")
             metrics_string = "".join([f"{k}=={v:.4f}" for k, v in metrics.items()])
@@ -62,7 +62,7 @@ class PlacesTrainer(fr.train.ClassifierTrainer):
                     **metrics, epoch=self.current_epoch, current_step=self.step
                 )
 
-    def save_intra_epoch_ckpt(self):
+    def _save_intra_epoch_ckpt(self):
         if self.checkpointer is not None:
             self.checkpointer.save(
                 epoch=self.current_epoch, current_step=self.step, intra_epoch=True

@@ -30,12 +30,12 @@ class MockDataset(torch.utils.data.Dataset):
 
 
 class TestClassifierTrainer(ClassifierTrainer):
-    def forward(self, batch, stage):
+    def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
         return self.modules.model(inputs)
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
         return self.hparams["loss"](predictions, labels)

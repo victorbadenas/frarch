@@ -27,25 +27,25 @@ from frarch.utils.stages import Stage
 
 
 class Caltech101Trainer(fr.train.ClassifierTrainer):
-    def forward(self, batch, stage):
+    def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
         return self.modules.model(inputs)
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
         loss = self.hparams["loss"](predictions, labels)
         self.hparams["metrics"].update(predictions, labels)
         return loss
 
-    def on_stage_start(self, stage, loss=None, epoch=None):
+    def _on_stage_start(self, stage, loss=None, epoch=None):
         self.hparams["metrics"].reset()
         if self.debug:
             metrics = self.hparams["metrics"].get_metrics(mode="mean")
             logger.debug(metrics)
 
-    def on_stage_end(self, stage, loss=None, epoch=None):
+    def _on_stage_end(self, stage, loss=None, epoch=None):
         metrics = self.hparams["metrics"].get_metrics(mode="mean")
         metrics_string = "".join([f"{k}={v:.4f}" for k, v in metrics.items()])
 
