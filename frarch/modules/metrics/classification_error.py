@@ -4,8 +4,20 @@ from .base import Metric
 
 
 class ClassificationError(Metric):
-    def update(self, predictions, truth):
+    """Classification error metric.
+
+    Example:
+        Sample code for use of the ClassificationError metric class:
+            model = MyModel()
+            error = ClassificationError()
+            for batch, labels in dataset:
+                predictions = model(batch)
+                error.update(predictions, labels)
+            print(error.get_metric(mode="mean"))
+    """
+
+    def _update(self, predictions: torch.Tensor, truth: torch.Tensor) -> torch.Tensor:
         if predictions.shape[0] != truth.shape[0]:
             raise ValueError(f"mismatched shapes {predictions.shape} != {truth.shape}")
         predictions = torch.argmax(predictions, dim=-1)
-        self.metrics.append((predictions != truth).float().mean().item())
+        return (predictions != truth).float().mean().item()

@@ -6,17 +6,17 @@ from frarch.utils.stages import Stage
 
 
 class MNISTTrainer(fr.train.ClassifierTrainer):
-    def forward(self, batch, stage):
+    def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
         return self.modules.model(inputs)
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
         return self.hparams["loss"](predictions, labels)
 
-    def on_stage_end(self, stage, loss=None, epoch=None):
+    def _on_stage_end(self, stage, loss=None, epoch=None):
         if stage == Stage.VALID:
             if self.checkpointer is not None:
                 self.checkpointer.save(epoch=self.current_epoch, current_step=self.step)

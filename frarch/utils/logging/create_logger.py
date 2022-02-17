@@ -5,6 +5,19 @@ from typing import Union
 
 
 def create_logger_file(log_file_path: Union[str, Path], debug=False, stdout=False):
+    """Create logger file in file path.
+
+    Args:
+        log_file_path (Union[str, Path]): path to logger file.
+        debug (bool, optional): log debug statements. Defaults to False.
+        stdout (bool, optional): log to stdout as well as to the log file.
+            Defaults to False.
+
+    Raises:
+        ValueError: log_file_path is not a str or pathlib.Path object.
+        ValueError: debug is not boolean.
+        ValueError: stdout is not boolean.
+    """
     if not isinstance(log_file_path, (str, Path)):
         raise ValueError("path must be a string or Path object")
     if not isinstance(debug, bool):
