@@ -321,7 +321,7 @@
                 
   <h1>Source code for frarch.datasets.transforms.pil_transforms</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">PIL.Image</span> <span class="k">as</span> <span class="nn">im</span>
 <span class="kn">import</span> <span class="nn">PIL.ImageEnhance</span> <span class="k">as</span> <span class="nn">ie</span>
@@ -334,10 +334,17 @@
 <div class="viewcode-block" id="RandomFlip"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomFlip">[docs]</a><span class="k">class</span> <span class="nc">RandomFlip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Randomly flips the given PIL.Image.</span>
 
-<span class="sd">    Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is</span>
+<span class="sd">    Probability of 0.25 horizontal flip, 0.25 vertical flip, 0.5 no flip.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_flip = RandomFlip()</span>
+<span class="sd">            processed_image = random_flip(image)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -355,9 +362,16 @@
     <span class="sd">&quot;&quot;&quot;Randomly rotate the given PIL.Image.</span>
 
 <span class="sd">    Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_rotate = RandomRotate()</span>
+<span class="sd">            processed_image = random_rotate(image)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -374,7 +388,23 @@
 
 
 <div class="viewcode-block" id="PILColorBalance"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILColorBalance">[docs]</a><span class="k">class</span> <span class="nc">PILColorBalance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomly dim or enhance color of an image.</span>
+
+<span class="sd">    Randomly dim or enhance color of an image given as an input. Given var value,</span>
+<span class="sd">    enhance color from a 1-var factor to a 1+var factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        var (float): float value to get random alpha value from [1-var, 1+var].</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_color_balance = PILColorBalance()</span>
+<span class="sd">            processed_image = random_color_balance(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.__class__.__name__}</span><span class="s2">.var must be a float value&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">var</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">var</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -383,7 +413,7 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -392,7 +422,23 @@
 
 
 <div class="viewcode-block" id="PILContrast"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILContrast">[docs]</a><span class="k">class</span> <span class="nc">PILContrast</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomly dim or enhance contrast of an image.</span>
+
+<span class="sd">    Randomly dim or enhance contrast of an image given as an input. Given var value,</span>
+<span class="sd">    enhance contrast from a 1-var factor to a 1+var factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        var (float): float value to get random alpha value from [1-var, 1+var].</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_contrast = PILContrast()</span>
+<span class="sd">            processed_image = random_contrast(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.__class__.__name__}</span><span class="s2">.var must be a float value&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">var</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">var</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -401,7 +447,7 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -410,7 +456,23 @@
 
 
 <div class="viewcode-block" id="PILBrightness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILBrightness">[docs]</a><span class="k">class</span> <span class="nc">PILBrightness</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomly dim or enhance brightness of an image.</span>
+
+<span class="sd">    Randomly dim or enhance brightness of an image given as an input. Given var value,</span>
+<span class="sd">    enhance brightness from a 1-var factor to a 1+var factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        var (float): float value to get random alpha value from [1-var, 1+var].</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_brightness = PILBrightness()</span>
+<span class="sd">            processed_image = random_brightness(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.__class__.__name__}</span><span class="s2">.var must be a float value&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">var</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">var</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -419,7 +481,7 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -428,7 +490,23 @@
 
 
 <div class="viewcode-block" id="PILSharpness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILSharpness">[docs]</a><span class="k">class</span> <span class="nc">PILSharpness</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Randomly dim or enhance sharpness of an image.</span>
+
+<span class="sd">    Randomly dim or enhance sharpness of an image given as an input. Given var value,</span>
+<span class="sd">    enhance sharpness from a 1-var factor to a 1+var factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        var (float): float value to get random alpha value from [1-var, 1+var].</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_sharpness = PILSharpness()</span>
+<span class="sd">            processed_image = random_sharpness(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.__class__.__name__}</span><span class="s2">.var must be a float value&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">var</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">var</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -437,7 +515,7 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">var</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -446,9 +524,30 @@
 
 
 <div class="viewcode-block" id="RandomOrder"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomOrder">[docs]</a><span class="k">class</span> <span class="nc">RandomOrder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Composes several transforms together in random order.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Composes several transforms together in random order.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span> <span class="n">NoneType</span><span class="p">]):</span>
+<span class="sd">    Args:</span>
+<span class="sd">        transforms (Iterable[Callable]): An iterable containing callable objects</span>
+<span class="sd">            which take PIL.Image as input and outputs the same object type.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            random_sharpness = RandomOrder(</span>
+<span class="sd">                [</span>
+<span class="sd">                    RandomFlip(),</span>
+<span class="sd">                    RandomRotate(),</span>
+<span class="sd">                    PILColorBalance(0.1),</span>
+<span class="sd">                    PILContrast(0.1),</span>
+<span class="sd">                    PILBrightness(0.1),</span>
+<span class="sd">                    PILSharpness(0.1),</span>
+<span class="sd">                ]</span>
+<span class="sd">            )</span>
+<span class="sd">            processed_image = random_sharpness(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Callable</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transforms</span><span class="p">,</span> <span class="p">(</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">NoneType</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;transforms must be an iterable object&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -458,7 +557,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;all objects in transforms must be callable&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">Image</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">Image</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;img is {type(img)} not a PIL.Image object&quot;</span><span class="p">)</span>
 
@@ -471,6 +570,20 @@
 
 
 <div class="viewcode-block" id="PowerPIL"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PowerPIL">[docs]</a><span class="k">class</span> <span class="nc">PowerPIL</span><span class="p">(</span><span class="n">RandomOrder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Composes several transforms together in random order.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        transforms (Iterable[Callable]): An iterable containing callable objects</span>
+<span class="sd">            which take PIL.Image as input and outputs the same object type.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Simple usage of the class::</span>
+
+<span class="sd">            image = PIL.Image.open(&quot;testimage.jpg&quot;)</span>
+<span class="sd">            powerpil = PowerPIL(True, True, 0.1, 0.1, 0.1, 0.1)</span>
+<span class="sd">            processed_image = powerpil(image)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">rotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -479,7 +592,7 @@
         <span class="n">contrast</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span>
         <span class="n">brightness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span>
         <span class="n">sharpness</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_parameters</span><span class="p">(</span>
             <span class="n">rotate</span><span class="p">,</span> <span class="n">flip</span><span class="p">,</span> <span class="n">colorbalance</span><span class="p">,</span> <span class="n">contrast</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">sharpness</span>
         <span class="p">)</span>
@@ -498,7 +611,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PILSharpness</span><span class="p">(</span><span class="n">sharpness</span><span class="p">))</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_parameters</span><span class="p">(</span><span class="n">rotate</span><span class="p">,</span> <span class="n">flip</span><span class="p">,</span> <span class="n">colorbalance</span><span class="p">,</span> <span class="n">contrast</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">sharpness</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_parameters</span><span class="p">(</span>
+        <span class="n">rotate</span><span class="p">,</span> <span class="n">flip</span><span class="p">,</span> <span class="n">colorbalance</span><span class="p">,</span> <span class="n">contrast</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">sharpness</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rotate</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rotate must be boolean&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flip</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>

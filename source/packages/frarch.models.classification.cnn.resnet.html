@@ -36,7 +36,7 @@
     <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="frarch.models.classification.cnn.smallCNNs module" href="frarch.models.classification.cnn.smallCNNs.html" />
+    <link rel="next" title="frarch.models.classification.cnn.vgg module" href="frarch.models.classification.cnn.vgg.html" />
     <link rel="prev" title="frarch.models.classification.cnn.mnistCNN module" href="frarch.models.classification.cnn.mnistCNN.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -360,18 +360,41 @@ pytorch.org</p>
 <dt id="frarch.models.classification.cnn.resnet.ResNet">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param">block: frarch.models.classification.cnn.resnet.ResNetBlock, layers: List[int], num_classes: int = 1000, zero_init_residual: bool = False, groups: int = 1, width_per_group: int = 64, replace_stride_with_dilation: Optional[List[bool]] = None, norm_layer: Optional[Callable[[...], torch.nn.modules.module.Module]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Residual network architecture model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<em>ResNetBlock</em>) – basic construction block for architecture.</p></li>
+<li><p><strong>layers</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – layer configuration. I.e. [2, 2, 2, 2].</p></li>
+<li><p><strong>num_classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>)</em>) – output classes. Defaults to 1000.</p></li>
+<li><p><strong>zero_init_residual</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – True to initialize the residual layers with zeros.
+Default False.</p></li>
+<li><p><strong>groups</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – groups for convolutional layers in residual blocks.
+Defaults to 1.</p></li>
+<li><p><strong>width_per_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Width for convolutional residual blocks. Defaults to 64.</p></li>
+<li><p><strong>replace_stride_with_dilation</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>]</em><em>]</em>) – Optional list of boolean
+values to replace stride with dilation. Defaults to None.</p></li>
+<li><p><strong>norm_layer</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>[</em><em>..</em><em>, </em><em>nn.Module</em><em>]</em><em>]</em>) – Norm layer. If None, defaults
+to BatchNorm2d. Defautls to None.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.resnet.ResNet.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for ResNet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -389,8 +412,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -404,8 +427,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -419,8 +442,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -434,8 +457,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -449,8 +472,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -464,8 +487,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -479,8 +502,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -498,8 +521,8 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -517,8 +540,8 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>progress</em>) – </p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – </p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
 </ul>
 </dd>
 </dl>
@@ -539,10 +562,10 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
             <p class="prev-next-title">frarch.models.classification.cnn.mnistCNN module</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="frarch.models.classification.cnn.smallCNNs.html" title="next page">
+    <a class='right-next' id="next-link" href="frarch.models.classification.cnn.vgg.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">frarch.models.classification.cnn.smallCNNs module</p>
+        <p class="prev-next-title">frarch.models.classification.cnn.vgg module</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

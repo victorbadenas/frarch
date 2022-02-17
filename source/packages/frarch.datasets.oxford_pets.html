@@ -369,6 +369,18 @@ Defaults to <cite>~/.cache/frarch/datasets/oxford_pets/</cite>.</p></li>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.robots.ox.ac.uk/~vgg/data/pets/">https://www.robots.ox.ac.uk/~vgg/data/pets/</a></p></li>
 </ul>
+<p class="rubric">Examples</p>
+<p>Simple usage of the dataset class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">frarch.datasets</span> <span class="kn">import</span> <span class="n">Mit67</span>
+<span class="kn">from</span> <span class="nn">frarch.utils.data</span> <span class="kn">import</span> <span class="n">create_dataloader</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OxfordPets</span><span class="p">(</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">ToTensor</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;./data/&quot;</span><span class="p">)</span>
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">create_dataloader</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="c1"># process batch</span>
+</pre></div>
+</div>
 <dl class="method">
 <dt id="frarch.datasets.oxford_pets.OxfordPets.get_number_classes">
 <code class="sig-name descname">get_number_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/frarch/datasets/oxford_pets.html#OxfordPets.get_number_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.oxford_pets.OxfordPets.get_number_classes" title="Permalink to this definition">¶</a></dt>

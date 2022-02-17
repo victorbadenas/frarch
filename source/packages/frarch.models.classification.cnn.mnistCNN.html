@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.models.classification.cnn.resnet module" href="frarch.models.classification.cnn.resnet.html" />
-    <link rel="prev" title="frarch.models.classification.cnn.fashionCNN module" href="frarch.models.classification.cnn.fashionCNN.html" />
+    <link rel="prev" title="frarch.models.classification.cnn.mitCNNs module" href="frarch.models.classification.cnn.mitCNNs.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -342,20 +342,35 @@
 <span id="frarch-models-classification-cnn-mnistcnn-module"></span><h1>frarch.models.classification.cnn.mnistCNN module<a class="headerlink" href="#module-frarch.models.classification.cnn.mnistCNN" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="frarch.models.classification.cnn.mnistCNN.MNISTCNN">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.mnistCNN.</code><code class="sig-name descname">MNISTCNN</code><span class="sig-paren">(</span><em class="sig-param">input_channels=1</em>, <em class="sig-param">embedding_size=256</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTCNN" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.mnistCNN.</code><code class="sig-name descname">MNISTCNN</code><span class="sig-paren">(</span><em class="sig-param">input_channels: int = 1</em>, <em class="sig-param">embedding_size: int = 256</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTCNN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Small CNN network for MNIST dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of input channels in the input tensor.
+Defaults to 1.</p></li>
+<li><p><strong>embedding_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the output embedding for the feature extraction
+network. Defaults to 256.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.mnistCNN.MNISTCNN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTCNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTCNN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTCNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTCNN.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for MNISTCNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -367,20 +382,33 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="class">
 <dt id="frarch.models.classification.cnn.mnistCNN.MNISTClassifier">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.mnistCNN.</code><code class="sig-name descname">MNISTClassifier</code><span class="sig-paren">(</span><em class="sig-param">embedding_size=256</em>, <em class="sig-param">num_classes=10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTClassifier" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.mnistCNN.</code><code class="sig-name descname">MNISTClassifier</code><span class="sig-paren">(</span><em class="sig-param">embedding_size: int = 256</em>, <em class="sig-param">num_classes: int = 10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTClassifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Classifier network for MNISTCNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embedding_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – embedding size from MNISTCNN network. Defaults to 256.</p></li>
+<li><p><strong>classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of output classes for the classifier. Defaults to 10.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.mnistCNN.MNISTClassifier.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTClassifier.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTClassifier.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/mnistCNN.html#MNISTClassifier.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.mnistCNN.MNISTClassifier.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for MNISTClassifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -398,11 +426,11 @@ registered hooks while the latter silently ignores them.</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.fashionCNN.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.mitCNNs.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">frarch.models.classification.cnn.fashionCNN module</p>
+            <p class="prev-next-title">frarch.models.classification.cnn.mitCNNs module</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="frarch.models.classification.cnn.resnet.html" title="next page">

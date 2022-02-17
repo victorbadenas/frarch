@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.models.mock module" href="frarch.models.mock.html" />
-    <link rel="prev" title="frarch.models.classification.cnn.smallCNNs module" href="frarch.models.classification.cnn.smallCNNs.html" />
+    <link rel="prev" title="frarch.models.classification.cnn.resnet module" href="frarch.models.classification.cnn.resnet.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -360,30 +360,155 @@ pytorch.org</p>
 <dt id="frarch.models.classification.cnn.vgg.VGG">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param">layers_cfg: List[Union[str, int]], batch_norm: bool = True, init_weights: bool = True, pretrained: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.VGG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>VGG network definition.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks for Large-Scale Image Recognition”</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layers_cfg</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>]</em>) – vgg layer configuration.</p></li>
+<li><p><strong>batch_norm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – Boolean flag for doing batch normalization.
+Defaults to True.</p></li>
+<li><p><strong>init_weights</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – Force weight initialization.
+Defaults to True.</p></li>
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – Get pretrained model. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.vgg.VGG.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#VGG.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.VGG.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for VGG.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
-
-<dl class="method">
-<dt id="frarch.models.classification.cnn.vgg.VGG.make_layers">
-<code class="sig-name descname">make_layers</code><span class="sig-paren">(</span><em class="sig-param">layers_cfg: List[Union[str, int]], batch_norm: bool = False</em><span class="sig-paren">)</span> &#x2192; torch.nn.modules.container.Sequential<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#VGG.make_layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.VGG.make_layers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="frarch.models.classification.cnn.vgg.VGG.training">
 <code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.classification.cnn.vgg.VGG.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg11">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg11</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg11"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 11-layer model.</p>
+<p>VGG 11-layer model from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks for Large-Scale Image
+Recognition”</a>. The required minimum input
+size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg11_bn">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg11_bn</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg11_bn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg11_bn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 11-layer with batch normalization model.</p>
+<p>VGG 11-layer model with batch normalization from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks
+for Large-Scale Image Recognition”</a>.
+The required minimum input size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg13">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg13</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 13-layer model.</p>
+<p>VGG 13-layer model from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks for Large-Scale Image
+Recognition”</a>. The required minimum input
+size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg13_bn">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg13_bn</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg13_bn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg13_bn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 13-layer with batch normalization model.</p>
+<p>VGG 13-layer model with batch normalization from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks
+for Large-Scale Image Recognition”</a>.
+The required minimum input size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg16">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg16</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 16-layer model.</p>
+<p>VGG 16-layer model from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks for Large-Scale Image
+Recognition”</a>. The required minimum input
+size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg16_bn">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg16_bn</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg16_bn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg16_bn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 16-layer with batch normalization model.</p>
+<p>VGG 16-layer model with batch normalization from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks
+for Large-Scale Image Recognition”</a>.
+The required minimum input size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg19_bn">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg19_bn</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg19_bn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg19_bn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 19-layer with batch normalization model.</p>
+<p>VGG 19-layer model with batch normalization from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks
+for Large-Scale Image Recognition”</a>.
+The required minimum input size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="frarch.models.classification.cnn.vgg.vgg19">
+<code class="sig-prename descclassname">frarch.models.classification.cnn.vgg.</code><code class="sig-name descname">vgg19</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.vgg.VGG<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/vgg.html#vgg19"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.vgg.vgg19" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create VGG 19-layer model.</p>
+<p>VGG 19-layer model from <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">“Very Deep Convolutional Networks for Large-Scale Image
+Recognition”</a>. The required minimum input
+size of the model is 32x32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -394,11 +519,11 @@ registered hooks while the latter silently ignores them.</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.smallCNNs.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.resnet.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">frarch.models.classification.cnn.smallCNNs module</p>
+            <p class="prev-next-title">frarch.models.classification.cnn.resnet module</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="frarch.models.mock.html" title="next page">

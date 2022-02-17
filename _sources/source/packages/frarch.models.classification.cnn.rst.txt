@@ -12,7 +12,7 @@ Submodules
 .. toctree::
 
    frarch.models.classification.cnn.fashionCNN
+   frarch.models.classification.cnn.mitCNNs
    frarch.models.classification.cnn.mnistCNN
    frarch.models.classification.cnn.resnet
-   frarch.models.classification.cnn.smallCNNs
    frarch.models.classification.cnn.vgg

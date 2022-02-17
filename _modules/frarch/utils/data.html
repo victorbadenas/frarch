@@ -322,11 +322,12 @@
   <h1>Source code for frarch.utils.data</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">hyperpyyaml</span> <span class="kn">import</span> <span class="n">resolve_references</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span> <span class="nn">frarch.utils.logging</span> <span class="kn">import</span> <span class="n">create_logger_file</span>
@@ -334,18 +335,39 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="create_dataloader"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.create_dataloader">[docs]</a><span class="k">def</span> <span class="nf">create_dataloader</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">dataloader_kwargs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+<div class="viewcode-block" id="create_dataloader"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.create_dataloader">[docs]</a><span class="k">def</span> <span class="nf">create_dataloader</span><span class="p">(</span><span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">dataloader_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create dataloader from dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset (torch.utils.data.Dataset): dataset object to feed onto DataLoader.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: dataset is not a Dataset or does not inherit from it.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        torch.utils.data.DataLoader: dataloader with the dataset object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dataset needs to be a child or torch.utils.data.Dataset&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">dataloader_kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">dataloader_kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="build_experiment_structure"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.build_experiment_structure">[docs]</a><span class="k">def</span> <span class="nf">build_experiment_structure</span><span class="p">(</span>
-    <span class="n">hparams_file</span><span class="p">,</span>
-    <span class="n">overrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">experiment_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;results/debug/&quot;</span><span class="p">,</span>
+    <span class="n">hparams_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">experiment_folder</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">overrides</span><span class="p">:</span> <span class="n">Mapping</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct experiment folder hierarchy on experiment_folder.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hparams_file (Union[str, Path]): hparams configuration file path.</span>
+<span class="sd">        experiment_folder (Union[str, Path]): Folder where to store experiment files.</span>
+<span class="sd">            Defaults to &quot;results/debug/&quot;.</span>
+<span class="sd">        overrides (Mapping, optional): Parameters to override on hparams file.</span>
+<span class="sd">            Defaults to None.</span>
+<span class="sd">        debug (bool, optional): debug flag. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">overrides</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">overrides</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -366,28 +388,20 @@
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;experiment folder {str(base_path)} created successfully&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="download_url"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.download_url">[docs]</a><span class="k">def</span> <span class="nf">download_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">destination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="download_url"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.download_url">[docs]</a><span class="k">def</span> <span class="nf">download_url</span><span class="p">(</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Download a URL to a local file.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    url : str</span>
-<span class="sd">        The URL to download.</span>
-<span class="sd">    destination : str, None</span>
-<span class="sd">        The destination of the file. If None is given the file is saved to</span>
-<span class="sd">        a temporary directory.</span>
-<span class="sd">    progress_bar : bool</span>
-<span class="sd">        Whether to show a command-line progress bar while downloading.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        url (str): The URL to download.</span>
+<span class="sd">        destination (Optional[str], optional): The destination of the file. If None is</span>
+<span class="sd">            given the file is saved to a temporary directory. Defaults to None.</span>
+<span class="sd">        progress_bar (bool, optional): The destination of the file. If None is given</span>
+<span class="sd">            the file is saved to a temporary directory. Defaults to True.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    filename : str</span>
-<span class="sd">        The location of the downloaded file.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    Progress bar use/example adapted from tqdm documentation:</span>
-<span class="sd">        https://github.com/tqdm/tqdm</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: filename of downloaded file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">update_progressbar</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
@@ -408,14 +422,33 @@
                 <span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">destination</span><span class="p">,</span> <span class="n">reporthook</span><span class="o">=</span><span class="n">update_progressbar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">filename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">destination</span><span class="p">)</span></div>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">destination</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filename</span></div>
 
 
-<div class="viewcode-block" id="tensorInDevice"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.tensorInDevice">[docs]</a><span class="k">def</span> <span class="nf">tensorInDevice</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="tensor_in_device"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.tensor_in_device">[docs]</a><span class="k">def</span> <span class="nf">tensor_in_device</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create tensor in device.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (Any): data on the tensor.</span>
+<span class="sd">        device (str, optional): string of the device to be created in.</span>
+<span class="sd">            Defaults to &quot;cpu&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        torch.Tensor: tensor in device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.read_file">[docs]</a><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]):</span>
+<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../../source/packages/frarch.utils.data.html#frarch.utils.data.read_file">[docs]</a><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read contents of file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (Union[str, Path]): path to file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: contents of the file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span></div>
 </pre></div>
 

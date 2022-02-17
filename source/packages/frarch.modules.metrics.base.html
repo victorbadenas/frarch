@@ -344,20 +344,67 @@
 <dt id="frarch.modules.metrics.base.Metric">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.modules.metrics.base.</code><code class="sig-name descname">Metric</code><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>abstract class for Metric objects.</p>
+<p class="rubric">Example</p>
+<dl>
+<dt>Simple usage of the Metric class::</dt><dd><dl class="simple">
+<dt>class MyMetric(Metric):</dt><dd><dl class="simple">
+<dt>def _update(self, predictions, truth):</dt><dd><p># compute some metric
+return metric_value</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>model = MyModel()
+mymetric = MyMetric()
+for batch, labels in dataset:</p>
+<blockquote>
+<div><p>predictions = model(batch)
+mymetric.update(predictions, labels)</p>
+</div></blockquote>
+<p>print(mymetric.get_metric(mode=”mean”))</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.modules.metrics.base.Metric.get_metric">
-<code class="sig-name descname">get_metric</code><span class="sig-paren">(</span><em class="sig-param">mode='mean'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.get_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.get_metric" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">get_metric</code><span class="sig-paren">(</span><em class="sig-param">mode='mean'</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.get_metric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.get_metric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate all values stored in the metric class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>optional</em>) – aggregation type. mean, max or min.
+Defaults to “mean”.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – aggregation mode not supported</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>aggregated metric.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="frarch.modules.metrics.base.Metric.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear metrics from class.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="frarch.modules.metrics.base.Metric.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">predictions: torch.Tensor</em>, <em class="sig-param">truth: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute metric value and append to the metrics array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – output tensors from model.</p></li>
+<li><p><strong>truth</strong> (<em>torch.Tensor</em>) – ground truth tensor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

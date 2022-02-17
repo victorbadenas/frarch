@@ -325,8 +325,9 @@
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
 
@@ -353,6 +354,17 @@
 
 <span class="sd">    References:</span>
 <span class="sd">        - http://www.vision.caltech.edu/Image_Datasets/Caltech101/</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Simple usage of the dataset class::</span>
+
+<span class="sd">            from frarch.datasets import Caltech101</span>
+<span class="sd">            from frarch.utils.data import create_dataloader</span>
+<span class="sd">            from torchvision.transforms import ToTensor</span>
+<span class="sd">            dataset = Caltech101(&quot;train&quot;, ToTensor, None, &quot;./data/&quot;)</span>
+<span class="sd">            dataloader = create_dataloader(dataset)</span>
+<span class="sd">            for batch_idx, (batch, labels) in enumerate(dataloader):</span>
+<span class="sd">                # process batch</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -361,7 +373,7 @@
         <span class="n">transform</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">target_transform</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">root</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;./data/&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set must be train or test not </span><span class="si">{subset}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -389,7 +401,7 @@
             <span class="sa">f</span><span class="s2">&quot; in {len(self.classes)} classes&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="n">path</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -398,7 +410,7 @@
             <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">target</span>
 
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Caltech101.get_number_classes"><a class="viewcode-back" href="../../../source/packages/frarch.datasets.caltech101.html#frarch.datasets.caltech101.Caltech101.get_number_classes">[docs]</a>    <span class="k">def</span> <span class="nf">get_number_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -409,36 +421,36 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_detect_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_detect_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">num_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_file_paths</span><span class="p">())</span>
             <span class="k">return</span> <span class="n">num_images</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">_build_and_load_lst</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_and_load_lst</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">all_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_file_paths</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build_and_load_class_map</span><span class="p">(</span><span class="n">all_paths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_train_test_files</span><span class="p">(</span><span class="n">all_paths</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_build_and_load_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_and_load_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build_class_mapper</span><span class="p">(</span><span class="n">all_paths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_class_map</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_build_class_mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_class_mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">classes_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">path</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">all_paths</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;found {len(classes_set)} classes.&quot;</span><span class="p">)</span>
         <span class="n">class_mapper</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">classes_set</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">classes_set</span><span class="p">))))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;class mapper built: </span><span class="si">{class_mapper}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dump_class_map</span><span class="p">(</span><span class="n">class_mapper</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_load_train_test_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_load_train_test_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_lst_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_lst_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build_train_test_files</span><span class="p">(</span><span class="n">all_paths</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_set</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_build_train_test_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build_train_test_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">classes_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">path</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">all_paths</span><span class="p">))</span>
         <span class="n">instance_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">classes_list</span><span class="p">)</span>
 
@@ -478,16 +490,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_lst</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valid_lst_path</span><span class="p">,</span> <span class="n">valid_instances</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_write_lst</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">instances</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_write_lst</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">instances</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">instances</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_file_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_file_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
         <span class="n">all_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*/*.jpg&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;BACKGROUND_Google&quot;</span><span class="p">,</span> <span class="n">all_files</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_load_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_load_set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_lst_path</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">set</span> <span class="o">==</span> <span class="s2">&quot;train&quot;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_lst_path</span>
         <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
@@ -495,11 +507,11 @@
                 <span class="n">path</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">path</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
 
-    <span class="k">def</span> <span class="nf">_dump_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_mapper</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_dump_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_mapper</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">class_mapper</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_load_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_load_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
 </pre></div>

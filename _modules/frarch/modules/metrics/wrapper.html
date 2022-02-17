@@ -320,25 +320,57 @@
               <div>
                 
   <h1>Source code for frarch.modules.metrics.wrapper</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Metric</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Metric</span>
 
 
 <div class="viewcode-block" id="MetricsWrapper"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper">[docs]</a><span class="k">class</span> <span class="nc">MetricsWrapper</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Store a set of metrics and perform operations in all of them simultaneously.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Sample code for metrics wrapper:</span>
+<span class="sd">            metrics_wrapper = MetricsWrapper(</span>
+<span class="sd">                metric_str0=Metric0(),</span>
+<span class="sd">                metric_str1=Metric1(),</span>
+<span class="sd">            )</span>
+<span class="sd">            model = Model()</span>
+
+<span class="sd">            for batch, labels in dataset:</span>
+<span class="sd">                predictions = model(batch)</span>
+<span class="sd">                metrics_wrapper.update(predictions, labels)</span>
+<span class="sd">            print(metrics_wrapper.get_metrics())</span>
+<span class="sd">            # prints {&quot;metric_str0&quot;: 0.0, &quot;metric_str1&quot;: 1.0}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MetricsWrapper.__init__"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize metrics in wrapper.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if any of the values in kwargs don&#39;t inherit from metric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Metric</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;value for key </span><span class="si">{k}</span><span class="s2"> should inherit from Metric&quot;</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MetricsWrapper.reset"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MetricsWrapper.reset"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Call reset in all metrics in the MetricsWrapper class.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">v</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MetricsWrapper.update"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="MetricsWrapper.update"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Call update on all metrics in MetricsWrapper class.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">v</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MetricsWrapper.get_metrics"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.get_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="MetricsWrapper.get_metrics"><a class="viewcode-back" href="../../../../source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.get_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Metric</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Build a dict with aggregated metrics.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Metric]: dict with metric names as keys and aggregated metrics\</span>
+<span class="sd">                as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">metrics</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get_metric</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

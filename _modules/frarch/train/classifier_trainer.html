@@ -336,8 +336,10 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
 
 <span class="kn">from</span> <span class="nn">frarch.utils.data</span> <span class="kn">import</span> <span class="n">create_dataloader</span>
 <span class="kn">from</span> <span class="nn">frarch.utils.stages</span> <span class="kn">import</span> <span class="n">Stage</span>
@@ -348,13 +350,40 @@
 
 
 <div class="viewcode-block" id="ClassifierTrainer"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer">[docs]</a><span class="k">class</span> <span class="nc">ClassifierTrainer</span><span class="p">(</span><span class="n">BaseTrainer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trainer class for classifiers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        modules (Mapping[str, torch.nn.Module]): trainable modules in the training.</span>
+<span class="sd">        opt_class (Type[torch.optim.Optimizer]): optimizer class for training.</span>
+<span class="sd">        hparams (Mapping[str, Any]): hparams dict-like structure from hparams file.</span>
+<span class="sd">        checkpointer (Optional[Checkpointer], optional): Checkpointer class for saving</span>
+<span class="sd">            the model and the hyperparameters needed. If None, no checkpoints are saved.</span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: ckpt_interval_minutes must be &gt; 0 or None</span>
+<span class="sd">        SystemError: Python version not supported. Python version must be &gt;= 3.7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="ClassifierTrainer.fit"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">train_set</span><span class="p">,</span>
-        <span class="n">valid_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">train_set</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">],</span>
+        <span class="n">valid_set</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">train_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">valid_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fit the modules to the dataset. Main function of the Trainer class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train_set (Union[Dataset, DataLoader]): dataset for training.</span>
+<span class="sd">            valid_set (Optional[Union[Dataset, DataLoader]], optional): dataset for</span>
+<span class="sd">                validation. If not provided, validation will not be performed.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            train_loader_kwargs (dict, optional): optional kwargs for train dataloader.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            valid_loader_kwargs (dict, optional): optional kwargs for valid dataloader.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">train_loader_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">train_loader_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">valid_loader_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -367,16 +396,16 @@
         <span class="p">):</span>
             <span class="n">valid_set</span> <span class="o">=</span> <span class="n">create_dataloader</span><span class="p">(</span><span class="n">valid_set</span><span class="p">,</span> <span class="o">**</span><span class="n">valid_loader_kwargs</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">on_fit_start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_on_fit_start</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_epoch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]):</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">on_stage_start</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_on_stage_start</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 
             <span class="n">last_ckpt_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_iterable</span><span class="p">(</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_iterable</span><span class="p">(</span>
                 <span class="n">train_set</span><span class="p">,</span>
                 <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{self.current_epoch}</span><span class="s2"> train&quot;</span><span class="p">,</span>
                 <span class="n">initial</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">,</span>
@@ -384,14 +413,14 @@
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_average</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">update_progress</span><span class="p">(</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_average</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_progress</span><span class="p">(</span>
                     <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">train_loss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_interval</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">on_train_interval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_on_train_interval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug_batches</span><span class="p">:</span>
                     <span class="k">break</span>
@@ -402,32 +431,32 @@
                     <span class="ow">and</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_ckpt_time</span>
                     <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckpt_interval_minutes</span> <span class="o">*</span> <span class="mf">60.0</span>
                 <span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">save_intra_epoch_ckpt</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_save_intra_epoch_ckpt</span><span class="p">()</span>
                     <span class="n">last_ckpt_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">noprogressbar</span><span class="p">:</span>
                 <span class="n">t</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
             <span class="c1"># Run train &quot;on_stage_end&quot; on all processes</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">on_stage_end</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_on_stage_end</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
 
             <span class="c1"># Validation stage</span>
             <span class="k">if</span> <span class="n">valid_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">on_stage_start</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_on_stage_start</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
                 <span class="n">avg_valid_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
                 <span class="n">valid_step</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-                    <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_iterable</span><span class="p">(</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_iterable</span><span class="p">(</span>
                         <span class="n">valid_set</span><span class="p">,</span>
                         <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{self.current_epoch}</span><span class="s2"> valid&quot;</span><span class="p">,</span>
                         <span class="n">dynamic_ncols</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
                         <span class="n">valid_step</span> <span class="o">+=</span> <span class="mi">1</span>
-                        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">)</span>
-                        <span class="n">avg_valid_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_average</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">avg_valid_loss</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">update_progress</span><span class="p">(</span>
+                        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">)</span>
+                        <span class="n">avg_valid_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_average</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">avg_valid_loss</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_update_progress</span><span class="p">(</span>
                             <span class="n">t</span><span class="p">,</span> <span class="n">valid_step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="n">valid_loss</span><span class="o">=</span><span class="n">avg_valid_loss</span>
                         <span class="p">)</span>
 
@@ -435,12 +464,12 @@
                         <span class="n">t</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
                     <span class="c1"># Only run validation &quot;on_stage_end&quot; on main process</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">on_stage_end</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">,</span> <span class="n">avg_valid_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_on_stage_end</span><span class="p">(</span><span class="n">Stage</span><span class="o">.</span><span class="n">VALID</span><span class="p">,</span> <span class="n">avg_valid_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">avg_train_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">on_fit_end</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_on_fit_end</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ClassifierTrainer.get_iterable"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.get_iterable">[docs]</a>    <span class="k">def</span> <span class="nf">get_iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_iterable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">noprogressbar</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
@@ -448,25 +477,27 @@
             <span class="k">return</span> <span class="n">t</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running </span><span class="si">{self.__class__.__name__}</span><span class="s2"> without tqdm&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">dataset</span></div>
+            <span class="k">return</span> <span class="n">dataset</span>
 
-<div class="viewcode-block" id="ClassifierTrainer.update_progress"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.update_progress">[docs]</a>    <span class="k">def</span> <span class="nf">update_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_update_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noprogressbar</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">step</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_interval</span> <span class="ow">or</span> <span class="p">(</span><span class="n">step</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">update_progress_console</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_progress_console</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update_progress_tqdm</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_progress_tqdm</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ClassifierTrainer.update_progress_tqdm"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_tqdm">[docs]</a>    <span class="k">def</span> <span class="nf">update_progress_tqdm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_update_progress_tqdm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;metrics&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="p">:</span>
             <span class="n">iterable</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">iterable</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="n">iterable</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ClassifierTrainer.update_progress_console"><a class="viewcode-back" href="../../../source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_console">[docs]</a>    <span class="k">def</span> <span class="nf">update_progress_console</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_update_progress_console</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="n">kwargs_string</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{k}</span><span class="s2">=</span><span class="si">{v:.4f}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
         <span class="k">if</span> <span class="s2">&quot;metrics&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="p">:</span>
             <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
@@ -477,7 +508,7 @@
         <span class="nb">print</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{self.current_epoch}</span><span class="s2"> </span><span class="si">{stage}</span><span class="s2">: step </span><span class="si">{step}</span><span class="s2">/{len(iterable)}&quot;</span>
             <span class="sa">f</span><span class="s2">&quot; -&gt; </span><span class="si">{kwargs_string}</span><span class="s2">, </span><span class="si">{metrics_string}</span><span class="s2">&quot;</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
 </pre></div>
 
               </div>

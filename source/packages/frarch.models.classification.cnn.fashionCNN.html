@@ -36,7 +36,7 @@
     <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="frarch.models.classification.cnn.mnistCNN module" href="frarch.models.classification.cnn.mnistCNN.html" />
+    <link rel="next" title="frarch.models.classification.cnn.mitCNNs module" href="frarch.models.classification.cnn.mitCNNs.html" />
     <link rel="prev" title="frarch.models.classification.cnn package" href="frarch.models.classification.cnn.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -342,20 +342,31 @@
 <span id="frarch-models-classification-cnn-fashioncnn-module"></span><h1>frarch.models.classification.cnn.fashionCNN module<a class="headerlink" href="#module-frarch.models.classification.cnn.fashionCNN" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="frarch.models.classification.cnn.fashionCNN.FashionCNN">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.fashionCNN.</code><code class="sig-name descname">FashionCNN</code><span class="sig-paren">(</span><em class="sig-param">out_size=128</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionCNN" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.fashionCNN.</code><code class="sig-name descname">FashionCNN</code><span class="sig-paren">(</span><em class="sig-param">out_size: int = 128</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionCNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionCNN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Small CNN network for FashionMNIST dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>out_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Size of the output embedding for the feature extraction
+network. Defaults to 128.</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.fashionCNN.FashionCNN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionCNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionCNN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionCNN.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionCNN.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for FashionCNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -367,20 +378,33 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="class">
 <dt id="frarch.models.classification.cnn.fashionCNN.FashionClassifier">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.fashionCNN.</code><code class="sig-name descname">FashionClassifier</code><span class="sig-paren">(</span><em class="sig-param">embedding_size=128</em>, <em class="sig-param">classes=10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionClassifier" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.fashionCNN.</code><code class="sig-name descname">FashionClassifier</code><span class="sig-paren">(</span><em class="sig-param">embedding_size: int = 128</em>, <em class="sig-param">classes: int = 10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionClassifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Classifier network for FashionCNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embedding_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – embedding size from FashionCNN network. Defaults to 128.</p></li>
+<li><p><strong>classes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – number of output classes for the classifier. Defaults to 10.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.models.classification.cnn.fashionCNN.FashionClassifier.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionClassifier.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionClassifier.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/fashionCNN.html#FashionClassifier.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.fashionCNN.FashionClassifier.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>forward computation for FashionCNN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>torch.Tensor</em>) – input to the model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output of the model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
@@ -405,10 +429,10 @@ registered hooks while the latter silently ignores them.</p>
             <p class="prev-next-title">frarch.models.classification.cnn package</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="frarch.models.classification.cnn.mnistCNN.html" title="next page">
+    <a class='right-next' id="next-link" href="frarch.models.classification.cnn.mitCNNs.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">frarch.models.classification.cnn.mnistCNN module</p>
+        <p class="prev-next-title">frarch.models.classification.cnn.mitCNNs module</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

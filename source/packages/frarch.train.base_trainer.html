@@ -354,77 +354,46 @@
 </dl>
 <dl class="class">
 <dt id="frarch.train.base_trainer.BaseTrainer">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.train.base_trainer.</code><code class="sig-name descname">BaseTrainer</code><span class="sig-paren">(</span><em class="sig-param">modules</em>, <em class="sig-param">opt_class</em>, <em class="sig-param">hparams</em>, <em class="sig-param">checkpointer=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.train.base_trainer.</code><code class="sig-name descname">BaseTrainer</code><span class="sig-paren">(</span><em class="sig-param">modules: Mapping[str, torch.nn.modules.module.Module], opt_class: Type[torch.optim.optimizer.Optimizer], hparams: Mapping[str, Any], checkpointer: Optional[frarch.modules.checkpointer.Checkpointer] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.compute_loss">
-<code class="sig-name descname">compute_loss</code><span class="sig-paren">(</span><em class="sig-param">predictions</em>, <em class="sig-param">batch</em>, <em class="sig-param">stage</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.compute_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.compute_loss" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.evaluate_batch">
-<code class="sig-name descname">evaluate_batch</code><span class="sig-paren">(</span><em class="sig-param">batch</em>, <em class="sig-param">stage</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.evaluate_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.evaluate_batch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Abstract class for trainer managers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modules</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>torch.nn.Module</em><em>]</em>) – trainable modules in the training.</p></li>
+<li><p><strong>opt_class</strong> (<em>Type</em><em>[</em><em>torch.optim.Optimizer</em><em>]</em>) – optimizer class for training.</p></li>
+<li><p><strong>hparams</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – hparams dict-like structure from hparams file.</p></li>
+<li><p><strong>checkpointer</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer" title="frarch.modules.checkpointer.Checkpointer"><em>Checkpointer</em></a><em>]</em><em>, </em><em>optional</em>) – Checkpointer class for saving
+the model and the hyperparameters needed. If None, no checkpoints are saved.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – ckpt_interval_minutes must be &gt; 0 or None</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemError" title="(in Python v3.10)"><strong>SystemError</strong></a> – Python version not supported. Python version must be &gt;= 3.7</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.train.base_trainer.BaseTrainer.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">train_set</em>, <em class="sig-param">valid_set=None</em>, <em class="sig-param">train_loader_kwargs: dict = None</em>, <em class="sig-param">valid_loader_kwargs: dict = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.fit_batch">
-<code class="sig-name descname">fit_batch</code><span class="sig-paren">(</span><em class="sig-param">batch</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.fit_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.fit_batch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">batch</em>, <em class="sig-param">stage</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.forward" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.init_optimizers">
-<code class="sig-name descname">init_optimizers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.init_optimizers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.init_optimizers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.on_fit_end">
-<code class="sig-name descname">on_fit_end</code><span class="sig-paren">(</span><em class="sig-param">epoch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.on_fit_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.on_fit_end" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.on_fit_start">
-<code class="sig-name descname">on_fit_start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.on_fit_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.on_fit_start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.on_stage_end">
-<code class="sig-name descname">on_stage_end</code><span class="sig-paren">(</span><em class="sig-param">stage</em>, <em class="sig-param">loss=None</em>, <em class="sig-param">epoch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.on_stage_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.on_stage_end" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.on_stage_start">
-<code class="sig-name descname">on_stage_start</code><span class="sig-paren">(</span><em class="sig-param">stage</em>, <em class="sig-param">epoch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.on_stage_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.on_stage_start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.on_train_interval">
-<code class="sig-name descname">on_train_interval</code><span class="sig-paren">(</span><em class="sig-param">epoch=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.on_train_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.on_train_interval" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.save_initial_weights">
-<code class="sig-name descname">save_initial_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.save_initial_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.save_initial_weights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.save_intra_epoch_ckpt">
-<code class="sig-name descname">save_intra_epoch_ckpt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.save_intra_epoch_ckpt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.save_intra_epoch_ckpt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.base_trainer.BaseTrainer.update_average">
-<code class="sig-name descname">update_average</code><span class="sig-paren">(</span><em class="sig-param">loss</em>, <em class="sig-param">avg_loss</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.update_average"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.update_average" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">train_set: Union[torch.utils.data.dataset.Dataset, torch.utils.data.dataloader.DataLoader], valid_set: Union[torch.utils.data.dataset.Dataset, torch.utils.data.dataloader.DataLoader, None] = None, train_loader_kwargs: dict = None, valid_loader_kwargs: dict = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/train/base_trainer.html#BaseTrainer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.base_trainer.BaseTrainer.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the modules to the dataset. Main function of the Trainer class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_set</strong> (<em>Union</em><em>[</em><em>Dataset</em><em>, </em><em>DataLoader</em><em>]</em>) – dataset for training.</p></li>
+<li><p><strong>valid_set</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Dataset</em><em>, </em><em>DataLoader</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – dataset for
+validation. If not provided, validation will not be performed.
+Defaults to None.</p></li>
+<li><p><strong>train_loader_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>, </em><em>optional</em>) – optional kwargs for train dataloader.
+Defaults to None.</p></li>
+<li><p><strong>valid_loader_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>, </em><em>optional</em>) – optional kwargs for valid dataloader.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

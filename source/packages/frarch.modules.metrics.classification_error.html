@@ -344,11 +344,19 @@
 <dt id="frarch.modules.metrics.classification_error.ClassificationError">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.modules.metrics.classification_error.</code><code class="sig-name descname">ClassificationError</code><a class="reference internal" href="../../_modules/frarch/modules/metrics/classification_error.html#ClassificationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.classification_error.ClassificationError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="frarch.modules.metrics.base.html#frarch.modules.metrics.base.Metric" title="frarch.modules.metrics.base.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.modules.metrics.base.Metric</span></code></a></p>
-<dl class="method">
-<dt id="frarch.modules.metrics.classification_error.ClassificationError.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">predictions</em>, <em class="sig-param">truth</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/classification_error.html#ClassificationError.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.classification_error.ClassificationError.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Classification error metric.</p>
+<p class="rubric">Example</p>
+<dl>
+<dt>Sample code for use of the ClassificationError metric class:</dt><dd><p>model = MyModel()
+error = ClassificationError()
+for batch, labels in dataset:</p>
+<blockquote>
+<div><p>predictions = model(batch)
+error.update(predictions, labels)</p>
+</div></blockquote>
+<p>print(error.get_metric(mode=”mean”))</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

@@ -327,6 +327,19 @@
 
 
 <div class="viewcode-block" id="create_logger_file"><a class="viewcode-back" href="../../../../source/packages/frarch.utils.logging.create_logger.html#frarch.utils.logging.create_logger.create_logger_file">[docs]</a><span class="k">def</span> <span class="nf">create_logger_file</span><span class="p">(</span><span class="n">log_file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create logger file in file path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        log_file_path (Union[str, Path]): path to logger file.</span>
+<span class="sd">        debug (bool, optional): log debug statements. Defaults to False.</span>
+<span class="sd">        stdout (bool, optional): log to stdout as well as to the log file.</span>
+<span class="sd">            Defaults to False.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: log_file_path is not a str or pathlib.Path object.</span>
+<span class="sd">        ValueError: debug is not boolean.</span>
+<span class="sd">        ValueError: stdout is not boolean.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">log_file_path</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;path must be a string or Path object&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>

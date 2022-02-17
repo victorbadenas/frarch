@@ -342,22 +342,63 @@
 <span id="frarch-modules-metrics-wrapper-module"></span><h1>frarch.modules.metrics.wrapper module<a class="headerlink" href="#module-frarch.modules.metrics.wrapper" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="frarch.modules.metrics.wrapper.MetricsWrapper">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.modules.metrics.wrapper.</code><code class="sig-name descname">MetricsWrapper</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.modules.metrics.wrapper.</code><code class="sig-name descname">MetricsWrapper</code><span class="sig-paren">(</span><em class="sig-param">**kwargs: frarch.modules.metrics.base.Metric</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store a set of metrics and perform operations in all of them simultaneously.</p>
+<p class="rubric">Example</p>
+<dl>
+<dt>Sample code for metrics wrapper:</dt><dd><dl class="simple">
+<dt>metrics_wrapper = MetricsWrapper(</dt><dd><p>metric_str0=Metric0(),
+metric_str1=Metric1(),</p>
+</dd>
+</dl>
+<p>)
+model = Model()</p>
+<dl class="simple">
+<dt>for batch, labels in dataset:</dt><dd><p>predictions = model(batch)
+metrics_wrapper.update(predictions, labels)</p>
+</dd>
+</dl>
+<p>print(metrics_wrapper.get_metrics())
+# prints {“metric_str0”: 0.0, “metric_str1”: 1.0}</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="frarch.modules.metrics.wrapper.MetricsWrapper.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">**kwargs: frarch.modules.metrics.base.Metric</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize metrics in wrapper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – if any of the values in kwargs don’t inherit from metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="frarch.modules.metrics.wrapper.MetricsWrapper.get_metrics">
-<code class="sig-name descname">get_metrics</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.get_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.get_metrics" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">get_metrics</code><span class="sig-paren">(</span><em class="sig-param">*args: Any</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; Dict[str, frarch.modules.metrics.base.Metric]<a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.get_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.get_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a dict with aggregated metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dict with metric names as keys and aggregated metrics                as values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference internal" href="frarch.modules.metrics.base.html#frarch.modules.metrics.base.Metric" title="frarch.modules.metrics.base.Metric">Metric</a>]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="frarch.modules.metrics.wrapper.MetricsWrapper.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call reset in all metrics in the MetricsWrapper class.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="frarch.modules.metrics.wrapper.MetricsWrapper.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">*args: Any</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/modules/metrics/wrapper.html#MetricsWrapper.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.modules.metrics.wrapper.MetricsWrapper.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call update on all metrics in MetricsWrapper class.</p>
+</dd></dl>
 
 </dd></dl>
 

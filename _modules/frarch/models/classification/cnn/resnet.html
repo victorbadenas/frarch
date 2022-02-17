@@ -480,6 +480,23 @@
 
 
 <div class="viewcode-block" id="ResNet"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.resnet.html#frarch.models.classification.cnn.resnet.ResNet">[docs]</a><span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Residual network architecture model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        block (ResNetBlock): basic construction block for architecture.</span>
+<span class="sd">        layers (List[int]): layer configuration. I.e. [2, 2, 2, 2].</span>
+<span class="sd">        num_classes (int)): output classes. Defaults to 1000.</span>
+<span class="sd">        zero_init_residual (bool): True to initialize the residual layers with zeros.</span>
+<span class="sd">            Default False.</span>
+<span class="sd">        groups (int): groups for convolutional layers in residual blocks.</span>
+<span class="sd">            Defaults to 1.</span>
+<span class="sd">        width_per_group (int): Width for convolutional residual blocks. Defaults to 64.</span>
+<span class="sd">        replace_stride_with_dilation (Optional[List[bool]]): Optional list of boolean</span>
+<span class="sd">            values to replace stride with dilation. Defaults to None.</span>
+<span class="sd">        norm_layer (Optional[Callable[..., nn.Module]]): Norm layer. If None, defaults</span>
+<span class="sd">            to BatchNorm2d. Defautls to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">block</span><span class="p">:</span> <span class="n">ResNetBlock</span><span class="p">,</span>
@@ -595,7 +612,6 @@
         <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_forward_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="c1"># See note [TorchScript super()]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -613,6 +629,16 @@
         <span class="k">return</span> <span class="n">x</span>
 
 <div class="viewcode-block" id="ResNet.forward"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.resnet.html#frarch.models.classification.cnn.resnet.ResNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Define the computation performed at every call.</span>
+
+<span class="sd">        forward computation for ResNet.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): input to the model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: output of the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
 
 
@@ -637,8 +663,7 @@
 <span class="sd">    From `&quot;Deep Residual Learning for Image Recognition&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -651,8 +676,7 @@
 <span class="sd">    From `&quot;Deep Residual Learning for Image Recognition&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -665,8 +689,7 @@
 <span class="sd">    From `&quot;Deep Residual Learning for Image Recognition&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -679,8 +702,7 @@
 <span class="sd">    From `&quot;Deep Residual Learning for Image Recognition&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -695,8 +717,7 @@
 <span class="sd">    From `&quot;Deep Residual Learning for Image Recognition&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -713,8 +734,7 @@
 <span class="sd">    From `&quot;Aggregated Residual Transformation for Deep Neural Networks&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1611.05431.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -733,8 +753,7 @@
 <span class="sd">    From `&quot;Aggregated Residual Transformation for Deep Neural Networks&quot;</span>
 <span class="sd">    &lt;https://arxiv.org/pdf/1611.05431.pdf&gt;`_.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -756,8 +775,7 @@
 <span class="sd">    convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048</span>
 <span class="sd">    channels, and in Wide ResNet-50-2 has 2048-1024-2048.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -778,8 +796,7 @@
 <span class="sd">    convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048</span>
 <span class="sd">    channels, and in Wide ResNet-50-2 has 2048-1024-2048.</span>
 
-<span class="sd">    Args</span>
-<span class="sd">    ----</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
 <span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
 <span class="sd">    &quot;&quot;&quot;</span>

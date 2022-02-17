@@ -354,32 +354,46 @@
 </dl>
 <dl class="class">
 <dt id="frarch.train.classifier_trainer.ClassifierTrainer">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.train.classifier_trainer.</code><code class="sig-name descname">ClassifierTrainer</code><span class="sig-paren">(</span><em class="sig-param">modules</em>, <em class="sig-param">opt_class</em>, <em class="sig-param">hparams</em>, <em class="sig-param">checkpointer=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">frarch.train.classifier_trainer.</code><code class="sig-name descname">ClassifierTrainer</code><span class="sig-paren">(</span><em class="sig-param">modules: Mapping[str, torch.nn.modules.module.Module], opt_class: Type[torch.optim.optimizer.Optimizer], hparams: Mapping[str, Any], checkpointer: Optional[frarch.modules.checkpointer.Checkpointer] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer" title="frarch.train.base_trainer.BaseTrainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.train.base_trainer.BaseTrainer</span></code></a></p>
+<p>Trainer class for classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modules</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>torch.nn.Module</em><em>]</em>) – trainable modules in the training.</p></li>
+<li><p><strong>opt_class</strong> (<em>Type</em><em>[</em><em>torch.optim.Optimizer</em><em>]</em>) – optimizer class for training.</p></li>
+<li><p><strong>hparams</strong> (<em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – hparams dict-like structure from hparams file.</p></li>
+<li><p><strong>checkpointer</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer" title="frarch.modules.checkpointer.Checkpointer"><em>Checkpointer</em></a><em>]</em><em>, </em><em>optional</em>) – Checkpointer class for saving
+the model and the hyperparameters needed. If None, no checkpoints are saved.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – ckpt_interval_minutes must be &gt; 0 or None</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemError" title="(in Python v3.10)"><strong>SystemError</strong></a> – Python version not supported. Python version must be &gt;= 3.7</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="frarch.train.classifier_trainer.ClassifierTrainer.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">train_set</em>, <em class="sig-param">valid_set=None</em>, <em class="sig-param">train_loader_kwargs: dict = None</em>, <em class="sig-param">valid_loader_kwargs: dict = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.classifier_trainer.ClassifierTrainer.get_iterable">
-<code class="sig-name descname">get_iterable</code><span class="sig-paren">(</span><em class="sig-param">dataset: torch.utils.data.dataloader.DataLoader</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.get_iterable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.get_iterable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress">
-<code class="sig-name descname">update_progress</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">step</em>, <em class="sig-param">stage=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress_console">
-<code class="sig-name descname">update_progress_console</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">step</em>, <em class="sig-param">stage=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress_console"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_console" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="frarch.train.classifier_trainer.ClassifierTrainer.update_progress_tqdm">
-<code class="sig-name descname">update_progress_tqdm</code><span class="sig-paren">(</span><em class="sig-param">iterable</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.update_progress_tqdm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.update_progress_tqdm" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">train_set: Union[torch.utils.data.dataset.Dataset, torch.utils.data.dataloader.DataLoader], valid_set: Union[torch.utils.data.dataset.Dataset, torch.utils.data.dataloader.DataLoader, None] = None, train_loader_kwargs: dict = None, valid_loader_kwargs: dict = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../../_modules/frarch/train/classifier_trainer.html#ClassifierTrainer.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.train.classifier_trainer.ClassifierTrainer.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the modules to the dataset. Main function of the Trainer class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_set</strong> (<em>Union</em><em>[</em><em>Dataset</em><em>, </em><em>DataLoader</em><em>]</em>) – dataset for training.</p></li>
+<li><p><strong>valid_set</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Dataset</em><em>, </em><em>DataLoader</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – dataset for
+validation. If not provided, validation will not be performed.
+Defaults to None.</p></li>
+<li><p><strong>train_loader_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>, </em><em>optional</em>) – optional kwargs for train dataloader.
+Defaults to None.</p></li>
+<li><p><strong>valid_loader_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a><em>, </em><em>optional</em>) – optional kwargs for valid dataloader.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

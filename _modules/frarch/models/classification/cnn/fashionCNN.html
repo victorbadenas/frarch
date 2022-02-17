@@ -320,11 +320,19 @@
               <div>
                 
   <h1>Source code for frarch.models.classification.cnn.fashionCNN</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 
 
 <div class="viewcode-block" id="FashionCNN"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionCNN">[docs]</a><span class="k">class</span> <span class="nc">FashionCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_size</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Small CNN network for FashionMNIST dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        out_size (int): Size of the output embedding for the feature extraction</span>
+<span class="sd">            network. Defaults to 128.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">FashionCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
@@ -346,7 +354,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="n">out_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
 
-<div class="viewcode-block" id="FashionCNN.forward"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionCNN.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="FashionCNN.forward"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionCNN.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Define the computation performed at every call.</span>
+
+<span class="sd">        forward computation for FashionCNN.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): input to the model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: output of the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -358,11 +376,28 @@
 
 
 <div class="viewcode-block" id="FashionClassifier"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionClassifier">[docs]</a><span class="k">class</span> <span class="nc">FashionClassifier</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Classifier network for FashionCNN.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        embedding_size (int): embedding size from FashionCNN network. Defaults to 128.</span>
+<span class="sd">        classes (int): number of output classes for the classifier. Defaults to 10.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span> <span class="n">classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">FashionClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="n">embedding_size</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="n">classes</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FashionClassifier.forward"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionClassifier.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="FashionClassifier.forward"><a class="viewcode-back" href="../../../../../source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionClassifier.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Define the computation performed at every call.</span>
+
+<span class="sd">        forward computation for FashionCNN.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): input to the model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: output of the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
 </pre></div>
 

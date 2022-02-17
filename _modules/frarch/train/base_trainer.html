@@ -336,14 +336,17 @@
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
 
+<span class="kn">from</span> <span class="nn">frarch.modules</span> <span class="kn">import</span> <span class="n">Checkpointer</span>
 <span class="kn">from</span> <span class="nn">frarch.utils.stages</span> <span class="kn">import</span> <span class="n">Stage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">PYTHON_VERSION_MAJOR</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">PYTHON_VERSION_MINOR</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">PYTHON_VERSION_MINOR</span> <span class="o">=</span> <span class="mi">7</span>
 
 <span class="n">default_values</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
@@ -357,7 +360,28 @@
 
 
 <div class="viewcode-block" id="BaseTrainer"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer">[docs]</a><span class="k">class</span> <span class="nc">BaseTrainer</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">opt_class</span><span class="p">,</span> <span class="n">hparams</span><span class="p">,</span> <span class="n">checkpointer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract class for trainer managers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        modules (Mapping[str, torch.nn.Module]): trainable modules in the training.</span>
+<span class="sd">        opt_class (Type[torch.optim.Optimizer]): optimizer class for training.</span>
+<span class="sd">        hparams (Mapping[str, Any]): hparams dict-like structure from hparams file.</span>
+<span class="sd">        checkpointer (Optional[Checkpointer], optional): Checkpointer class for saving</span>
+<span class="sd">            the model and the hyperparameters needed. If None, no checkpoints are saved.</span>
+<span class="sd">            Defaults to None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: ckpt_interval_minutes must be &gt; 0 or None</span>
+<span class="sd">        SystemError: Python version not supported. Python version must be &gt;= 3.7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">modules</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span>
+        <span class="n">opt_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">],</span>
+        <span class="n">hparams</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">checkpointer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Checkpointer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hparams</span> <span class="o">=</span> <span class="n">hparams</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_class</span> <span class="o">=</span> <span class="n">opt_class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">checkpointer</span> <span class="o">=</span> <span class="n">checkpointer</span>
@@ -396,11 +420,33 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Alias for fit.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BaseTrainer.on_fit_start"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.on_fit_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_fit_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseTrainer.fit"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">train_set</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">],</span>
+        <span class="n">valid_set</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">train_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">valid_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fit the modules to the dataset. Main function of the Trainer class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train_set (Union[Dataset, DataLoader]): dataset for training.</span>
+<span class="sd">            valid_set (Optional[Union[Dataset, DataLoader]], optional): dataset for</span>
+<span class="sd">                validation. If not provided, validation will not be performed.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            train_loader_kwargs (dict, optional): optional kwargs for train dataloader.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            valid_loader_kwargs (dict, optional): optional kwargs for valid dataloader.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="k">def</span> <span class="nf">_on_fit_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Initialize optimizers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_optimizers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_optimizers</span><span class="p">()</span>
 
         <span class="c1"># set first epoch index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_epoch</span> <span class="o">=</span> <span class="mi">0</span>
@@ -418,64 +464,57 @@
                     <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_epoch</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_initial_weights</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_initial_weights</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseTrainer.save_initial_weights"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.save_initial_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_initial_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_save_initial_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkpointer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">checkpointer</span><span class="o">.</span><span class="n">save_initial_weights</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">checkpointer</span><span class="o">.</span><span class="n">save_initial_weights</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseTrainer.init_optimizers"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.init_optimizers">[docs]</a>    <span class="k">def</span> <span class="nf">init_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_init_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
 
-<div class="viewcode-block" id="BaseTrainer.on_fit_end"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.on_fit_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_fit_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">_on_fit_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="BaseTrainer.on_stage_start"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.on_stage_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_stage_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">_on_stage_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="BaseTrainer.on_stage_end"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.on_stage_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_stage_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">_on_stage_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="BaseTrainer.on_train_interval"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.on_train_interval">[docs]</a>    <span class="k">def</span> <span class="nf">on_train_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+    <span class="k">def</span> <span class="nf">_on_train_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="BaseTrainer.save_intra_epoch_ckpt"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.save_intra_epoch_ckpt">[docs]</a>    <span class="k">def</span> <span class="nf">save_intra_epoch_ckpt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    <span class="k">def</span> <span class="nf">_save_intra_epoch_ckpt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="BaseTrainer.forward"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    <span class="k">def</span> <span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="BaseTrainer.evaluate_batch"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.evaluate_batch">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span></div>
+    <span class="k">def</span> <span class="nf">_evaluate_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="n">stage</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseTrainer.compute_loss"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.compute_loss">[docs]</a>    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">stage</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    <span class="k">def</span> <span class="nf">_compute_loss</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-<div class="viewcode-block" id="BaseTrainer.fit_batch"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.fit_batch">[docs]</a>    <span class="k">def</span> <span class="nf">fit_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_fit_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_loss</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_loss</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">Stage</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">)</span>
         <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseTrainer.update_average"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.update_average">[docs]</a>    <span class="k">def</span> <span class="nf">update_average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_update_average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">loss</span><span class="p">):</span>
             <span class="n">avg_loss</span> <span class="o">-=</span> <span class="n">avg_loss</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
             <span class="n">avg_loss</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span>
         <span class="k">return</span> <span class="n">avg_loss</span></div>
-
-<div class="viewcode-block" id="BaseTrainer.fit"><a class="viewcode-back" href="../../../source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">train_set</span><span class="p">,</span>
-        <span class="n">valid_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">train_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">valid_loader_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 </pre></div>
 
               </div>

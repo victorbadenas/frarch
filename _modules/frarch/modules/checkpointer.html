@@ -336,14 +336,39 @@
 
 
 <div class="viewcode-block" id="Checkpointer"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer">[docs]</a><span class="k">class</span> <span class="nc">Checkpointer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class for managing checkpoints.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        save_path (Union[str, Path]): folder to store the checkpoint and training</span>
+<span class="sd">            data to.</span>
+<span class="sd">        modules (Mapping[str, torch.nn.Module]): dict-like structure with modules.</span>
+<span class="sd">        save_best_only (bool, optional): If true, save only the best model according to</span>
+<span class="sd">            some metric. If True, reference metric should be specified. If False, save</span>
+<span class="sd">            all end of epoch checkpoints. Defaults to False.</span>
+<span class="sd">        reference_metric (str, optional): Metric to use to determine the best model when</span>
+<span class="sd">            save_best_only is True. Must be a string in the keys of the modules</span>
+<span class="sd">            dict-like structure. Defaults to None.</span>
+<span class="sd">        mode (str, optional): min if lower is better, max if higher is better.</span>
+<span class="sd">            Examples: min for error and max for accuracy. Defaults to &quot;min&quot;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: modules are not a dict or torch.nn.ModuleDict instance</span>
+<span class="sd">        ValueError: modules in modules dict-like don&#39;t have string keys or</span>
+<span class="sd">            torch.nn.Module values</span>
+<span class="sd">            ValueError: path must be a string or Path object</span>
+<span class="sd">        ValueError: metadata key is reserved for the metadata.json object.</span>
+<span class="sd">        ValueError: metric mode is not min or max</span>
+<span class="sd">        ValueError: save_best_only is True and no metric is defined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">save_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
         <span class="n">modules</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span>
-        <span class="n">save_best_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_best_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">reference_metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">modules</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleDict</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;modules must be a dict or torch.nn.ModuleDict instance&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
@@ -372,12 +397,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span> <span class="o">=</span> <span class="n">reference_metric</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
 
-<div class="viewcode-block" id="Checkpointer.save_initial_weights"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.save_initial_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_initial_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Checkpointer.save_initial_weights"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.save_initial_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_initial_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Save weights with which the model has been initialized.&quot;&quot;&quot;</span>
         <span class="n">time_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
         <span class="n">ckpt_folder</span> <span class="o">=</span> <span class="s2">&quot;initial_weights&quot;</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_paths</span><span class="p">(</span><span class="n">ckpt_folder</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_modules</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_metadata</span><span class="p">(</span>
             <span class="n">time_str</span><span class="p">,</span>
             <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">],</span>
             <span class="n">epoch</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -392,13 +418,23 @@
         <span class="n">intra_epoch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extra_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Save checkpoint.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            epoch (int): current epoch index.</span>
+<span class="sd">            current_step (int): current batch index.</span>
+<span class="sd">            intra_epoch (bool, optional): boolean flag to indicate if the checkpoint is</span>
+<span class="sd">                intra epoch if true and end of epoch if false. Defaults to False.</span>
+<span class="sd">            extra_data (Dict, optional): extra metadata in json format to add to the</span>
+<span class="sd">                metadata.json file. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">time_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
         <span class="n">ckpt_folder</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ckpt_{time_str.replace(&#39; &#39;, &#39;_&#39;)}&quot;</span>
 
         <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_paths</span><span class="p">(</span><span class="n">ckpt_folder</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_modules</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_metadata</span><span class="p">(</span>
             <span class="n">time_str</span><span class="p">,</span>
             <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">],</span>
             <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span>
@@ -413,9 +449,56 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved end_of_epoch model to </span><span class="si">{ckpt_folder}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">intra_epoch</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update_best_metric</span><span class="p">(</span><span class="o">**</span><span class="n">metrics</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_best_metric</span><span class="p">(</span><span class="o">**</span><span class="n">metrics</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_best_only</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">remove_old_ckpts</span><span class="p">(</span><span class="n">ckpt_folder</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_old_ckpts</span><span class="p">(</span><span class="n">ckpt_folder</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Checkpointer.load"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Load checkpoint from folder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode (str, optional): last for loading the last checkpoint stored and best</span>
+<span class="sd">                to load the model with the mest metric. Defaults to &quot;last&quot;.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: mode is not best or last</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;best&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_best_checkpoint</span><span class="p">(</span><span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_last_checkpoint</span><span class="p">(</span><span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;load</span><span class="se">\&#39;</span><span class="s1">s mode kwarg can be &quot;best&quot; or &quot;last&quot;&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Checkpointer.exists_checkpoint"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.exists_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">exists_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check if save_path contains a checkpoint folder.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if it contains a checkpoint folder, False if not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_ckpt_dir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;epoch&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">next_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_intraepoch</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_intraepoch</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;step&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">_build_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ckpt_folder_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="p">{}</span>
@@ -433,7 +516,7 @@
                 <span class="n">paths</span><span class="p">[</span><span class="n">module_name</span><span class="p">],</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_save_json</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_save_metadata</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">time_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">metadata_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
@@ -442,7 +525,7 @@
         <span class="n">intra_epoch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extra_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">metrics</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;intra_epoch&quot;</span><span class="p">:</span> <span class="n">intra_epoch</span><span class="p">,</span>
             <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
@@ -455,14 +538,14 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">metadata_handler</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">metadata_handler</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Checkpointer.update_best_metric"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.update_best_metric">[docs]</a>    <span class="k">def</span> <span class="nf">update_best_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">metrics</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_update_best_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">metrics</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_better</span><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">]</span></div>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_better</span><span class="p">(</span><span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Checkpointer.remove_old_ckpts"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.remove_old_ckpts">[docs]</a>    <span class="k">def</span> <span class="nf">remove_old_ckpts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curr_ckpt_folder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_remove_old_ckpts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curr_ckpt_folder</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">old_ckpt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">old_ckpt</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">curr_ckpt_folder</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_ckpt</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
                 <span class="s2">&quot;ckpt_&quot;</span>
@@ -473,56 +556,42 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">old_metadata</span><span class="p">:</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">old_ckpt</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_better</span><span class="p">(</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_better</span><span class="p">(</span>
                 <span class="n">old_metadata</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span>
             <span class="p">):</span>
-                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">old_ckpt</span><span class="p">)</span></div>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">old_ckpt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Checkpointer.is_better"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.is_better">[docs]</a>    <span class="k">def</span> <span class="nf">is_better</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_metric</span><span class="p">,</span> <span class="n">old_metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_is_better</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_metric</span><span class="p">,</span> <span class="n">old_metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">new_metric</span> <span class="o">&lt;=</span> <span class="n">old_metric</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">new_metric</span> <span class="o">&gt;=</span> <span class="n">old_metric</span></div>
+            <span class="k">return</span> <span class="n">new_metric</span> <span class="o">&gt;=</span> <span class="n">old_metric</span>
 
-<div class="viewcode-block" id="Checkpointer.load"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;best&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_best_checkpoint</span><span class="p">(</span><span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_last_checkpoint</span><span class="p">(</span><span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;load</span><span class="se">\&#39;</span><span class="s1">s mode kwarg can be &quot;best&quot; or &quot;last&quot;&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Checkpointer.exists_checkpoint"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.exists_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">exists_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ckpt_dir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
-
-<div class="viewcode-block" id="Checkpointer.load_best_checkpoint"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load_best_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">load_best_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_checkpoints_meta</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_load_best_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoints_meta</span><span class="p">()</span>
         <span class="n">ckpts_meta</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;initial_weights&quot;</span><span class="p">)</span>
         <span class="n">cmp_fn</span> <span class="o">=</span> <span class="nb">min</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span> <span class="k">else</span> <span class="nb">max</span>
         <span class="n">best_ckpt_name</span> <span class="o">=</span> <span class="n">cmp_fn</span><span class="p">(</span>
             <span class="n">ckpts_meta</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_metric</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_checkpoint_from_folder</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoint_from_folder</span><span class="p">(</span>
             <span class="n">best_ckpt_name</span><span class="p">,</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">best_ckpt_name</span><span class="p">],</span> <span class="o">**</span><span class="n">load_kwargs</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="Checkpointer.load_last_checkpoint"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load_last_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">load_last_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_checkpoints_meta</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_load_last_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoints_meta</span><span class="p">()</span>
         <span class="n">latest_ckpt_name</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ckpts_meta</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_checkpoint_from_folder</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoint_from_folder</span><span class="p">(</span>
             <span class="n">latest_ckpt_name</span><span class="p">,</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">latest_ckpt_name</span><span class="p">],</span> <span class="o">**</span><span class="n">load_kwargs</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="Checkpointer.load_checkpoints_meta"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load_checkpoints_meta">[docs]</a>    <span class="k">def</span> <span class="nf">load_checkpoints_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_load_checkpoints_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">folder</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ckpt_dir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_ckpt_dir</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
                 <span class="n">metadata_path</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="s2">&quot;metadata.json&quot;</span>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                     <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">folder</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -531,11 +600,11 @@
                     <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">folder</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ckpts_meta</span></div>
+        <span class="k">return</span> <span class="n">ckpts_meta</span>
 
-<div class="viewcode-block" id="Checkpointer.load_checkpoint_from_folder"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load_checkpoint_from_folder">[docs]</a>    <span class="k">def</span> <span class="nf">load_checkpoint_from_folder</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_load_checkpoint_from_folder</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ckpt_folder_name</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_paths</span><span class="p">(</span><span class="n">ckpt_folder_name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">module_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -550,33 +619,13 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Loaded ckpt from epoch </span><span class="si">{self.current_epoch}</span><span class="s2"> from </span><span class="si">{ckpt_folder_name}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Checkpointer.is_ckpt_dir"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.is_ckpt_dir">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">is_ckpt_dir</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]):</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ckpt_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;initial_weights&quot;</span></div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_is_ckpt_dir</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ckpt_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;initial_weights&quot;</span>
 
-<div class="viewcode-block" id="Checkpointer.is_intraepoch"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.is_intraepoch">[docs]</a>    <span class="k">def</span> <span class="nf">is_intraepoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_is_intraepoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;intra_epoch&quot;</span><span class="p">]</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">current_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;epoch&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="mi">0</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">next_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_intraepoch</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">+</span> <span class="mi">1</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_intraepoch</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;step&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="mi">0</span></div>
 </pre></div>
 
               </div>

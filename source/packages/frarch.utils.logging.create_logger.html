@@ -343,7 +343,25 @@
 <dl class="function">
 <dt id="frarch.utils.logging.create_logger.create_logger_file">
 <code class="sig-prename descclassname">frarch.utils.logging.create_logger.</code><code class="sig-name descname">create_logger_file</code><span class="sig-paren">(</span><em class="sig-param">log_file_path: Union[str, pathlib.Path], debug=False, stdout=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/logging/create_logger.html#create_logger_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.logging.create_logger.create_logger_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create logger file in file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_file_path</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – path to logger file.</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – log debug statements. Defaults to False.</p></li>
+<li><p><strong>stdout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – log to stdout as well as to the log file.
+Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – log_file_path is not a str or pathlib.Path object.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – debug is not boolean.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – stdout is not boolean.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 

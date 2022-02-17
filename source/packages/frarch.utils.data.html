@@ -342,50 +342,102 @@
 <span id="frarch-utils-data-package"></span><h1>frarch.utils.data package<a class="headerlink" href="#module-frarch.utils.data" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="frarch.utils.data.build_experiment_structure">
-<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">build_experiment_structure</code><span class="sig-paren">(</span><em class="sig-param">hparams_file</em>, <em class="sig-param">overrides=None</em>, <em class="sig-param">experiment_folder: str = 'results/debug/'</em>, <em class="sig-param">debug: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#build_experiment_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.build_experiment_structure" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">build_experiment_structure</code><span class="sig-paren">(</span><em class="sig-param">hparams_file: Union[str, pathlib.Path], experiment_folder: Union[str, pathlib.Path], overrides: Mapping = None, debug: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#build_experiment_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.build_experiment_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct experiment folder hierarchy on experiment_folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hparams_file</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – hparams configuration file path.</p></li>
+<li><p><strong>experiment_folder</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – Folder where to store experiment files.
+Defaults to “results/debug/”.</p></li>
+<li><p><strong>overrides</strong> (<em>Mapping</em><em>, </em><em>optional</em>) – Parameters to override on hparams file.
+Defaults to None.</p></li>
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – debug flag. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="frarch.utils.data.create_dataloader">
-<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">create_dataloader</code><span class="sig-paren">(</span><em class="sig-param">dataset: torch.utils.data.dataset.Dataset</em>, <em class="sig-param">**dataloader_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#create_dataloader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.create_dataloader" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">create_dataloader</code><span class="sig-paren">(</span><em class="sig-param">dataset: torch.utils.data.dataset.Dataset</em>, <em class="sig-param">**dataloader_kwargs</em><span class="sig-paren">)</span> &#x2192; torch.utils.data.dataloader.DataLoader<a class="reference internal" href="../../_modules/frarch/utils/data.html#create_dataloader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.create_dataloader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create dataloader from dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset</strong> (<em>torch.utils.data.Dataset</em>) – dataset object to feed onto DataLoader.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – dataset is not a Dataset or does not inherit from it.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dataloader with the dataset object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>torch.utils.data.DataLoader</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="frarch.utils.data.download_url">
-<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">download_url</code><span class="sig-paren">(</span><em class="sig-param">url</em>, <em class="sig-param">destination=None</em>, <em class="sig-param">progress_bar=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#download_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.download_url" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">download_url</code><span class="sig-paren">(</span><em class="sig-param">url: str</em>, <em class="sig-param">destination: Optional[str] = None</em>, <em class="sig-param">progress_bar: bool = True</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/frarch/utils/data.html#download_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.download_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a URL to a local file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The URL to download.</p></li>
-<li><p><strong>destination</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – The destination of the file. If None is given the file is saved to
-a temporary directory.</p></li>
-<li><p><strong>progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to show a command-line progress bar while downloading.</p></li>
+<li><p><strong>destination</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – The destination of the file. If None is
+given the file is saved to a temporary directory. Defaults to None.</p></li>
+<li><p><strong>progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><em>optional</em>) – The destination of the file. If None is given
+the file is saved to a temporary directory. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>filename</strong> – The location of the downloaded file.</p>
+<dd class="field-even"><p>filename of downloaded file.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<dl class="simple">
-<dt>Progress bar use/example adapted from tqdm documentation:</dt><dd><p><a class="reference external" href="https://github.com/tqdm/tqdm">https://github.com/tqdm/tqdm</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="frarch.utils.data.read_file">
-<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param">filepath: Union[str, pathlib.Path]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.read_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param">filepath: Union[str, pathlib.Path]</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/frarch/utils/data.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.read_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read contents of file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Path</em><em>]</em>) – path to file.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contents of the file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
-<dt id="frarch.utils.data.tensorInDevice">
-<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">tensorInDevice</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">device='cpu'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/data.html#tensorInDevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.tensorInDevice" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="frarch.utils.data.tensor_in_device">
+<code class="sig-prename descclassname">frarch.utils.data.</code><code class="sig-name descname">tensor_in_device</code><span class="sig-paren">(</span><em class="sig-param">data: Any</em>, <em class="sig-param">device: str = 'cpu'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/utils/data.html#tensor_in_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.utils.data.tensor_in_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create tensor in device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Any</em>) – data on the tensor.</p></li>
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>optional</em>) – string of the device to be created in.
+Defaults to “cpu”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tensor in device.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 

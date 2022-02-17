@@ -344,30 +344,104 @@
 <dt id="frarch.datasets.transforms.pil_transforms.PILBrightness">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILBrightness</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILBrightness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILBrightness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly dim or enhance brightness of an image.</p>
+<p>Randomly dim or enhance brightness of an image given as an input. Given var value,
+enhance brightness from a 1-var factor to a 1+var factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – float value to get random alpha value from [1-var, 1+var].</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_brightness</span> <span class="o">=</span> <span class="n">PILBrightness</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_brightness</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="frarch.datasets.transforms.pil_transforms.PILColorBalance">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILColorBalance</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILColorBalance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILColorBalance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly dim or enhance color of an image.</p>
+<p>Randomly dim or enhance color of an image given as an input. Given var value,
+enhance color from a 1-var factor to a 1+var factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – float value to get random alpha value from [1-var, 1+var].</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_color_balance</span> <span class="o">=</span> <span class="n">PILColorBalance</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_color_balance</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="frarch.datasets.transforms.pil_transforms.PILContrast">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILContrast</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILContrast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILContrast" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly dim or enhance contrast of an image.</p>
+<p>Randomly dim or enhance contrast of an image given as an input. Given var value,
+enhance contrast from a 1-var factor to a 1+var factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – float value to get random alpha value from [1-var, 1+var].</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_contrast</span> <span class="o">=</span> <span class="n">PILContrast</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="frarch.datasets.transforms.pil_transforms.PILSharpness">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PILSharpness</code><span class="sig-paren">(</span><em class="sig-param">var: float</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PILSharpness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PILSharpness" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Randomly dim or enhance sharpness of an image.</p>
+<p>Randomly dim or enhance sharpness of an image given as an input. Given var value,
+enhance sharpness from a 1-var factor to a 1+var factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – float value to get random alpha value from [1-var, 1+var].</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_sharpness</span> <span class="o">=</span> <span class="n">PILSharpness</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_sharpness</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="frarch.datasets.transforms.pil_transforms.PowerPIL">
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">PowerPIL</code><span class="sig-paren">(</span><em class="sig-param">rotate: bool = True</em>, <em class="sig-param">flip: bool = True</em>, <em class="sig-param">colorbalance: float = 0.4</em>, <em class="sig-param">contrast: float = 0.4</em>, <em class="sig-param">brightness: float = 0.4</em>, <em class="sig-param">sharpness: float = 0.4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#PowerPIL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.PowerPIL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#frarch.datasets.transforms.pil_transforms.RandomOrder" title="frarch.datasets.transforms.pil_transforms.RandomOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.datasets.transforms.pil_transforms.RandomOrder</span></code></a></p>
+<p>Composes several transforms together in random order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transforms</strong> (<em>Iterable</em><em>[</em><em>Callable</em><em>]</em>) – An iterable containing callable objects
+which take PIL.Image as input and outputs the same object type.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">powerpil</span> <span class="o">=</span> <span class="n">PowerPIL</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">powerpil</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
@@ -375,7 +449,14 @@
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">RandomFlip</code><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#RandomFlip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.RandomFlip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Randomly flips the given PIL.Image.</p>
-<p>Probability of 0.25 horizontal, 0.25 vertical, 0.5 as is</p>
+<p>Probability of 0.25 horizontal flip, 0.25 vertical flip, 0.5 no flip.</p>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_flip</span> <span class="o">=</span> <span class="n">RandomFlip</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_flip</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
@@ -383,6 +464,28 @@
 <em class="property">class </em><code class="sig-prename descclassname">frarch.datasets.transforms.pil_transforms.</code><code class="sig-name descname">RandomOrder</code><span class="sig-paren">(</span><em class="sig-param">transforms: Optional[Iterable[Callable]]</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/datasets/transforms/pil_transforms.html#RandomOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.datasets.transforms.pil_transforms.RandomOrder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Composes several transforms together in random order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transforms</strong> (<em>Iterable</em><em>[</em><em>Callable</em><em>]</em>) – An iterable containing callable objects
+which take PIL.Image as input and outputs the same object type.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_sharpness</span> <span class="o">=</span> <span class="n">RandomOrder</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">RandomFlip</span><span class="p">(),</span>
+        <span class="n">RandomRotate</span><span class="p">(),</span>
+        <span class="n">PILColorBalance</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="n">PILContrast</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="n">PILBrightness</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="n">PILSharpness</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_sharpness</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
@@ -391,6 +494,13 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Randomly rotate the given PIL.Image.</p>
 <p>Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.</p>
+<p class="rubric">Example</p>
+<p>Simple usage of the class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;testimage.jpg&quot;</span><span class="p">)</span>
+<span class="n">random_rotate</span> <span class="o">=</span> <span class="n">RandomRotate</span><span class="p">()</span>
+<span class="n">processed_image</span> <span class="o">=</span> <span class="n">random_rotate</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
