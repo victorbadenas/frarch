@@ -217,7 +217,7 @@ class TestCheckPointer(unittest.TestCase):
             save_path=self.TMP_CKPT_PATH, modules=self.modules, save_best_only=False
         )
         ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
-        self.assertEqual(ckpter.is_intraepoch(), False)
+        self.assertEqual(ckpter._is_intraepoch(), False)
         self.assertEqual(ckpter.current_epoch, 1)
         self.assertEqual(ckpter.next_epoch, 2)
         self.assertEqual(ckpter.step, 0)
@@ -231,7 +231,7 @@ class TestCheckPointer(unittest.TestCase):
             current_step=1000,
             intra_epoch=True,
         )
-        self.assertEqual(ckpter.is_intraepoch(), True)
+        self.assertEqual(ckpter._is_intraepoch(), True)
         self.assertEqual(ckpter.current_epoch, 1)
         self.assertEqual(ckpter.next_epoch, 1)
         self.assertEqual(ckpter.step, 1000)
