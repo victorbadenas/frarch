@@ -1,16 +1,15 @@
 import argparse
+from ast import Dict
 from pathlib import Path
+from typing import Any, Tuple
 
 
-def parse_arguments():
-    """Parse command-line arguments to the experiment.
+def parse_arguments() -> Tuple[str, Dict[str, Any]]:
+    """Parse arguments from command line.
 
-    Returns
-    -------
-    param_file : str
-        The location of the parameters file.
-    parameters : argparse.NameSpace
-        options
+    Returns:
+        params_file (str): hyperparams file path.
+        args (Dict[str, Any]]): arguments from argparse.Namespace.
     """
     parser = argparse.ArgumentParser(
         description="Run an experiment",
