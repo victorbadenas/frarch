@@ -1,10 +1,11 @@
 import logging
 from pathlib import Path
-from typing import Union
+from typing import Any, Mapping, Optional, Union
 from urllib.request import urlretrieve
 
 import torch
 from hyperpyyaml import resolve_references
+from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
 from frarch.utils.logging import create_logger_file
@@ -12,18 +13,39 @@ from frarch.utils.logging import create_logger_file
 logger = logging.getLogger(__name__)
 
 
-def create_dataloader(dataset: torch.utils.data.Dataset, **dataloader_kwargs):
-    if not isinstance(dataset, torch.utils.data.Dataset):
+def create_dataloader(dataset: Dataset, **dataloader_kwargs) -> DataLoader:
+    """Create dataloader from dataset.
+
+    Args:
+        dataset (torch.utils.data.Dataset): dataset object to feed onto DataLoader.
+
+    Raises:
+        ValueError: dataset is not a Dataset or does not inherit from it.
+
+    Returns:
+        torch.utils.data.DataLoader: dataloader with the dataset object.
+    """
+    if not isinstance(dataset, Dataset):
         raise ValueError("dataset needs to be a child or torch.utils.data.Dataset")
-    return torch.utils.data.DataLoader(dataset, **dataloader_kwargs)
+    return DataLoader(dataset, **dataloader_kwargs)
 
 
 def build_experiment_structure(
-    hparams_file,
-    overrides=None,
-    experiment_folder: str = "results/debug/",
+    hparams_file: Union[str, Path],
+    experiment_folder: Union[str, Path],
+    overrides: Mapping = None,
     debug: bool = False,
 ):
+    """Construct experiment folder hierarchy on experiment_folder.
+
+    Args:
+        hparams_file (Union[str, Path]): hparams configuration file path.
+        experiment_folder (Union[str, Path]): Folder where to store experiment files.
+            Defaults to "results/debug/".
+        overrides (Mapping, optional): Parameters to override on hparams file.
+            Defaults to None.
+        debug (bool, optional): debug flag. Defaults to False.
+    """
     if overrides is None:
         overrides = {}
 
@@ -44,28 +66,20 @@ def build_experiment_structure(
     logger.info(f"experiment folder {str(base_path)} created successfully")
 
 
-def download_url(url, destination=None, progress_bar=True):
+def download_url(
+    url: str, destination: Optional[str] = None, progress_bar: bool = True
+) -> str:
     """Download a URL to a local file.
 
-    Parameters
-    ----------
-    url : str
-        The URL to download.
-    destination : str, None
-        The destination of the file. If None is given the file is saved to
-        a temporary directory.
-    progress_bar : bool
-        Whether to show a command-line progress bar while downloading.
+    Args:
+        url (str): The URL to download.
+        destination (Optional[str], optional): The destination of the file. If None is
+            given the file is saved to a temporary directory. Defaults to None.
+        progress_bar (bool, optional): The destination of the file. If None is given
+            the file is saved to a temporary directory. Defaults to True.
 
-    Returns
-    -------
-    filename : str
-        The location of the downloaded file.
-
-    Notes
-    -----
-    Progress bar use/example adapted from tqdm documentation:
-        https://github.com/tqdm/tqdm
+    Returns:
+        str: filename of downloaded file.
     """
 
     def update_progressbar(t):
@@ -87,11 +101,30 @@ def download_url(url, destination=None, progress_bar=True):
             )
     else:
         filename, _ = urlretrieve(url, filename=destination)
+    return filename
 
 
-def tensorInDevice(data, device="cpu", **kwargs):
+def tensor_in_device(data: Any, device: str = "cpu", **kwargs) -> torch.Tensor:
+    """Create tensor in device.
+
+    Args:
+        data (Any): data on the tensor.
+        device (str, optional): string of the device to be created in.
+            Defaults to "cpu".
+
+    Returns:
+        torch.Tensor: tensor in device.
+    """
     return torch.Tensor(data, **kwargs).to(device)
 
 
-def read_file(filepath: Union[str, Path]):
+def read_file(filepath: Union[str, Path]) -> str:
+    """Read contents of file.
+
+    Args:
+        filepath (Union[str, Path]): path to file.
+
+    Returns:
+        str: contents of the file
+    """
     return Path(filepath).read_text()
