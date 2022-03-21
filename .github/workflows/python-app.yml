@@ -6,26 +6,12 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  pre-commit:
-    runs-on: ubuntu-latest
-    name: Pre-commit
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup Python 3.9
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.9
-    - name: Run pre-commit
-      uses: pre-commit/action@v2.0.3
-
   build:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: [3.7, 3.8, 3.9]
     runs-on: ${{ matrix.os }}
-    needs: [pre-commit]
 
     steps:
     - uses: actions/checkout@v3
