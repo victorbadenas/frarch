@@ -137,6 +137,8 @@ class ClassifierTrainer(BaseTrainer):
                         self._update_progress(
                             t, valid_step, stage="valid", valid_loss=avg_valid_loss
                         )
+                        if self.debug and self.step >= self.debug_batches:
+                            break
 
                     if not self.noprogressbar:
                         t.close()
