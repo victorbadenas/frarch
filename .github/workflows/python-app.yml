@@ -13,11 +13,6 @@ on:
     tags:
       - v*
   pull_request:
-    branches:
-      - master
-      - development
-      - feature_*
-      - fix_*
 
 jobs:
   build:
