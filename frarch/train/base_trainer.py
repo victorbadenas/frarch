@@ -97,7 +97,7 @@ class BaseTrainer:
         self.avg_train_loss = 0.0
         self.step = 0
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs) -> None:
         """Alias for fit."""
         return self.fit(*args, **kwargs)
 
@@ -122,7 +122,7 @@ class BaseTrainer:
         """
         raise NotImplementedError
 
-    def _on_fit_start(self):
+    def _on_fit_start(self) -> None:
         # Initialize optimizers
         self._init_optimizers()
 
@@ -144,43 +144,45 @@ class BaseTrainer:
         if self.start_epoch == 0:
             self._save_initial_weights()
 
-    def _save_initial_weights(self):
+    def _save_initial_weights(self) -> None:
         if self.checkpointer is not None:
             self.checkpointer.save_initial_weights()
 
-    def _init_optimizers(self):
+    def _init_optimizers(self) -> None:
         if self.opt_class is not None:
             self.optimizer = self.opt_class(self.modules.parameters())
 
-    def _on_fit_end(self, epoch: Optional[int] = None):
+    def _on_fit_end(self, epoch: Optional[int] = None) -> None:
         pass
 
-    def _on_stage_start(self, stage: Stage, epoch: Optional[int] = None):
+    def _on_stage_start(self, stage: Stage, epoch: Optional[int] = None) -> None:
         pass
 
-    def _on_stage_end(self, stage: Stage, loss=None, epoch: Optional[int] = None):
+    def _on_stage_end(
+        self, stage: Stage, loss=None, epoch: Optional[int] = None
+    ) -> None:
         pass
 
-    def _on_train_interval(self, epoch: Optional[int] = None):
+    def _on_train_interval(self, epoch: Optional[int] = None) -> None:
         pass
 
-    def _save_intra_epoch_ckpt(self):
+    def _save_intra_epoch_ckpt(self) -> None:
         raise NotImplementedError
 
-    def _forward(self, batch: torch.Tensor, stage: Stage):
+    def _forward(self, batch: torch.Tensor, stage: Stage) -> torch.Tensor:
         raise NotImplementedError
 
-    def _evaluate_batch(self, batch: torch.Tensor, stage: Stage):
+    def _evaluate_batch(self, batch: torch.Tensor, stage: Stage) -> torch.Tensor:
         out = self._forward(batch, stage=stage)
         loss = self._compute_loss(out, batch, stage=stage)
         return loss.detach().cpu()
 
     def _compute_loss(
         self, predictions: torch.Tensor, batch: torch.Tensor, stage: Stage
-    ):
+    ) -> torch.Tensor:
         raise NotImplementedError
 
-    def _fit_batch(self, batch: torch.Tensor):
+    def _fit_batch(self, batch: torch.Tensor) -> torch.Tensor:
         self.optimizer.zero_grad()
         outputs = self._forward(batch, Stage.TRAIN)
         loss = self._compute_loss(outputs, batch, Stage.TRAIN)
@@ -188,7 +190,9 @@ class BaseTrainer:
         self.optimizer.step()
         return loss.detach().cpu()
 
-    def _update_average(self, loss: torch.Tensor, avg_loss: torch.Tensor):
+    def _update_average(
+        self, loss: torch.Tensor, avg_loss: torch.Tensor
+    ) -> torch.Tensor:
         if torch.isfinite(loss):
             avg_loss -= avg_loss / self.step
             avg_loss += float(loss) / self.step

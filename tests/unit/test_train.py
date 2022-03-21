@@ -5,7 +5,7 @@ import torch
 
 from frarch.train import BaseTrainer, ClassifierTrainer
 
-DATA_FOLDER = Path("./tests/data/")
+DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 
 class MockModel(torch.nn.Module):

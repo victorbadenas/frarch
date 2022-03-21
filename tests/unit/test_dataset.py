@@ -7,7 +7,7 @@ import torch
 from frarch import datasets
 from frarch.utils.exceptions import DatasetNotFoundError
 
-DATA_FOLDER = Path("./tests/data/")
+DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 
 class TestCaltech101(unittest.TestCase):

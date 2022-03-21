@@ -4,7 +4,9 @@ from pathlib import Path
 from typing import Union
 
 
-def create_logger_file(log_file_path: Union[str, Path], debug=False, stdout=False):
+def create_logger_file(
+    log_file_path: Union[str, Path], debug: bool = False, stdout: bool = False
+) -> None:
     """Create logger file in file path.
 
     Args:
