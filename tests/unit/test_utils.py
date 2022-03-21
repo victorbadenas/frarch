@@ -7,7 +7,7 @@ import torch
 
 from frarch.utils import data, exceptions, logging
 
-DATA_FOLDER = Path("./tests/data/")
+DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 
 class MockDataset(torch.utils.data.Dataset):

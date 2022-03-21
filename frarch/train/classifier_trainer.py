@@ -137,6 +137,8 @@ class ClassifierTrainer(BaseTrainer):
                         self._update_progress(
                             t, valid_step, stage="valid", valid_loss=avg_valid_loss
                         )
+                        if self.debug and self.step >= self.debug_batches:
+                            break
 
                     if not self.noprogressbar:
                         t.close()
@@ -147,7 +149,7 @@ class ClassifierTrainer(BaseTrainer):
             self.avg_train_loss = 0.0
         self._on_fit_end()
 
-    def _get_iterable(self, dataset: torch.utils.data.DataLoader, **kwargs):
+    def _get_iterable(self, dataset: torch.utils.data.DataLoader, **kwargs) -> Iterable:
         if not self.noprogressbar:
             from tqdm import tqdm
 
@@ -157,14 +159,16 @@ class ClassifierTrainer(BaseTrainer):
             logger.warning(f"Running {self.__class__.__name__} without tqdm")
             return dataset
 
-    def _update_progress(self, iterable: Iterable, step: int, stage: Stage, **kwargs):
+    def _update_progress(
+        self, iterable: Iterable, step: int, stage: Stage, **kwargs
+    ) -> None:
         if self.noprogressbar:
             if not step % self.train_interval or (step >= len(iterable)) or (step == 1):
                 self._update_progress_console(iterable, step, stage=stage, **kwargs)
         else:
             self._update_progress_tqdm(iterable, **kwargs)
 
-    def _update_progress_tqdm(self, iterable: Iterable, **kwargs):
+    def _update_progress_tqdm(self, iterable: Iterable, **kwargs) -> None:
         if "metrics" in self.hparams:
             iterable.set_postfix(
                 **kwargs,
@@ -175,7 +179,7 @@ class ClassifierTrainer(BaseTrainer):
 
     def _update_progress_console(
         self, iterable: Iterable, step: int, stage: Stage, **kwargs
-    ):
+    ) -> None:
         kwargs_string = ", ".join([f"{k}={v:.4f}" for k, v in kwargs.items()])
         if "metrics" in self.hparams:
             metrics = self.hparams["metrics"].get_metrics(mode="mean")
@@ -183,7 +187,7 @@ class ClassifierTrainer(BaseTrainer):
         else:
             metrics_string = ""
 
-        print(
+        logger.info(
             f"Epoch {self.current_epoch} {stage}: step {step}/{len(iterable)}"
             f" -> {kwargs_string}, {metrics_string}"
         )

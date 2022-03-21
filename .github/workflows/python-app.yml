@@ -3,21 +3,7 @@
 
 name: CI
 
-on:
-  push:
-    branches:
-      - master
-      - development
-      - feature_*
-      - fix_*
-    tags:
-      - v*
-  pull_request:
-    branches:
-      - master
-      - development
-      - feature_*
-      - fix_*
+on: [push, pull_request]
 
 jobs:
   build:
@@ -28,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
@@ -47,7 +33,7 @@ jobs:
     needs: [build]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
@@ -98,7 +84,7 @@ jobs:
     needs: [build]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
@@ -123,7 +109,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, unittest]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v2
       with:
@@ -143,7 +129,7 @@ jobs:
     needs: [build, unittest, functional]
     steps:
     - name: checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python 3.7
       uses: actions/setup-python@v2

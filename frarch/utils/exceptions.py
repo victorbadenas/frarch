@@ -9,7 +9,9 @@ class DatasetNotFoundError(Exception):
         path ([Path, str]): path where the dataset should be
     """
 
-    def __init__(self, path: Union[str, Path], msg="Dataset not found in path {path}"):
+    def __init__(
+        self, path: Union[str, Path], msg: str = "Dataset not found in path {path}"
+    ) -> None:
         self.path = path
         self.msg = msg
         super().__init__(self.msg.format(path=path))
