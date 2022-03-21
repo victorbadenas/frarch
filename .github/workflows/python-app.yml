@@ -4,21 +4,6 @@
 name: CI
 
 on: [push, pull_request]
-#  push:
-#    branches:
-#      - master
-#      - development
-#      - feature_*
-#      - fix_*
-#    tags:
-#      - v*
-#  pull_request:
-#    branches:
-#      - master
-#      - development
-#      - feature_*
-#      - fix_*
-#      - docs_*
 
 jobs:
   build:
