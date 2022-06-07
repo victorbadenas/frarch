@@ -7,7 +7,7 @@ import torch
 
 from frarch.utils import data, exceptions, logging
 
-DATA_FOLDER = Path("./tests/data/")
+DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 
 class MockDataset(torch.utils.data.Dataset):
@@ -51,13 +51,13 @@ class TestData(unittest.TestCase):
 
     def test_tensorInDevice(self):
         tensor_data = list(range(10))
-        tensor = data.tensorInDevice(tensor_data)
+        tensor = data.tensor_in_device(tensor_data)
         self.assertIsInstance(tensor, torch.Tensor)
         self.assertTupleEqual(tensor.shape, (10,))
 
     def test_tensorInDevice_cpu(self):
         tensor_data = list(range(10))
-        tensor = data.tensorInDevice(tensor_data, device="cpu")
+        tensor = data.tensor_in_device(tensor_data, device="cpu")
         self.assertEqual(str(tensor.device), "cpu")
 
     def test_read_file(self):

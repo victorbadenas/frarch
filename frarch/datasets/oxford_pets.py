@@ -1,9 +1,10 @@
 import logging
 import tarfile
 from pathlib import Path
-from typing import Callable, Union
+from typing import Callable, List, Union
 from urllib.parse import urlparse
 
+import torch
 from PIL import Image
 from torch.utils.data import Dataset
 
@@ -19,6 +20,41 @@ urls = {
 
 
 class OxfordPets(Dataset):
+    """Oxford Pets dataset object.
+
+    Data loader for the Oxford Pets dataset for pet recognition. The dataset can be
+    obtained from https://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz and
+    their corresponding labels in
+    https://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz.
+
+    Args:
+        subset (str): "train" or "valid". Subset to load. Defaults to "train".
+        transform (Callable): a callable object that takes an `PIL.Image` object and
+            returns a modified `PIL.Image` object. Defaults to None, which won't apply
+            any transformation.
+        target_transform (Callable): a callable object that the label data and returns
+            modified label data. Defaults to None, which won't apply any transformation.
+        download (bool): True for downloading and storing the dataset data in the `root`
+            directory if it's not present. Defaults to True.
+        root (Union[str, Path]): root directory for the dataset.
+            Defaults to `~/.cache/frarch/datasets/oxford_pets/`.
+
+    References:
+        - https://www.robots.ox.ac.uk/~vgg/data/pets/
+
+    Examples:
+        Simple usage of the dataset class::
+
+            from frarch.datasets import Mit67
+            from frarch.utils.data import create_dataloader
+            from torchvision.transforms import ToTensor
+
+            dataset = OxfordPets( "train", ToTensor, None, True, "./data/")
+            dataloader = create_dataloader(dataset)
+            for batch_idx, (batch, labels) in enumerate(dataloader):
+                # process batch
+    """
+
     def __init__(
         self,
         subset: str = "train",
@@ -26,7 +62,7 @@ class OxfordPets(Dataset):
         target_transform: Callable = None,
         download: bool = True,
         root: Union[str, Path] = "~/.cache/frarch/datasets/oxford_pets/",
-    ):
+    ) -> None:
         if subset not in ["train", "valid"]:
             raise ValueError(f"set must be train or test not {subset}")
 
@@ -41,8 +77,8 @@ class OxfordPets(Dataset):
         self.valid_lst_path = self.root / "annotations" / "test.txt"
 
         if download and not self._detect_dataset():
-            self.download_dataset()
-            self.download_annotations()
+            self._download_dataset()
+            self._download_annotations()
         if not self._detect_dataset():
             raise DatasetNotFoundError(
                 f"download flag not set and dataset not present in {self.root}"
@@ -55,7 +91,7 @@ class OxfordPets(Dataset):
             f" in {len(self.classes)} classes"
         )
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Union[torch.Tensor, int]:
         path, target = self.images[index]
         img = Image.open(path).convert("RGB")
         if self.transform is not None:
@@ -64,19 +100,24 @@ class OxfordPets(Dataset):
             target = self.target_transform(target)
         return img, target
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.images)
 
-    def get_number_classes(self):
+    def get_number_classes(self) -> int:
+        """Get number of target labels.
+
+        Returns:
+            int: number of target labels.
+        """
         return len(self.classes)
 
-    def download_annotations(self):
-        self.download_file("images")
+    def _download_annotations(self) -> None:
+        self._download_file("images")
 
-    def download_dataset(self):
-        self.download_file("annotations")
+    def _download_dataset(self) -> None:
+        self._download_file("annotations")
 
-    def download_file(self, url_key):
+    def _download_file(self, url_key: str) -> None:
         self.root.mkdir(parents=True, exist_ok=True)
 
         # download train/val images/annotations
@@ -96,10 +137,10 @@ class OxfordPets(Dataset):
         logger.info(f"Done! Removing dached file {cached_file}...")
         cached_file.unlink()
 
-    def _get_file_paths(self):
+    def _get_file_paths(self) -> List[Path]:
         return list(self.images_root.glob("*.jpg"))
 
-    def _detect_dataset(self):
+    def _detect_dataset(self) -> bool:
         if not self.root.exists():
             return False
         else:
@@ -109,7 +150,7 @@ class OxfordPets(Dataset):
             )
             return num_images > 0 and annotations_present
 
-    def _load_set(self):
+    def _load_set(self) -> None:
         path = self.train_lst_path if self.set == "train" else self.valid_lst_path
         with path.open("r") as f:
             self.images = []

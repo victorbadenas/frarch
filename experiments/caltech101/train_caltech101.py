@@ -27,50 +27,25 @@ from frarch.utils.stages import Stage
 
 
 class Caltech101Trainer(fr.train.ClassifierTrainer):
-    def __init__(self, *args, **kwargs):
-        super(Caltech101Trainer, self).__init__(*args, **kwargs)
-        if "padding" in self.hparams:
-            if self.hparams["padding"] == "valid":
-                self.change_model_padding()
-            elif self.hparams["padding"] == "same":
-                logger.info("padding not changed. Defaulting to same.")
-            else:
-                logger.warning(
-                    "padding configuration not understood. Defaulting to same."
-                )
-
-    def change_model_padding(self):
-        for layer_name, layer in self.modules.model.named_modules():
-            if isinstance(layer, torch.nn.Conv2d):
-                padding_conf = self.hparams["padding"]
-                logger.info(
-                    f"Changing {layer_name}'s padding from same to {padding_conf}"
-                )
-                layer._reversed_padding_repeated_twice = (0, 0, 0, 0)
-                layer.padding = (0, 0)
-        self.modules.model.avgpool.output_size = (3, 3)
-        self.modules.model.classifier[0] = torch.nn.Linear(512 * 3 * 3, 4096)
-        self.modules = self.modules.to(self.device)
-
-    def forward(self, batch, stage):
+    def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
         return self.modules.model(inputs)
 
-    def compute_loss(self, predictions, batch, stage):
+    def _compute_loss(self, predictions, batch, stage):
         _, labels = batch
         labels = labels.to(self.device)
         loss = self.hparams["loss"](predictions, labels)
         self.hparams["metrics"].update(predictions, labels)
         return loss
 
-    def on_stage_start(self, stage, loss=None, epoch=None):
+    def _on_stage_start(self, stage, loss=None, epoch=None):
         self.hparams["metrics"].reset()
         if self.debug:
             metrics = self.hparams["metrics"].get_metrics(mode="mean")
             logger.debug(metrics)
 
-    def on_stage_end(self, stage, loss=None, epoch=None):
+    def _on_stage_end(self, stage, loss=None, epoch=None):
         metrics = self.hparams["metrics"].get_metrics(mode="mean")
         metrics_string = "".join([f"{k}={v:.4f}" for k, v in metrics.items()])
 
