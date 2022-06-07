@@ -66,7 +66,7 @@ jobs:
 
     - if: ${{ matrix.python == '3.9' }}
       name: Create the Badge
-      uses: schneegans/dynamic-badges-action@v1.0.0
+      uses: schneegans/dynamic-badges-action@v1.4.0
       with:
         auth: ${{ secrets.GIST_SECRET }}
         gistID: 9b54bd086e121233d2ad9a62d2136258
