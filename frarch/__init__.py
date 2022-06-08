@@ -1,5 +1,4 @@
 from importlib.metadata import metadata
-from pathlib import Path
 
 from . import datasets
 from . import models
