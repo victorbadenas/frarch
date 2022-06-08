@@ -150,7 +150,7 @@ class Mit67(Dataset):
             self.classes = json.load(f)
 
     def _build_class_mapper(self, all_paths: List[Path]) -> None:
-        classes_set = set(map(lambda path: path.parts[-2], all_paths))
+        classes_set = {path.parts[-2] for path in all_paths}
         logger.info(f"found {len(classes_set)} classes.")
         class_mapper = dict(zip(classes_set, range(len(classes_set))))
         logger.info(f"class mapper built: {class_mapper}")
@@ -163,7 +163,7 @@ class Mit67(Dataset):
         self._load_set(self.set)
 
     def _build_train_test_files(self, all_paths: List[Path]) -> None:
-        classes_list = list(map(lambda path: path.parts[-2], all_paths))
+        classes_list = [path.parts[-2] for path in all_paths]
         instance_counter = Counter(classes_list)
 
         train_instances, valid_instances = [], []
