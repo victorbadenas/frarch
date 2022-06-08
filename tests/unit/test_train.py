@@ -3,7 +3,8 @@ from pathlib import Path
 
 import torch
 
-from frarch.train import BaseTrainer, ClassifierTrainer
+from frarch.train import BaseTrainer
+from frarch.train import ClassifierTrainer
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 

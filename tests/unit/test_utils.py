@@ -5,7 +5,9 @@ from pathlib import Path
 
 import torch
 
-from frarch.utils import data, exceptions, logging
+from frarch.utils import data
+from frarch.utils import exceptions
+from frarch.utils import logging
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
@@ -25,8 +27,7 @@ def is_file_handler_in_logging(file_path):
     for h in logging_module.root.handlers:
         if h.baseFilename == str(Path(file_path).absolute()):
             return True
-    else:
-        return False
+    return False
 
 
 class TestData(unittest.TestCase):

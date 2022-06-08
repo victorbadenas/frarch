@@ -1,5 +1,8 @@
 import random
-from typing import Callable, Iterable, Optional, Union
+from collections.abc import Callable
+from collections.abc import Iterable
+from typing import Optional
+from typing import Union
 
 import PIL.Image as im
 import PIL.ImageEnhance as ie

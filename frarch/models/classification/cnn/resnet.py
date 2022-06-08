@@ -9,8 +9,10 @@ ResNet definition. Slightly tweaked pytorch implementation.
 :Version: 0.1.0
 :Created on: 21/07/2021 19:00
 """
-
-from typing import Any, Callable, List, Optional
+from collections.abc import Callable
+from typing import Any
+from typing import List
+from typing import Optional
 
 import torch
 import torch.nn as nn

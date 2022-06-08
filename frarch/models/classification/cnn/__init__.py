@@ -1,16 +1,17 @@
-from .fashionCNN import FashionClassifier, FashionCNN
-from .mitCNNs import MitCNN, MitCNNClassifier
-from .mnistCNN import MNISTCNN, MNISTClassifier
-from .vgg import (
-    VGG,
-    VGGClassifier,
-    vgg11,
-    vgg11_bn,
-    vgg13,
-    vgg13_bn,
-    vgg16,
-    vgg16_bn,
-    vgg19,
-    vgg19_bn,
-    vggclassifier,
-)
+from .fashionCNN import FashionClassifier
+from .fashionCNN import FashionCNN
+from .mitCNNs import MitCNN
+from .mitCNNs import MitCNNClassifier
+from .mnistCNN import MNISTClassifier
+from .mnistCNN import MNISTCNN
+from .vgg import VGG
+from .vgg import vgg11
+from .vgg import vgg11_bn
+from .vgg import vgg13
+from .vgg import vgg13_bn
+from .vgg import vgg16
+from .vgg import vgg16_bn
+from .vgg import vgg19
+from .vgg import vgg19_bn
+from .vgg import VGGClassifier
+from .vgg import vggclassifier

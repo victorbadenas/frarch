@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any
+from typing import Dict
+from typing import Tuple
 
 
 def parse_arguments() -> Tuple[str, Dict[str, Any]]:
