@@ -3,12 +3,13 @@ name: docs
 on:
   push:
     branches:
-      - main
+    - main
+    tags:
+    - v*
   pull_request:
     branches:
-      - main
-  tags:
-    - v*
+    - main
+
 
 
 jobs:
