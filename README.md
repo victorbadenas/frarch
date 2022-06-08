@@ -46,18 +46,24 @@ Once the python environment has been created, you can install frarch by executin
 ```bash
 git clone https://github.com/victorbadenas/frarch.git
 cd frarch
-python setup.py install
+pip install . # for enabling editable mode use the `-e` flag
 ```
 
-for development instead of the last command, run `python setup.py develop` to be able to hot reload changes to the package.
+for development instead of the last command, run `pip install -e .[dev]` to be able to hot reload changes to the package.
 
 ### Test
 
 To run the tests for the frarch package:
 
 ```bash
-python setup.py install
 python -m unittest discover
+```
+
+or with coverage
+
+```bash
+coverage run -m unittest discover -s tests/unit
+coverage report -m --omit='tests/unit/*'
 ```
 
 ### Documentation
