@@ -1,6 +1,15 @@
 name: docs
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  tags:
+    - v*
+
 
 jobs:
   docs-html:
