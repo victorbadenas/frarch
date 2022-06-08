@@ -11,8 +11,9 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 Categories for changes are: Added, Changed, Deprecated, Removed, Fixed, Security.
 
 
-Version `0.1.0 <https://github.com/vbadenas/frarch/tree/0.1.0>`__
+Version `0.1.5 <https://github.com/vbadenas/frarch/tree/0.1.5>`__
 --------------------------------------------------------------------------------
 
-Release date: YYYY-MM-DD.
-Initial release (to be released).
+Release date: 2021.11.23
+
+* Initial release

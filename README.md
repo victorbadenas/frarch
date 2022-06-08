@@ -1,10 +1,13 @@
 # Frarch <img src="docs/logo.png" alt="drawing" width="30"/>
 
-![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/victorbadenas/9b54bd086e121233d2ad9a62d2136258/raw/frarch__heads_master.json&style=flat)
 ![Pytorch](https://img.shields.io/static/v1?label=PyTorch&message=v1.9.1&color=orange&style=flat&logo=pytorch)
 ![python](https://img.shields.io/pypi/pyversions/frarch?logo=python&style=flat)
 
 ![CI](https://github.com/victorbadenas/frarch/actions/workflows/python-app.yml/badge.svg?style=flat)
+![docs](https://github.com/victorbadenas/frarch/actions/workflows/docs.yaml/badge.svg?style=flat)
+![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/victorbadenas/9b54bd086e121233d2ad9a62d2136258/raw/frarch__heads_master.json&style=flat)
+
+
 [![PyPI version fury.io](https://badge.fury.io/py/frarch.svg?style=flat)](https://pypi.python.org/pypi/frarch/)
 ![license](https://img.shields.io/github/license/victorbadenas/frarch?style=flat)
 
@@ -43,18 +46,24 @@ Once the python environment has been created, you can install frarch by executin
 ```bash
 git clone https://github.com/victorbadenas/frarch.git
 cd frarch
-python setup.py install
+pip install . # for enabling editable mode use the `-e` flag
 ```
 
-for development instead of the last command, run `python setup.py develop` to be able to hot reload changes to the package.
+for development instead of the last command, run `pip install -e .[dev]` to be able to hot reload changes to the package.
 
 ### Test
 
 To run the tests for the frarch package:
 
 ```bash
-python setup.py install
 python -m unittest discover
+```
+
+or with coverage
+
+```bash
+coverage run -m unittest discover -s tests/unit
+coverage report -m --omit='tests/unit/*'
 ```
 
 ### Documentation
