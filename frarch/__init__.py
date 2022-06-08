@@ -1,3 +1,4 @@
+from importlib.metadata import metadata
 from pathlib import Path
 
 from . import datasets
@@ -7,4 +8,8 @@ from . import train
 from . import utils
 from .parser import parse_arguments
 
-__version__ = Path(__file__).with_name("_version.txt").read_text("utf-8").strip()
+__meta__ = type("FrarchMeta", (), metadata("frarch").json)
+
+__version__ = __meta__.version
+
+print()

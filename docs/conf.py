@@ -26,7 +26,7 @@ from frarch import __meta__ as meta  # noqa: E402 isort:skip
 now = datetime.datetime.now()
 
 project = meta.name
-project_path = meta.path
+project_path = meta.name
 author = meta.author
 copyright = "{}, {}".format(now.year, author)
 
