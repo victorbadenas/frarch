@@ -26,7 +26,7 @@ jobs:
       with:
         docs-folder: "docs/"
         pre-build-command: "pip install .[docs]"
-        build-command: "make -C docs html"
+#        build-command: "make -C docs html"
 
     - name: Determine default branch
       run: |
