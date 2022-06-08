@@ -10,5 +10,3 @@ from .parser import parse_arguments
 __meta__ = type("FrarchMeta", (), metadata("frarch").json)
 
 __version__ = __meta__.version
-
-print()
