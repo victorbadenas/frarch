@@ -10,6 +10,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    frarch.models.classification
 
@@ -17,5 +18,6 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    frarch.models.mock

@@ -1,13 +1,16 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>frarch.models.classification.cnn.resnet module &#8212; frarch 0.1.5 documentation</title>
     
-  <link href="../../_static/css/theme.css" rel="stylesheet">
-  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -17,23 +20,19 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/rtd_sphinx_search.min.css" />
     
-  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
-    <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="frarch.models.classification.cnn.vgg module" href="frarch.models.classification.cnn.vgg.html" />
@@ -45,7 +44,21 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -54,14 +67,10 @@
     <div class="container-xl">
       <div class="row">
           
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../index.html">
       
       
@@ -74,7 +83,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -257,74 +266,123 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
-<div class="sbt-scroll-pixel-helper"></div>
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            <div class="topbar-left">
-                
-                <label class="nav-toggle-button" for="__navigation">
-                    <div class="visually-hidden">Toggle navigation</div>
-                    <i class="fas fa-bars"></i>
-                </label>
-                
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
             </div>
             
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
 
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/source/packages/frarch.models.classification.cnn.resnet.rst.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/source/packages/frarch.models.classification.cnn.resnet.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-        </div>
-    </div>
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>frarch.models.classification.cnn.resnet module</h1>
@@ -335,11 +393,12 @@
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="section" id="module-frarch.models.classification.cnn.resnet">
-<span id="frarch-models-classification-cnn-resnet-module"></span><h1>frarch.models.classification.cnn.resnet module<a class="headerlink" href="#module-frarch.models.classification.cnn.resnet" title="Permalink to this headline">¶</a></h1>
+  <section id="module-frarch.models.classification.cnn.resnet">
+<span id="frarch-models-classification-cnn-resnet-module"></span><h1>frarch.models.classification.cnn.resnet module<a class="headerlink" href="#module-frarch.models.classification.cnn.resnet" title="Permalink to this headline">#</a></h1>
 <p>ResNet definition. Slightly tweaked pytorch implementation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Description</dt>
@@ -356,9 +415,9 @@ pytorch.org</p>
 <dd class="field-even"><p>21/07/2021 19:00</p>
 </dd>
 </dl>
-<dl class="class">
-<dt id="frarch.models.classification.cnn.resnet.ResNet">
-<em class="property">class </em><code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param">block: frarch.models.classification.cnn.resnet.ResNetBlock, layers: List[int], num_classes: int = 1000, zero_init_residual: bool = False, groups: int = 1, width_per_group: int = 64, replace_stride_with_dilation: Optional[List[bool]] = None, norm_layer: Optional[Callable[[...], torch.nn.modules.module.Module]] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.ResNet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">ResNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">frarch.models.classification.cnn.resnet.ResNetBlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_init_residual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_per_group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_stride_with_dilation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_layer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Residual network architecture model.</p>
 <dl class="field-list simple">
@@ -374,14 +433,14 @@ Defaults to 1.</p></li>
 <li><p><strong>width_per_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Width for convolutional residual blocks. Defaults to 64.</p></li>
 <li><p><strong>replace_stride_with_dilation</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>]</em><em>]</em>) – Optional list of boolean
 values to replace stride with dilation. Defaults to None.</p></li>
-<li><p><strong>norm_layer</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>[</em><em>..</em><em>, </em><em>nn.Module</em><em>]</em><em>]</em>) – Norm layer. If None, defaults
+<li><p><strong>norm_layer</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>[</em><em>...</em><em>, </em><em>nn.Module</em><em>]</em><em>]</em>) – Norm layer. If None, defaults
 to BatchNorm2d. Defautls to None.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="frarch.models.classification.cnn.resnet.ResNet.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.forward" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.ResNet.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#ResNet.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.forward" title="Permalink to this definition">#</a></dt>
 <dd><p>Define the computation performed at every call.</p>
 <p>forward computation for ResNet.</p>
 <dl class="field-list simple">
@@ -397,61 +456,16 @@ to BatchNorm2d. Defautls to None.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="frarch.models.classification.cnn.resnet.ResNet.training">
-<code class="sig-name descname">training</code><em class="property"> = None</em><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.training" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.ResNet.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#frarch.models.classification.cnn.resnet.ResNet.training" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet18">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet18</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet18"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet18" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-18 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
-<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet34">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet34</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet34"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet34" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-34 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
-<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet50">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet50</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet50"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet50" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNet-50 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
-<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet101">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet101</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet101" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnet101">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnet101</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet101" title="Permalink to this definition">#</a></dt>
 <dd><p>ResNet-101 model.</p>
 <p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
 <dl class="field-list simple">
@@ -464,9 +478,9 @@ to BatchNorm2d. Defautls to None.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnet152">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnet152</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet152"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet152" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnet152">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnet152</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet152" title="Permalink to this definition">#</a></dt>
 <dd><p>ResNet-152 model.</p>
 <p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
 <dl class="field-list simple">
@@ -479,11 +493,11 @@ to BatchNorm2d. Defautls to None.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnext50_32x4d">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnext50_32x4d</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext50_32x4d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext50_32x4d" title="Permalink to this definition">¶</a></dt>
-<dd><p>ResNeXt-50 32x4d model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnet18">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnet18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet18" title="Permalink to this definition">#</a></dt>
+<dd><p>ResNet-18 model.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -494,9 +508,39 @@ to BatchNorm2d. Defautls to None.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.resnext101_32x8d">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">resnext101_32x8d</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext101_32x8d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext101_32x8d" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnet34">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnet34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet34" title="Permalink to this definition">#</a></dt>
+<dd><p>ResNet-34 model.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnet50">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnet50</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnet50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnet50" title="Permalink to this definition">#</a></dt>
+<dd><p>ResNet-50 model.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">“Deep Residual Learning for Image Recognition”</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnext101_32x8d">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnext101_32x8d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext101_32x8d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext101_32x8d" title="Permalink to this definition">#</a></dt>
 <dd><p>ResNeXt-101 32x8d model.</p>
 <p>From <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a>.</p>
 <dl class="field-list simple">
@@ -509,15 +553,11 @@ to BatchNorm2d. Defautls to None.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.wide_resnet50_2">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">wide_resnet50_2</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet50_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet50_2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wide ResNet-50-2 model.</p>
-<p>From <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a>.
-The model is the same as ResNet except for the bottleneck number of channels
-which is twice larger in every block. The number of channels in outer 1x1
-convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
-channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.resnext50_32x4d">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">resnext50_32x4d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#resnext50_32x4d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.resnext50_32x4d" title="Permalink to this definition">#</a></dt>
+<dd><p>ResNeXt-50 32x4d model.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -528,9 +568,9 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="frarch.models.classification.cnn.resnet.wide_resnet101_2">
-<code class="sig-prename descclassname">frarch.models.classification.cnn.resnet.</code><code class="sig-name descname">wide_resnet101_2</code><span class="sig-paren">(</span><em class="sig-param">pretrained: bool = False</em>, <em class="sig-param">progress: bool = True</em>, <em class="sig-param">**kwargs: Any</em><span class="sig-paren">)</span> &#x2192; frarch.models.classification.cnn.resnet.ResNet<a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet101_2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet101_2" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.wide_resnet101_2">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">wide_resnet101_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet101_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet101_2" title="Permalink to this definition">#</a></dt>
 <dd><p>Wide ResNet-101-2 model.</p>
 <p>From <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a>.
 The model is the same as ResNet except for the bottleneck number of channels
@@ -547,14 +587,35 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
 </dl>
 </dd></dl>
 
-</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="frarch.models.classification.cnn.resnet.wide_resnet50_2">
+<span class="sig-prename descclassname"><span class="pre">frarch.models.classification.cnn.resnet.</span></span><span class="sig-name descname"><span class="pre">wide_resnet50_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#frarch.models.classification.cnn.resnet.ResNet" title="frarch.models.classification.cnn.resnet.ResNet"><span class="pre">frarch.models.classification.cnn.resnet.ResNet</span></a></span></span><a class="reference internal" href="../../_modules/frarch/models/classification/cnn/resnet.html#wide_resnet50_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.models.classification.cnn.resnet.wide_resnet50_2" title="Permalink to this definition">#</a></dt>
+<dd><p>Wide ResNet-50-2 model.</p>
+<p>From <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a>.
+The model is the same as ResNet except for the bottleneck number of channels
+which is twice larger in every block. The number of channels in outer 1x1
+convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048
+channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pretrained</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, returns a model pre-trained on ImageNet</p></li>
+<li><p><strong>progress</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If True, displays a progress bar of the download to stderr</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="frarch.models.classification.cnn.mnistCNN.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -570,24 +631,28 @@ channels, and in Wide ResNet-50-2 has 2048-1024-2048.</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By vbadenas<br/>
+  
+      &copy; Copyright 2022, vbadenas.<br/>
+</p>
+        </footer>
+    </div>
     
-      By vbadenas<br/>
-    
-        &copy; Copyright 2022, vbadenas.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

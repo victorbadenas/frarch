@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
+   :maxdepth: 4
 
    frarch.train.base_trainer
    frarch.train.classifier_trainer
