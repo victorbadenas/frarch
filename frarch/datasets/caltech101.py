@@ -2,13 +2,13 @@ import json
 import logging
 import random
 from collections import Counter
-from collections.abc import Callable
-from collections.abc import Iterable
-from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
+from typing import Callable
 from typing import Dict
+from typing import Iterable
 from typing import List
+from typing import Mapping
 from typing import Tuple
 from typing import Union
 

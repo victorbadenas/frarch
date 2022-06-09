@@ -3,8 +3,8 @@ import logging
 import random
 import tarfile
 from collections import Counter
-from collections.abc import Callable
 from pathlib import Path
+from typing import Callable
 from typing import List
 from typing import Union
 from urllib.parse import urlparse

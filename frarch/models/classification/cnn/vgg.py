@@ -11,12 +11,12 @@ VGG definition. Slightly modified pytorch implementation.
 """
 import logging
 from collections import OrderedDict
-from collections.abc import Iterable
-from collections.abc import Mapping
 from typing import Any
 from typing import cast
 from typing import Dict
+from typing import Iterable
 from typing import List
+from typing import Mapping
 from typing import Union
 
 import torch

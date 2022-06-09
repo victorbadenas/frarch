@@ -1,7 +1,7 @@
 import logging
-from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
+from typing import Mapping
 from typing import Optional
 from typing import Union
 from urllib.request import urlretrieve

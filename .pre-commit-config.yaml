@@ -88,4 +88,4 @@ repos:
     rev: v3.1.0
     hooks:
     - id: reorder-python-imports
-      args: [--py39-plus]
+      args: [--py38-plus]
