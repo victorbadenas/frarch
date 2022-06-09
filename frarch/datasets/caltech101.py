@@ -3,7 +3,14 @@ import logging
 import random
 from collections import Counter
 from pathlib import Path
-from typing import Callable, Iterable, List, Mapping, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Mapping
+from typing import Tuple
+from typing import Union
 
 import torch
 from PIL import Image
@@ -135,7 +142,7 @@ class Caltech101(Dataset):
         train_instances, valid_instances = [], []
         for class_name, count in instance_counter.items():
             class_instances = list(
-                filter(lambda x: x.parts[-2] == class_name, all_paths)
+                filter(lambda x, name=class_name: x.parts[-2] == name, all_paths)
             )
             random.shuffle(class_instances)
             valid_count = max(1, int(count / 10))
@@ -185,7 +192,7 @@ class Caltech101(Dataset):
                 path, label = line.strip().split(",")
                 self.images.append((path, int(label)))
 
-    def _dump_class_map(self, class_mapper: Mapping) -> None:
+    def _dump_class_map(self, class_mapper: dict) -> None:
         with self.mapper_path.open("w") as f:
             json.dump(class_mapper, f)
 

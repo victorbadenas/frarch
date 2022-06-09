@@ -9,10 +9,15 @@ VGG definition. Slightly modified pytorch implementation.
 :Version: 0.1.0
 :Created on: 21/07/2021 19:00
 """
-
 import logging
 from collections import OrderedDict
-from typing import Any, Dict, Iterable, List, Mapping, Union, cast
+from typing import Any
+from typing import cast
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Mapping
+from typing import Union
 
 import torch
 import torch.nn as nn
@@ -176,7 +181,7 @@ class VGG(nn.Module):
                     state_dict, "features", "classifier"
                 )
                 self.load_state_dict(features_state_dict)
-                return
+                break
         else:
             logging.warning(
                 "no match found for pretrained models in the pytorch repository"

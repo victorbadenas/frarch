@@ -1,5 +1,7 @@
 import random
-from typing import Callable, Iterable, Optional, Union
+from typing import Callable
+from typing import Iterable
+from typing import Optional
 
 import PIL.Image as im
 import PIL.ImageEnhance as ie

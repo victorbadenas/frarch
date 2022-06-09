@@ -4,7 +4,9 @@ import random
 import tarfile
 from collections import Counter
 from pathlib import Path
-from typing import Callable, List, Union
+from typing import Callable
+from typing import List
+from typing import Union
 from urllib.parse import urlparse
 
 import torch
@@ -169,7 +171,7 @@ class Mit67(Dataset):
         train_instances, valid_instances = [], []
         for class_name, count in instance_counter.items():
             class_instances = list(
-                filter(lambda x: x.parts[-2] == class_name, all_paths)
+                filter(lambda x, name=class_name: x.parts[-2] == name, all_paths)
             )
             random.shuffle(class_instances)
             valid_count = max(1, int(count / 10))

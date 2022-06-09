@@ -1,16 +1,14 @@
 from . import cnn
-from .cnn import (
-    MNISTCNN,
-    VGG,
-    FashionCNN,
-    VGGClassifier,
-    vgg11,
-    vgg11_bn,
-    vgg13,
-    vgg13_bn,
-    vgg16,
-    vgg16_bn,
-    vgg19,
-    vgg19_bn,
-    vggclassifier,
-)
+from .cnn import FashionCNN
+from .cnn import MNISTCNN
+from .cnn import VGG
+from .cnn import vgg11
+from .cnn import vgg11_bn
+from .cnn import vgg13
+from .cnn import vgg13_bn
+from .cnn import vgg16
+from .cnn import vgg16_bn
+from .cnn import vgg19
+from .cnn import vgg19_bn
+from .cnn import VGGClassifier
+from .cnn import vggclassifier

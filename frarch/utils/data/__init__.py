@@ -1,11 +1,15 @@
 import logging
 from pathlib import Path
-from typing import Any, Mapping, Optional, Union
+from typing import Any
+from typing import Mapping
+from typing import Optional
+from typing import Union
 from urllib.request import urlretrieve
 
 import torch
 from hyperpyyaml import resolve_references
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
+from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from frarch.utils.logging import create_logger_file

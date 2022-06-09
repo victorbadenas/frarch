@@ -3,7 +3,10 @@ import logging
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Mapping, Union
+from typing import Any
+from typing import Dict
+from typing import Mapping
+from typing import Union
 
 import torch
 
@@ -67,6 +70,7 @@ class Checkpointer:
             )
 
         self.base_path = Path(save_path) / "save"
+        self.metadata_file_name = "metadata.json"
         self.base_path.mkdir(exist_ok=True, parents=True)
         self.modules = modules
         self.metadata = {}
@@ -161,7 +165,7 @@ class Checkpointer:
 
     @property
     def current_epoch(self) -> int:
-        if len(self.metadata) >= 0 and "epoch" in self.metadata:
+        if len(self.metadata) > 0 and "epoch" in self.metadata:
             return int(self.metadata["epoch"])
         return 0
 
@@ -183,7 +187,7 @@ class Checkpointer:
         for module_name in self.modules.keys():
             module_path = self.base_path / ckpt_folder_name / f"{module_name}.pt"
             paths[module_name] = module_path
-        paths["metadata"] = self.base_path / ckpt_folder_name / "metadata.json"
+        paths["metadata"] = self.base_path / ckpt_folder_name / self.metadata_file_name
         return paths
 
     def _save_modules(self, paths: Dict[str, Path]):
@@ -229,12 +233,10 @@ class Checkpointer:
                 "ckpt_"
             ):
                 continue
-            with open(old_ckpt / "metadata.json", "r") as metadata_handler:
+            with open(old_ckpt / self.metadata_file_name, "r") as metadata_handler:
                 old_metadata = json.load(metadata_handler)
 
-            if self.reference_metric not in old_metadata:
-                shutil.rmtree(old_ckpt)
-            elif not self._is_better(
+            if self.reference_metric not in old_metadata or not self._is_better(
                 old_metadata[self.reference_metric], self.best_metric
             ):
                 shutil.rmtree(old_ckpt)
@@ -270,7 +272,7 @@ class Checkpointer:
                 continue
 
             if self._is_ckpt_dir(folder):
-                metadata_path = folder / "metadata.json"
+                metadata_path = folder / self.metadata_file_name
                 with open(metadata_path, "r") as f:
                     ckpts_meta[folder.name] = json.load(f)
 

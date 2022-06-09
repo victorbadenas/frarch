@@ -5,9 +5,7 @@
 # This file does only contain a selection of the most common options. For a
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
-
 # -- Path setup --------------------------------------------------------------
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -15,26 +13,26 @@
 import datetime
 import os
 import sys
+from importlib.metadata import metadata
+
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-
-from frarch import __meta__ as meta  # noqa: E402 isort:skip
-
+meta = metadata("frarch")
 
 # -- Project information -----------------------------------------------------
 
 now = datetime.datetime.now()
 
-project = meta.name
-project_path = meta.path
-author = meta.author
+project = meta["name"]
+project_path = meta["name"]
+author = meta["author"]
 copyright = "{}, {}".format(now.year, author)
 
 
 # The full version, including alpha/beta/rc tags
-release = meta.version
+release = meta["version"]
 # The short X.Y version
 version = ".".join(release.split(".")[0:2])
 
@@ -218,7 +216,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, project + ".tex", project + " Documentation", meta.author, "manual"),
+    (
+        master_doc,
+        project + ".tex",
+        project + " Documentation",
+        meta["author"],
+        "manual",
+    ),
 ]
 
 
@@ -241,7 +245,7 @@ texinfo_documents = [
         project + " Documentation",
         author,
         project,
-        meta.description,
+        meta["description"],
         "Miscellaneous",
     ),
 ]

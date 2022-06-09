@@ -1,6 +1,6 @@
-from . import __meta__
-
-__version__ = __meta__.version
-
-from . import datasets, models, modules, train, utils
+from . import datasets
+from . import models
+from . import modules
+from . import train
+from . import utils
 from .parser import parse_arguments

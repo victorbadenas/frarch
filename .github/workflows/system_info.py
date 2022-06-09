@@ -1,7 +1,6 @@
 """
 Print out some handy system info.
 """
-
 import os
 import platform
 import sys

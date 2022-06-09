@@ -1,15 +1,4 @@
 repos:
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort
-        args: ["--profile=black"]
-      - id: isort
-        name: isort (cython)
-        types: [cython]
-        args: ["--profile=black"]
-
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
@@ -94,3 +83,9 @@ repos:
           - flake8-comprehensions
           - flake8-docstrings
           - flake8-implicit-str-concat
+
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.1.0
+    hooks:
+    - id: reorder-python-imports
+      args: [--py38-plus]
