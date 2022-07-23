@@ -1,8 +1,9 @@
 from hyperpyyaml import load_hyperpyyaml
 
 import frarch as fr
+from frarch.parser import parse_arguments
 from frarch.utils.data import build_experiment_structure
-from frarch.utils.stages import Stage
+from frarch.utils.enums.stages import Stage
 
 
 class MNISTTrainer(fr.train.ClassifierTrainer):
@@ -17,13 +18,12 @@ class MNISTTrainer(fr.train.ClassifierTrainer):
         return self.hparams["loss"](predictions, labels)
 
     def _on_stage_end(self, stage, loss=None, epoch=None):
-        if stage == Stage.VALID:
-            if self.checkpointer is not None:
-                self.checkpointer.save(epoch=self.current_epoch, current_step=self.step)
+        if stage == Stage.VALID and self.checkpointer is not None:
+            self.checkpointer.save(epoch=self.current_epoch, current_step=self.step)
 
 
 if __name__ == "__main__":
-    hparam_file, args = fr.parse_arguments()
+    hparam_file, args = parse_arguments()
 
     with open(hparam_file, "r") as hparam_file_handler:
         hparams = load_hyperpyyaml(

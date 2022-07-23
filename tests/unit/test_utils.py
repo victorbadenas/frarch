@@ -7,7 +7,7 @@ import torch
 
 from frarch.utils import data
 from frarch.utils import exceptions
-from frarch.utils import logging
+from frarch.utils.logging.create_logger import create_logger_file
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
@@ -102,22 +102,22 @@ class TestLogging(unittest.TestCase):
         return super().tearDown()
 
     def test_create_logger_file(self):
-        logging.create_logger_file(self.TMP_LOG)
+        create_logger_file(self.TMP_LOG)
 
     def test_create_logger_file_stdout(self):
-        logging.create_logger_file(self.TMP_LOG, stdout=True)
+        create_logger_file(self.TMP_LOG, stdout=True)
 
     def test_create_logger_file_not_str(self):
         with self.assertRaises(ValueError):
-            logging.create_logger_file(0)
+            create_logger_file(0)
 
     def test_create_logger_debug_not_bool(self):
         with self.assertRaises(ValueError):
-            logging.create_logger_file(self.TMP_LOG, debug=0)
+            create_logger_file(self.TMP_LOG, debug=0)
 
     def test_create_logger_stdout_not_bool(self):
         with self.assertRaises(ValueError):
-            logging.create_logger_file(self.TMP_LOG, stdout=0)
+            create_logger_file(self.TMP_LOG, stdout=0)
 
 
 class TestExceptions(unittest.TestCase):

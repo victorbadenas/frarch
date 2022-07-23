@@ -11,7 +11,7 @@ from PIL.Image import Image
 NoneType = type(None)
 
 
-class RandomFlip(object):
+class RandomFlip:
     """Randomly flips the given PIL.Image.
 
     Probability of 0.25 horizontal flip, 0.25 vertical flip, 0.5 no flip.
@@ -38,7 +38,7 @@ class RandomFlip(object):
         return dispatcher[random.randint(0, 3)]
 
 
-class RandomRotate(object):
+class RandomRotate:
     """Randomly rotate the given PIL.Image.
 
     Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.
@@ -67,7 +67,7 @@ class RandomRotate(object):
         return dispatcher[random.randint(0, 5)]
 
 
-class PILColorBalance(object):
+class PILColorBalance:
     """Randomly dim or enhance color of an image.
 
     Randomly dim or enhance color of an image given as an input. Given var value,
@@ -101,7 +101,7 @@ class PILColorBalance(object):
         return ie.Color(img).enhance(alpha)
 
 
-class PILContrast(object):
+class PILContrast:
     """Randomly dim or enhance contrast of an image.
 
     Randomly dim or enhance contrast of an image given as an input. Given var value,
@@ -135,7 +135,7 @@ class PILContrast(object):
         return ie.Contrast(img).enhance(alpha)
 
 
-class PILBrightness(object):
+class PILBrightness:
     """Randomly dim or enhance brightness of an image.
 
     Randomly dim or enhance brightness of an image given as an input. Given var value,
@@ -169,7 +169,7 @@ class PILBrightness(object):
         return ie.Brightness(img).enhance(alpha)
 
 
-class PILSharpness(object):
+class PILSharpness:
     """Randomly dim or enhance sharpness of an image.
 
     Randomly dim or enhance sharpness of an image given as an input. Given var value,
@@ -203,7 +203,7 @@ class PILSharpness(object):
         return ie.Sharpness(img).enhance(alpha)
 
 
-class RandomOrder(object):
+class RandomOrder:
     """Composes several transforms together in random order.
 
     Args:

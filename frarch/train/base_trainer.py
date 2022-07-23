@@ -19,8 +19,8 @@ from typing import Any, Mapping, Optional, Type, Union
 import torch
 from torch.utils.data import DataLoader, Dataset
 
-from frarch.modules import Checkpointer
-from frarch.utils.stages import Stage
+from frarch.modules.checkpointer import Checkpointer
+from frarch.utils.enums.stages import Stage
 
 logger = logging.getLogger(__name__)
 PYTHON_VERSION_MAJOR = 3
@@ -152,19 +152,36 @@ class BaseTrainer:
         if self.opt_class is not None:
             self.optimizer = self.opt_class(self.modules.parameters())
 
-    def _on_fit_end(self, epoch: Optional[int] = None) -> None:
-        pass
+    def _on_fit_end(self, epoch: int) -> None:
+        """Perform operation before fit exits.
 
-    def _on_stage_start(self, stage: Stage, epoch: Optional[int] = None) -> None:
-        pass
+        Args:
+            epoch (int): int epoch index.
+        """
 
-    def _on_stage_end(
-        self, stage: Stage, loss=None, epoch: Optional[int] = None
-    ) -> None:
-        pass
+    def _on_stage_start(self, stage: Stage, epoch: int) -> None:
+        """Perform operation before a stage starts.
 
-    def _on_train_interval(self, epoch: Optional[int] = None) -> None:
-        pass
+        Args:
+            stage (Stage): stage where function has been called.
+            epoch (int): int epoch index.
+        """
+
+    def _on_stage_end(self, stage: Stage, loss: torch.Tensor, epoch: int) -> None:
+        """Perform operation before a stage ends.
+
+        Args:
+            stage (Stage): stage where function has been called.
+            loss (torch.Tensor): loss tensor from `_fit_batch`
+            epoch (int): int epoch index.
+        """
+
+    def _on_train_interval(self, epoch: int) -> None:
+        """Perform operation every `self.train_interval` batches.
+
+        Args:
+            epoch (int): int epoch index.
+        """
 
     def _save_intra_epoch_ckpt(self) -> None:
         raise NotImplementedError

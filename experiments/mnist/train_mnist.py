@@ -21,8 +21,9 @@ import frarch as fr
 
 logger = logging.getLogger(__name__)
 
+from frarch.parser import parse_arguments
 from frarch.utils.data import build_experiment_structure
-from frarch.utils.stages import Stage
+from frarch.utils.enums.stages import Stage
 
 
 class MNISTTrainer(fr.train.ClassifierTrainer):
@@ -64,7 +65,7 @@ class MNISTTrainer(fr.train.ClassifierTrainer):
 
 
 if __name__ == "__main__":
-    hparam_file, args = fr.parse_arguments()
+    hparam_file, args = parse_arguments()
 
     with open(hparam_file, "r") as hparam_file_handler:
         hparams = load_hyperpyyaml(

@@ -20,7 +20,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 
 from frarch.utils.data import create_dataloader
-from frarch.utils.stages import Stage
+from frarch.utils.enums.stages import Stage
 
 from .base_trainer import BaseTrainer
 
@@ -147,7 +147,7 @@ class ClassifierTrainer(BaseTrainer):
                     self._on_stage_end(Stage.VALID, avg_valid_loss, self.current_epoch)
             self.step = 0
             self.avg_train_loss = 0.0
-        self._on_fit_end()
+        self._on_fit_end(self.current_epoch)
 
     def _get_iterable(self, dataset: torch.utils.data.DataLoader, **kwargs) -> Iterable:
         if not self.noprogressbar:
