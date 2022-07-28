@@ -13,35 +13,24 @@ __version__ = "0.1.0"
 __author__ = "victor badenas"
 
 import logging
-import sys
-from typing import Any, Mapping, Optional, Type, Union
+from typing import Any, Mapping, Optional, Type, Union, List
 
 import torch
+from torch.nn import ModuleDict
 from torch.utils.data import DataLoader, Dataset
 
 from frarch.modules.checkpointer import Checkpointer
 from frarch.utils.enums.stages import Stage
+from frarch.utils.freezable_module_dict import FreezableModuleDict
 
 logger = logging.getLogger(__name__)
-PYTHON_VERSION_MAJOR = 3
-PYTHON_VERSION_MINOR = 7
-
-default_values = {
-    "debug": False,
-    "debug_batches": 2,
-    "device": "cpu",
-    "nonfinite_patience": 3,
-    "noprogressbar": False,
-    "ckpt_interval_minutes": None,
-    "train_interval": 10,
-}
 
 
 class BaseTrainer:
     """Abstract class for trainer managers.
 
     Args:
-        modules (Mapping[str, torch.nn.Module]): trainable modules in the training.
+        modules (torch.nn.ModuleDict): trainable modules in the training.
         opt_class (Type[torch.optim.Optimizer]): optimizer class for training.
         hparams (Mapping[str, Any]): hparams dict-like structure from hparams file.
         checkpointer (Optional[Checkpointer], optional): Checkpointer class for saving
@@ -53,45 +42,42 @@ class BaseTrainer:
         SystemError: Python version not supported. Python version must be >= 3.7
     """
 
+    modules: ModuleDict
+    debug: bool = False
+    debug_batches: int = 2
+    device: str = "cpu"
+    nonfinite_patience: int = 3
+    noprogressbar: bool = False
+    ckpt_interval_minutes: Optional[int] = None
+    train_interval: int = 10
+
     def __init__(
         self,
-        modules: Mapping[str, torch.nn.Module],
+        modules: torch.nn.ModuleDict,
         opt_class: Type[torch.optim.Optimizer],
         hparams: Mapping[str, Any],
         checkpointer: Optional[Checkpointer] = None,
+        freeze_layers: Optional[List[str]] = None,
     ) -> None:
-        self.hparams = hparams
-        self.opt_class = opt_class
-        self.checkpointer = checkpointer
-
-        for name, value in default_values.items():
-            if name in self.hparams:
-                if value != hparams[name]:
+        for name in hparams:
+            if hasattr(self, name):
+                if getattr(self, name) != hparams[name]:
                     logger.info(
                         f"Parameter {name} overriden from"
                         f" default value and set to {hparams[name]}"
                     )
                 setattr(self, name, hparams[name])
-            else:
-                setattr(self, name, value)
+
+        self.hparams = hparams
+        self.opt_class: Type[torch.optim.Optimizer] = opt_class
+        self.checkpointer = checkpointer
+        self.modules = FreezableModuleDict(modules=modules, freeze=freeze_layers).to(
+            self.device
+        )
 
         if self.ckpt_interval_minutes is not None:
             if self.ckpt_interval_minutes <= 0:
                 raise ValueError("ckpt_interval_minutes must be > 0 or None")
-
-        # Check Python version
-        if not (
-            sys.version_info.major == PYTHON_VERSION_MAJOR
-            and sys.version_info.minor >= PYTHON_VERSION_MINOR
-        ):
-            msg = (
-                f"Detected Python {sys.version_info.major}.{sys.version_info.minor}."
-                f"Python >= {PYTHON_VERSION_MAJOR}.{PYTHON_VERSION_MINOR} is required"
-            )
-            logger.error(msg)
-            raise SystemError(msg)
-
-        self.modules = torch.nn.ModuleDict(modules).to(self.device)
 
         # Prepare iterating variables
         self.avg_train_loss = 0.0

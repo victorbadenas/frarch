@@ -2,7 +2,11 @@ from pathlib import Path
 from typing import Union
 
 
-class DatasetNotFoundError(Exception):
+class FrarchException(Exception):
+    """Base exception class for frarch package."""
+
+
+class DatasetNotFoundError(FrarchException):
     """Exception raised for OS dataset errors.
 
     Args:
