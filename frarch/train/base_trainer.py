@@ -16,7 +16,7 @@ import logging
 from typing import Any, Mapping, Optional, Type, Union, List
 
 import torch
-from torch.nn import ModuleDict
+from torch.nn import ModuleDict, Module
 from torch.utils.data import DataLoader, Dataset
 
 from frarch.modules.checkpointer import Checkpointer
@@ -30,7 +30,7 @@ class BaseTrainer:
     """Abstract class for trainer managers.
 
     Args:
-        modules (torch.nn.ModuleDict): trainable modules in the training.
+        modules (Mapping[str, torch.nn.Module]): trainable modules in the training.
         opt_class (Type[torch.optim.Optimizer]): optimizer class for training.
         hparams (Mapping[str, Any]): hparams dict-like structure from hparams file.
         checkpointer (Optional[Checkpointer], optional): Checkpointer class for saving
@@ -53,7 +53,7 @@ class BaseTrainer:
 
     def __init__(
         self,
-        modules: torch.nn.ModuleDict,
+        modules: Mapping[str, Module],
         opt_class: Type[torch.optim.Optimizer],
         hparams: Mapping[str, Any],
         checkpointer: Optional[Checkpointer] = None,
