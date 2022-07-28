@@ -3,7 +3,13 @@ from typing import Any
 
 import torch
 
-AGGREGATION_MODES = ["mean", "max", "min"]
+from frarch.utils.enums.base import StringEnum
+
+
+class AggregationModes(StringEnum):
+    MEAN = "mean"
+    MAX = "max"
+    MIN = "min"
 
 
 class Metric(metaclass=abc.ABCMeta):
@@ -24,6 +30,12 @@ class Metric(metaclass=abc.ABCMeta):
             print(mymetric.get_metric(mode="mean"))
 
     """
+
+    aggregation_methods = {
+        AggregationModes.MEAN: lambda x: sum(x) / len(x),
+        AggregationModes.MAX: lambda x: max(x),
+        AggregationModes.MIN: lambda x: min(x),
+    }
 
     def __init__(self) -> None:
         self.reset()
@@ -53,7 +65,7 @@ class Metric(metaclass=abc.ABCMeta):
     def __len__(self) -> int:
         return len(self.metrics)
 
-    def get_metric(self, mode="mean") -> float:
+    def get_metric(self, mode: AggregationModes = AggregationModes.MEAN) -> float:
         """Aggregate all values stored in the metric class.
 
         Args:
@@ -69,13 +81,8 @@ class Metric(metaclass=abc.ABCMeta):
         if len(self) == 0:
             return 0.0
 
-        if mode not in AGGREGATION_MODES:
+        if mode not in AggregationModes:
             raise ValueError(
-                f"Mode {mode} not supported. Supported modes: {AGGREGATION_MODES}"
+                f"Mode {mode} not supported. Supported modes: {AggregationModes}"
             )
-        if mode == "mean":
-            return sum(self.metrics) / len(self)
-        elif mode == "max":
-            return max(self.metrics)
-        elif mode == "min":
-            return min(self.metrics)
+        return self.aggregation_methods[mode](self.metrics)

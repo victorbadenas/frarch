@@ -15,18 +15,17 @@ __author__ = "victor badenas"
 
 import logging
 
-import torch
 from hyperpyyaml import load_hyperpyyaml
-
-import frarch as fr
 
 logger = logging.getLogger(__name__)
 
+from frarch.parser import parse_arguments
 from frarch.utils.data import build_experiment_structure
-from frarch.utils.stages import Stage
+from frarch.utils.enums.stages import Stage
+from frarch.train.classifier_trainer import ClassifierTrainer
 
 
-class Caltech101Trainer(fr.train.ClassifierTrainer):
+class Caltech101Trainer(ClassifierTrainer):
     def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
@@ -80,7 +79,7 @@ class Caltech101Trainer(fr.train.ClassifierTrainer):
 
 
 if __name__ == "__main__":
-    hparam_file, args = fr.parse_arguments()
+    hparam_file, args = parse_arguments()
 
     with open(hparam_file, "r") as hparam_file_handler:
         hparams = load_hyperpyyaml(

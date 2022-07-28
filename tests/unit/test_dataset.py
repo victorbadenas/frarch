@@ -4,7 +4,9 @@ from pathlib import Path
 
 import torch
 
-from frarch import datasets
+from frarch.datasets.caltech101 import Caltech101
+from frarch.datasets.mit67 import Mit67
+from frarch.datasets.oxford_pets import OxfordPets
 from frarch.utils.exceptions import DatasetNotFoundError
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
@@ -42,7 +44,7 @@ class TestCaltech101(unittest.TestCase):
         return super().tearDown()
 
     def test_build_caltech101_train(self):
-        dataset = datasets.Caltech101("train", root=self.MOCK_DATASET_ROOT)
+        dataset = Caltech101("train", root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 101)
@@ -55,7 +57,7 @@ class TestCaltech101(unittest.TestCase):
         self.assertTrue(self.classjson_path.exists())
 
     def test_build_caltech101_valid(self):
-        dataset = datasets.Caltech101("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = Caltech101("valid", root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 101)
@@ -69,18 +71,18 @@ class TestCaltech101(unittest.TestCase):
 
     def test_caltech101_not_valid_subset(self):
         with self.assertRaises(ValueError):
-            datasets.Caltech101("nope", root=self.MOCK_DATASET_ROOT)
+            Caltech101("nope", root=self.MOCK_DATASET_ROOT)
 
     def test_caltech101_path_no_files(self):
         with self.assertRaises(DatasetNotFoundError):
-            datasets.Caltech101("train", root="./nope/")
+            Caltech101("train", root="./nope/")
 
     def test_caltech101_get_length(self):
-        dataset = datasets.Caltech101("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = Caltech101("valid", root=self.MOCK_DATASET_ROOT)
         self.assertEqual(len(dataset), 101)
 
     def test_caltech101_get_num_classes(self):
-        dataset = datasets.Caltech101("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = Caltech101("valid", root=self.MOCK_DATASET_ROOT)
         self.assertEqual(dataset.get_number_classes(), 101)
 
 
@@ -116,7 +118,7 @@ class TestMit67(unittest.TestCase):
         return super().tearDown()
 
     def test_build_mit67_train(self):
-        dataset = datasets.Mit67(True, root=self.MOCK_DATASET_ROOT)
+        dataset = Mit67(True, root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 67)
@@ -129,7 +131,7 @@ class TestMit67(unittest.TestCase):
         self.assertTrue(self.classjson_path.exists())
 
     def test_build_mit67_valid(self):
-        dataset = datasets.Mit67(False, root=self.MOCK_DATASET_ROOT)
+        dataset = Mit67(False, root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 67)
@@ -143,14 +145,14 @@ class TestMit67(unittest.TestCase):
 
     def test_mit67_path_no_files(self):
         with self.assertRaises(DatasetNotFoundError):
-            datasets.Mit67(True, root="./nope/", download=False)
+            Mit67(True, root="./nope/", download=False)
 
     def test_caltech101_get_length(self):
-        dataset = datasets.Mit67(False, root=self.MOCK_DATASET_ROOT)
+        dataset = Mit67(False, root=self.MOCK_DATASET_ROOT)
         self.assertEqual(len(dataset), 67)
 
     def test_caltech101_get_num_classes(self):
-        dataset = datasets.Mit67(False, root=self.MOCK_DATASET_ROOT)
+        dataset = Mit67(False, root=self.MOCK_DATASET_ROOT)
         self.assertEqual(dataset.get_number_classes(), 67)
 
 
@@ -179,7 +181,7 @@ class TestOxfordPets(unittest.TestCase):
             shutil.rmtree(cls.MOCK_DATASET_ROOT)
 
     def test_build_OxfordPets_train(self):
-        dataset = datasets.OxfordPets("train", root=self.MOCK_DATASET_ROOT)
+        dataset = OxfordPets("train", root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, set)
         self.assertEquals(len(dataset.classes), 37)
@@ -190,7 +192,7 @@ class TestOxfordPets(unittest.TestCase):
         self.assertTrue(self.validlst_path.exists())
 
     def test_build_OxfordPets_valid(self):
-        dataset = datasets.OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
         self.assertIsInstance(dataset, torch.utils.data.Dataset)
         self.assertIsInstance(dataset.classes, set)
         self.assertEquals(len(dataset.classes), 37)
@@ -202,18 +204,18 @@ class TestOxfordPets(unittest.TestCase):
 
     def test_OxfordPets_path_no_files(self):
         with self.assertRaises(DatasetNotFoundError):
-            datasets.OxfordPets("valid", root="./nope/", download=False)
+            OxfordPets("valid", root="./nope/", download=False)
 
     def test_OxfordPets_not_valid_subset(self):
         with self.assertRaises(ValueError):
-            datasets.OxfordPets("nope", root=self.MOCK_DATASET_ROOT, download=False)
+            OxfordPets("nope", root=self.MOCK_DATASET_ROOT, download=False)
 
     def test_OxfordPets_get_length(self):
-        dataset = datasets.OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
         self.assertEqual(len(dataset), 3669)
 
     def test_OxfordPets_get_num_classes(self):
-        dataset = datasets.OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
+        dataset = OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
         self.assertEqual(dataset.get_number_classes(), 37)
 
 

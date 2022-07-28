@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from frarch.utils.logging import create_logger_file
+from frarch.utils.logging.create_logger import create_logger_file
 
 logger = logging.getLogger(__name__)
 

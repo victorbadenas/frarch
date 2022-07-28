@@ -3,21 +3,21 @@ from typing import Tuple
 
 import torch
 
-from frarch.models.classification.cnn import FashionClassifier
-from frarch.models.classification.cnn import FashionCNN
-from frarch.models.classification.cnn import MitCNN
-from frarch.models.classification.cnn import MitCNNClassifier
-from frarch.models.classification.cnn import MNISTClassifier
-from frarch.models.classification.cnn import MNISTCNN
-from frarch.models.classification.cnn import vgg11
-from frarch.models.classification.cnn import vgg11_bn
-from frarch.models.classification.cnn import vgg13
-from frarch.models.classification.cnn import vgg13_bn
-from frarch.models.classification.cnn import vgg16
-from frarch.models.classification.cnn import vgg16_bn
-from frarch.models.classification.cnn import vgg19
-from frarch.models.classification.cnn import vgg19_bn
-from frarch.models.classification.cnn import vggclassifier
+from frarch.models.classification.cnn.fashionCNN import FashionClassifier
+from frarch.models.classification.cnn.fashionCNN import FashionCNN
+from frarch.models.classification.cnn.mitCNNs import MitCNN
+from frarch.models.classification.cnn.mitCNNs import MitCNNClassifier
+from frarch.models.classification.cnn.mnistCNN import MNISTClassifier
+from frarch.models.classification.cnn.mnistCNN import MNISTCNN
+from frarch.models.classification.cnn.vgg import vgg11
+from frarch.models.classification.cnn.vgg import vgg11_bn
+from frarch.models.classification.cnn.vgg import vgg13
+from frarch.models.classification.cnn.vgg import vgg13_bn
+from frarch.models.classification.cnn.vgg import vgg16
+from frarch.models.classification.cnn.vgg import vgg16_bn
+from frarch.models.classification.cnn.vgg import vgg19
+from frarch.models.classification.cnn.vgg import vgg19_bn
+from frarch.models.classification.cnn.vgg import vggclassifier
 
 VGG_CONFIGS = {
     "vgg11": vgg11,
