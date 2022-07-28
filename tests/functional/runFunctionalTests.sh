@@ -5,7 +5,7 @@ set -e
 test_training () {
     experimentFolder=$1
     cd ${experimentFolder}
-    resultsFolder=yq '.experiment_folder' train.yaml
+    resultsFolder=$(yq '.experiment_folder' train.yaml)
     python train.py train.yaml --device cpu --debug --debug_batches 10
     [ $(ls ${resultsFolder}/save/*/*.pt | wc -l) -gt 0 ]
     [ $(ls ${resultsFolder}/save/*/*.json | wc -l) -gt 0 ]
