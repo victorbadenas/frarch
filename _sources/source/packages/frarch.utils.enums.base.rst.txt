@@ -1,0 +1,7 @@
+frarch.utils.enums.base module
+==============================
+
+.. automodule:: frarch.utils.enums.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

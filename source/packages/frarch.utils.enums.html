@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>API Reference &#8212; frarch 0.1.5 documentation</title>
+    <title>frarch.utils.enums package &#8212; frarch 0.1.5 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -35,8 +35,8 @@
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="frarch package" href="frarch.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../../index.html" />
+    <link rel="next" title="frarch.utils.enums.base module" href="frarch.utils.enums.base.html" />
+    <link rel="prev" title="frarch.utils.data package" href="frarch.utils.data.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -90,7 +90,7 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+  <a class="reference internal" href="modules.html">
    API Reference
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
@@ -98,17 +98,17 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2 has-children">
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
     <a class="reference internal" href="frarch.html">
      frarch package
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
     <label for="toctree-checkbox-2">
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul>
+    <ul class="current">
      <li class="toctree-l3 has-children">
       <a class="reference internal" href="frarch.datasets.html">
        frarch.datasets package
@@ -207,23 +207,23 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3 has-children">
+     <li class="toctree-l3 current active has-children">
       <a class="reference internal" href="frarch.utils.html">
        frarch.utils package
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
       <label for="toctree-checkbox-7">
        <i class="fas fa-chevron-down">
        </i>
       </label>
-      <ul>
+      <ul class="current">
        <li class="toctree-l4">
         <a class="reference internal" href="frarch.utils.data.html">
          frarch.utils.data package
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="frarch.utils.enums.html">
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
          frarch.utils.enums package
         </a>
        </li>
@@ -336,7 +336,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../../_sources/source/packages/modules.rst.txt"
+        <a href="../../_sources/source/packages/frarch.utils.enums.rst.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -373,23 +373,60 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>API Reference</h1>
+                <h1>frarch.utils.enums package</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -397,46 +434,17 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">#</a></h1>
+  <section id="module-frarch.utils.enums">
+<span id="frarch-utils-enums-package"></span><h1>frarch.utils.enums package<a class="headerlink" href="#module-frarch.utils.enums" title="Permalink to this headline">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="frarch.html">frarch package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="frarch.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="frarch.datasets.html">frarch.datasets package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="frarch.datasets.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="frarch.datasets.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="frarch.models.html">frarch.models package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="frarch.models.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="frarch.models.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="frarch.modules.html">frarch.modules package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="frarch.modules.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="frarch.modules.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="frarch.train.html">frarch.train package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="frarch.train.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="frarch.utils.html">frarch.utils package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="frarch.utils.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="frarch.utils.html#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="frarch.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="frarch.parser.html">frarch.parser module</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="frarch.utils.enums.base.html">frarch.utils.enums.base module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frarch.utils.enums.stages.html">frarch.utils.enums.stages module</a></li>
 </ul>
 </div>
+</section>
 </section>
 
 
@@ -447,17 +455,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../../index.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="frarch.utils.data.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">&lt;no title&gt;</p>
+            <p class="prev-next-title">frarch.utils.data package</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="frarch.html" title="next page">
+    <a class='right-next' id="next-link" href="frarch.utils.enums.base.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">frarch package</p>
+        <p class="prev-next-title">frarch.utils.enums.base module</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

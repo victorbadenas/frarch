@@ -20,7 +20,7 @@
     href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -30,7 +30,7 @@
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -220,6 +220,11 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="../../../../source/packages/frarch.utils.enums.html">
+         frarch.utils.enums package
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="../../../../source/packages/frarch.utils.logging.html">
          frarch.utils.logging package
         </a>
@@ -227,11 +232,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../../../../source/packages/frarch.utils.exceptions.html">
          frarch.utils.exceptions module
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../../../source/packages/frarch.utils.stages.html">
-         frarch.utils.stages module
         </a>
        </li>
       </ul>
@@ -362,7 +362,7 @@ title="Fullscreen mode"
 <span class="n">NoneType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RandomFlip"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomFlip">[docs]</a><span class="k">class</span> <span class="nc">RandomFlip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomFlip"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomFlip">[docs]</a><span class="k">class</span> <span class="nc">RandomFlip</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly flips the given PIL.Image.</span>
 
 <span class="sd">    Probability of 0.25 horizontal flip, 0.25 vertical flip, 0.5 no flip.</span>
@@ -389,7 +389,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">dispatcher</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span></div>
 
 
-<div class="viewcode-block" id="RandomRotate"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomRotate">[docs]</a><span class="k">class</span> <span class="nc">RandomRotate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomRotate"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomRotate">[docs]</a><span class="k">class</span> <span class="nc">RandomRotate</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly rotate the given PIL.Image.</span>
 
 <span class="sd">    Probability of 1/6 90°, 1/6 180°, 1/6 270°, 1/2 as is.</span>
@@ -418,7 +418,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">dispatcher</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span></div>
 
 
-<div class="viewcode-block" id="PILColorBalance"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILColorBalance">[docs]</a><span class="k">class</span> <span class="nc">PILColorBalance</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PILColorBalance"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILColorBalance">[docs]</a><span class="k">class</span> <span class="nc">PILColorBalance</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly dim or enhance color of an image.</span>
 
 <span class="sd">    Randomly dim or enhance color of an image given as an input. Given var value,</span>
@@ -452,7 +452,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">ie</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PILContrast"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILContrast">[docs]</a><span class="k">class</span> <span class="nc">PILContrast</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PILContrast"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILContrast">[docs]</a><span class="k">class</span> <span class="nc">PILContrast</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly dim or enhance contrast of an image.</span>
 
 <span class="sd">    Randomly dim or enhance contrast of an image given as an input. Given var value,</span>
@@ -486,7 +486,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">ie</span><span class="o">.</span><span class="n">Contrast</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PILBrightness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILBrightness">[docs]</a><span class="k">class</span> <span class="nc">PILBrightness</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PILBrightness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILBrightness">[docs]</a><span class="k">class</span> <span class="nc">PILBrightness</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly dim or enhance brightness of an image.</span>
 
 <span class="sd">    Randomly dim or enhance brightness of an image given as an input. Given var value,</span>
@@ -520,7 +520,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">ie</span><span class="o">.</span><span class="n">Brightness</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PILSharpness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILSharpness">[docs]</a><span class="k">class</span> <span class="nc">PILSharpness</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PILSharpness"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.PILSharpness">[docs]</a><span class="k">class</span> <span class="nc">PILSharpness</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Randomly dim or enhance sharpness of an image.</span>
 
 <span class="sd">    Randomly dim or enhance sharpness of an image given as an input. Given var value,</span>
@@ -554,7 +554,7 @@ title="Fullscreen mode"
         <span class="k">return</span> <span class="n">ie</span><span class="o">.</span><span class="n">Sharpness</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RandomOrder"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomOrder">[docs]</a><span class="k">class</span> <span class="nc">RandomOrder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomOrder"><a class="viewcode-back" href="../../../../source/packages/frarch.datasets.transforms.pil_transforms.html#frarch.datasets.transforms.pil_transforms.RandomOrder">[docs]</a><span class="k">class</span> <span class="nc">RandomOrder</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Composes several transforms together in random order.</span>
 
 <span class="sd">    Args:</span>

@@ -13,6 +13,7 @@ Subpackages
    :maxdepth: 4
 
    frarch.utils.data
+   frarch.utils.enums
    frarch.utils.logging
 
 Submodules
@@ -22,4 +23,3 @@ Submodules
    :maxdepth: 4
 
    frarch.utils.exceptions
-   frarch.utils.stages

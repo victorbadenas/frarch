@@ -1,0 +1,16 @@
+frarch.utils.enums package
+==========================
+
+.. automodule:: frarch.utils.enums
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   frarch.utils.enums.base
+   frarch.utils.enums.stages
