@@ -68,7 +68,7 @@ model: !apply:torchvision.models.vgg11
 modules:
     model: !ref <model>
 
-checkpointer: !new:frarch.modules.Checkpointer
+checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
     modules:

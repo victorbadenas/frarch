@@ -87,14 +87,13 @@ In this example we present a sample training script for training the MNIST datas
 ```python
 from hyperpyyaml import load_hyperpyyaml
 
-import frarch as fr
-
 from frarch.parser import parse_arguments
 from frarch.utils.data import build_experiment_structure
 from frarch.utils.enums.stages import Stage
+from frarch.train.classifier_trainer import ClassifierTrainer
 
 
-class MNISTTrainer(fr.train.ClassifierTrainer):
+class MNISTTrainer(ClassifierTrainer):
     def forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
@@ -196,7 +195,7 @@ model: !apply:torchvision.models.vgg11
 modules:
     model: !ref <model>
 
-checkpointer: !new:frarch.modules.Checkpointer
+checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
     modules: !ref <modules>
 

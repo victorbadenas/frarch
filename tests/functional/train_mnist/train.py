@@ -1,12 +1,12 @@
 from hyperpyyaml import load_hyperpyyaml
 
-import frarch as fr
 from frarch.parser import parse_arguments
+from frarch.train.classifier_trainer import ClassifierTrainer
 from frarch.utils.data import build_experiment_structure
 from frarch.utils.enums.stages import Stage
 
 
-class MNISTTrainer(fr.train.ClassifierTrainer):
+class MNISTTrainer(ClassifierTrainer):
     def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)

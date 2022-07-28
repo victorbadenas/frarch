@@ -17,16 +17,15 @@ import logging
 
 from hyperpyyaml import load_hyperpyyaml
 
-import frarch as fr
-
 logger = logging.getLogger(__name__)
 
 from frarch.parser import parse_arguments
 from frarch.utils.data import build_experiment_structure
 from frarch.utils.enums.stages import Stage
+from frarch.train.classifier_trainer import ClassifierTrainer
 
 
-class Mit67Trainer(fr.train.ClassifierTrainer):
+class Mit67Trainer(ClassifierTrainer):
     def _forward(self, batch, stage):
         inputs, _ = batch
         inputs = inputs.to(self.device)
