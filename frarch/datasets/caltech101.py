@@ -22,8 +22,24 @@ class Caltech101(Dataset):
     """Caltech 101 dataset object.
 
     Data loader for the Caltech 101 dataset for object classification. The dataset can
-    be obtained from
-    http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz.
+    be obtained from https://data.caltech.edu/records/20086. The dataset is expected to
+    have the following structure:
+
+    Expected dataset structure::
+
+        <root_folder>
+        ├── class1
+        │   ├── image_xxxx.jpg
+        .   .
+        .   .
+        .   .
+        .   └── image_yyyy.jpg
+        └── classN
+            ├── image_xxxx.jpg
+            .
+            .
+            .
+            └── image_yyyy.jpg
 
     Args:
         subset (str): "train" or "valid". Subset to load. Defaults to "train".
@@ -35,7 +51,7 @@ class Caltech101(Dataset):
         root (Union[str, Path]): root directory for the dataset. Defaults to `./data/`.
 
     References:
-        - http://www.vision.caltech.edu/Image_Datasets/Caltech101/
+        - https://data.caltech.edu/records/20086
 
     Examples:
         Simple usage of the dataset class::
@@ -59,7 +75,7 @@ class Caltech101(Dataset):
         if subset not in ["train", "valid"]:
             raise ValueError(f"set must be train or test not {subset}")
 
-        self.root = Path(root).expanduser()
+        self.root: Path = Path(root).expanduser()
 
         self.set = subset
         self.transform = transform
@@ -73,7 +89,7 @@ class Caltech101(Dataset):
             raise DatasetNotFoundError(
                 self.root,
                 "Dataset not found at {path}. Please download"
-                " it from http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .",
+                " it from https://data.caltech.edu/records/20086 .",
             )
 
         self._build_and_load_lst()

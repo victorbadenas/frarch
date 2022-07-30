@@ -62,10 +62,10 @@ loss: !new:torch.nn.CrossEntropyLoss
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !new:frarch.models.classification.cnn.FashionCNN
+model: !new:frarch.models.classification.cnn.fashionCNN.FashionCNN
     out_size: !ref <embedding_size>
 
-classifier: !new:frarch.models.classification.cnn.FashionClassifier
+classifier: !new:frarch.models.classification.cnn.fashionCNN.FashionClassifier
     embedding_size: !ref <embedding_size>
     classes: !ref <num_clases>
 

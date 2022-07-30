@@ -57,10 +57,10 @@ loss: !new:torch.nn.CrossEntropyLoss
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !new:frarch.models.classification.cnn.MNISTCNN
+model: !new:frarch.models.classification.cnn.mnistCNN.MNISTCNN
     embedding_size: !ref <embedding_size>
 
-classifier: !new:frarch.models.classification.cnn.MNISTClassifier
+classifier: !new:frarch.models.classification.cnn.mnistCNN.MNISTClassifier
     embedding_size: !ref <embedding_size>
     num_classes: !ref <num_clases>
 

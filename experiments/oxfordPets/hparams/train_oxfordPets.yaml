@@ -1,93 +1,81 @@
 ################################################
 #                                              #
-#  Model: VGG11                                #
-#  Author: vbadenas (victor.badenas@gmail.com) #
+#  Model:                                      #
+#  Author: vbadenas                            #
 #                                              #
 ################################################
 
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mit67_vgg11_same_augment"
-experiment_folder: "results/mit67_vgg11_same_augment/"
+experiment_name: pets_vgg11_same
+experiment_folder: "results/pets_vgg11_same/"
 device: "cuda:0"
 
 # data folder
-data_folder: ./data/
+data_folder: "./data/"
 
 # training parameters
-epochs: 50
-batch_size: 16
+epochs: 20
+batch_size: 32
 shuffle: True
 
-num_classes: 67
+num_classes: 37
 
 transform_tensor: !new:torchvision.transforms.ToTensor
 transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
     size: 224
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
-transform_normalize: !new:torchvision.transforms.Normalize
-    mean: [0.485, 0.456, 0.406]
-    std: [1, 1, 1]
-transform_powerpil: !new:frarch.datasets.transforms.PowerPIL
 
 transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_powerpil>,
         !ref <transform_tensor>,
-        !ref <transform_normalize>,
+        # !ref <transform_normalize>,
     ]
 
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_powerpil>,
         !ref <transform_tensor>,
-        !ref <transform_normalize>,
+        # !ref <transform_normalize>,
     ]
 
-train_dataset: !new:frarch.datasets.Mit67
-    train: true
+train_dataset: !new:frarch.datasets.oxford_pets.OxfordPets
+    subset: train
     transform: !ref <transform_train>
-    full: true
 
-valid_dataset: !new:frarch.datasets.Mit67
-    train: false
+valid_dataset: !new:frarch.datasets.oxford_pets.OxfordPets
+    subset: valid
     transform: !ref <transform_valid>
-    full: true
-
 
 # dataloader options
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 20
+    num_workers: 16
 
-opt_class: !name:torch.optim.Adam
-    lr: 0.0001
+opt_class: !name:torch.optim.SGD
+    lr: 0.01
+    weight_decay: 0.000001
+    momentum: 0.9
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.vgg11
+model: !apply:torchvision.models.vgg11
     pretrained: False
-
-classifier: !apply:frarch.models.classification.vggclassifier
     num_classes: !ref <num_classes>
-    pretrained: False
 
 modules:
     model: !ref <model>
-    classifier: !ref <classifier>
 
 checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
-    save_best_only: False
+    save_best_only: True
     modules:
         model: !ref <model>
-        classifier: !ref <classifier>

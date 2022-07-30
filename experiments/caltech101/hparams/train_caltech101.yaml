@@ -1,26 +1,27 @@
 ################################################
 #                                              #
-#  Model:                                      #
-#  Author: vbadenas                         #
+#  Model: VGG11 Same Padding                   #
+#  Author: vbadenas                            #
 #                                              #
 ################################################
 
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: pets_vgg11_same
-experiment_folder: "results/pets_vgg11_same/"
+experiment_name: caltech101_vgg11
+experiment_folder: "results/caltech101_vgg11/"
 device: "cuda:0"
+train_interval: 100
 
 # data folder
-data_folder: "./data/"
+data_folder: ./data/
 
 # training parameters
 epochs: 20
-batch_size: 32
+batch_size: 16
 shuffle: True
 
-num_classes: 37
+num_classes: 101
 
 transform_tensor: !new:torchvision.transforms.ToTensor
 transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
@@ -32,34 +33,32 @@ transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
         !ref <transform_tensor>,
-        # !ref <transform_normalize>,
     ]
 
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
         !ref <transform_tensor>,
-        # !ref <transform_normalize>,
     ]
 
-train_dataset: !new:frarch.datasets.OxfordPets
+train_dataset: !new:frarch.datasets.caltech101.Caltech101
     subset: train
+    root: !ref <data_folder>
     transform: !ref <transform_train>
 
-valid_dataset: !new:frarch.datasets.OxfordPets
+valid_dataset: !new:frarch.datasets.caltech101.Caltech101
     subset: valid
+    root: !ref <data_folder>
     transform: !ref <transform_valid>
 
 # dataloader options
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 16
+    num_workers: 40
 
-opt_class: !name:torch.optim.SGD
-    lr: 0.01
-    weight_decay: 0.000001
-    momentum: 0.9
+opt_class: !name:torch.optim.Adam
+    lr: 0.0001
 
 loss: !new:torch.nn.CrossEntropyLoss
 

@@ -8,8 +8,8 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mit67_vgg11_tl_augment"
-experiment_folder: "results/mit67_vgg11_tl_augment/"
+experiment_name: "mit67_vgg11_same"
+experiment_folder: "results/mit67_vgg11_same/"
 device: "cuda:0"
 
 # data folder
@@ -23,38 +23,37 @@ shuffle: True
 num_classes: 67
 
 transform_tensor: !new:torchvision.transforms.ToTensor
+transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
+    size: 224
 transform_resize: !new:torchvision.transforms.Resize
     size: [224, 224]
 transform_normalize: !new:torchvision.transforms.Normalize
     mean: [0.485, 0.456, 0.406]
     std: [1, 1, 1]
-transform_powerpil: !new:frarch.datasets.transforms.PowerPIL
 
 
 transform_train: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_powerpil>,
         !ref <transform_tensor>,
         !ref <transform_normalize>,
     ]
+
 transform_valid: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
-        !ref <transform_powerpil>,
         !ref <transform_tensor>,
         !ref <transform_normalize>,
     ]
 
-train_dataset: !new:frarch.datasets.Mit67
+train_dataset: !new:frarch.datasets.mit67.Mit67
     train: true
     transform: !ref <transform_train>
-    full: true
 
-valid_dataset: !new:frarch.datasets.Mit67
+
+valid_dataset: !new:frarch.datasets.mit67.Mit67
     train: false
     transform: !ref <transform_valid>
-    full: true
 
 
 # dataloader options
@@ -64,17 +63,17 @@ dataloader_options:
     num_workers: 16
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.00006
+    lr: 0.0001
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.vgg11
-    pretrained: True
+model: !apply:frarch.models.classification.cnn.vgg.vgg11
+    pretrained: False
 
-classifier: !apply:frarch.models.classification.vggclassifier
+classifier: !apply:frarch.models.classification.cnn.vgg.vggclassifier
     num_classes: !ref <num_classes>
     pretrained: False
 

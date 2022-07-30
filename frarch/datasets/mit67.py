@@ -67,7 +67,7 @@ class Mit67(Dataset):
         download: bool = True,
         root: Union[str, Path] = "~/.cache/frarch/datasets/mit67/",
     ) -> None:
-        self.root = Path(root).expanduser()
+        self.root: Path = Path(root).expanduser()
         self.set = "train" if train else "test"
         self.transform = transform
         self.target_transform = target_transform
