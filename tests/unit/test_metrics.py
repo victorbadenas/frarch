@@ -1,15 +1,9 @@
 import unittest
-from typing import Any
 
 import torch
 
 from frarch.modules import metrics
-from frarch.modules.metrics.base import Metric
-
-
-class MockMetric(Metric):
-    def _update(self, data: Any, truth: Any) -> Any:
-        return data
+from tests.mock.mocks import MockMetric
 
 
 class TestMetrics(unittest.TestCase):

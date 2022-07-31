@@ -96,6 +96,7 @@ if __name__ == "__main__":
         opt_class=hparams["opt_class"],
         hparams=hparams,
         checkpointer=hparams["checkpointer"],
+        freeze_layers=hparams["freeze"],
     )
 
     trainer.fit(

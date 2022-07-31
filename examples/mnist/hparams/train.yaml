@@ -8,41 +8,36 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "fashion_mnist"
-experiment_folder: "results/fashion_mnist/"
+experiment_name: "mnist"
+experiment_folder: "results/"
 device: "cuda:0"
 
 # data folder
 data_folder: ./data/
 
 # training parameters
-epochs: 10
+epochs: 2
 batch_size: 128
 shuffle: True
 
-embedding_size: 128
+embedding_size: 256
 num_clases: 10
-
-transform_resize: !new:torchvision.transforms.Resize
-    size: 32
 
 transform_tensor: !new:torchvision.transforms.ToTensor
 
 preprocessing: !new:torchvision.transforms.Compose
     transforms: [
-        !ref <transform_resize>,
         !ref <transform_tensor>,
     ]
 
 # dataset object
-train_dataset: !new:torchvision.datasets.FashionMNIST
+train_dataset: !new:torchvision.datasets.MNIST
     root: !ref <data_folder>
     train: true
     download: true
     transform: !ref <preprocessing>
 
-
-valid_dataset: !new:torchvision.datasets.FashionMNIST
+valid_dataset: !new:torchvision.datasets.MNIST
     root: !ref <data_folder>
     train: false
     download: true
@@ -62,12 +57,12 @@ loss: !new:torch.nn.CrossEntropyLoss
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !new:frarch.models.classification.cnn.FashionCNN
-    out_size: !ref <embedding_size>
-
-classifier: !new:frarch.models.classification.cnn.FashionClassifier
+model: !new:frarch.models.classification.cnn.mnistCNN.MNISTCNN
     embedding_size: !ref <embedding_size>
-    classes: !ref <num_clases>
+
+classifier: !new:frarch.models.classification.cnn.mnistCNN.MNISTClassifier
+    embedding_size: !ref <embedding_size>
+    num_classes: !ref <num_clases>
 
 modules:
     model: !ref <model>

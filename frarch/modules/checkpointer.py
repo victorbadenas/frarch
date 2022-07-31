@@ -45,7 +45,7 @@ class Checkpointer:
     def __init__(
         self,
         save_path: Union[str, Path],
-        modules: Mapping[str, torch.nn.Module],
+        modules: torch.nn.ModuleDict,
         save_best_only: bool = False,
         reference_metric: str = None,
         mode: str = "min",
@@ -99,7 +99,7 @@ class Checkpointer:
         current_step: int,
         intra_epoch: bool = False,
         extra_data: Dict = None,
-        **metrics: Dict[str, Any],
+        **metrics: Any,
     ) -> None:
         """Save checkpoint.
 
@@ -135,7 +135,7 @@ class Checkpointer:
             if self.save_best_only:
                 self._remove_old_ckpts(ckpt_folder)
 
-    def load(self, mode="last", **load_kwargs) -> None:
+    def load(self, mode="last", **load_kwargs) -> bool:
         """Load checkpoint from folder.
 
         Args:
@@ -247,7 +247,7 @@ class Checkpointer:
         elif self.mode == "max":
             return new_metric >= old_metric
 
-    def _load_best_checkpoint(self, **load_kwargs) -> None:
+    def _load_best_checkpoint(self, **load_kwargs) -> bool:
         ckpts_meta = self._load_checkpoints_meta()
         ckpts_meta.pop("initial_weights")
         cmp_fn = min if self.mode == "min" else max
@@ -258,7 +258,7 @@ class Checkpointer:
             best_ckpt_name, ckpts_meta[best_ckpt_name], **load_kwargs
         )
 
-    def _load_last_checkpoint(self, **load_kwargs) -> None:
+    def _load_last_checkpoint(self, **load_kwargs) -> bool:
         ckpts_meta = self._load_checkpoints_meta()
         latest_ckpt_name = max(ckpts_meta, key=lambda i: ckpts_meta[i]["time"])
         return self._load_checkpoint_from_folder(
@@ -284,7 +284,7 @@ class Checkpointer:
 
     def _load_checkpoint_from_folder(
         self, ckpt_folder_name, metadata, **load_kwargs
-    ) -> None:
+    ) -> bool:
         paths = self._build_paths(ckpt_folder_name)
         for module_name in self.modules:
             try:
@@ -299,6 +299,7 @@ class Checkpointer:
         logger.info(
             f"Loaded ckpt from epoch {self.current_epoch} from {ckpt_folder_name}"
         )
+        return True
 
     @staticmethod
     def _is_ckpt_dir(path: Union[str, Path]):

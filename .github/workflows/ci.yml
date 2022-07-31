@@ -10,6 +10,9 @@ on:
     branches:
     - master
 
+env:
+  PYTHON_VERSION: 3.9
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -17,34 +20,30 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: ${{ env.PYTHON_VERSION }}
     - uses: pre-commit/action@v3.0.0
 
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python: [3.8, 3.9]
-    runs-on: ${{ matrix.os }}
-    needs: [pre-commit]
-
+  list:
+    runs-on: ubuntu-latest
+    name: Setup Matrix
+    outputs:
+      examples-matrix: ${{ steps.examples-matrix.outputs.examples }}
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python }}
-
-    - name: setup package
+        python-version: ${{ env.PYTHON_VERSION }}
+    - name: Get experiments
+      id: examples-matrix
       run: |
-        python -m pip install .
+        echo "::set-output name=examples::$(python .ci/list_examples.py)"
 
   unittest:
     strategy:
       matrix:
         python: [3.8, 3.9]
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [pre-commit]
 
     steps:
     - uses: actions/checkout@v3
@@ -56,7 +55,7 @@ jobs:
 
     - name: install
       run: |
-        python -m pip install -q .[test]
+        python -m pip install .[test]
 
     - name: test
       run: |
@@ -93,7 +92,7 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    needs: [build]
+    needs: [pre-commit]
 
     steps:
     - uses: actions/checkout@v3
@@ -101,7 +100,7 @@ jobs:
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: install
       run: |
@@ -113,37 +112,36 @@ jobs:
         coverage report -m --omit='tests/unit/*'
 
   functional:
+    runs-on: ubuntu-latest
+    needs: [list]
     strategy:
       matrix:
-        python: [3.8, 3.9]
-    runs-on: ubuntu-latest
-    needs: [build, unittest]
+        examples: ${{ fromJSON(needs.list.outputs.examples-matrix) }}
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python }}
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python }}
+        python-version: ${{ env.PYTHON_VERSION }}
     - name: Set up yq
       uses: frenck/action-setup-yq@v1
     - name: install
       run: |
         python -m pip install -q .[test]
-    - name: functional-test
+    - name: Run ${{ matrix.example }}
       run: |
-        cd tests/functional
-        ./runFunctionalTests.sh
+        ./.ci/runExample.sh ${{ matrix.examples }}
 
   package-and-release:
     runs-on: ubuntu-latest
-    needs: [build, unittest, functional]
+    needs: [unittest, functional]
     steps:
     - name: checkout
       uses: actions/checkout@v3
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: install
       run: |

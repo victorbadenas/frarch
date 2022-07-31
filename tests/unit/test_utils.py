@@ -7,20 +7,12 @@ import torch
 
 from frarch.utils import data
 from frarch.utils import exceptions
+from frarch.utils.freezable_module_dict import FreezableModuleDict
 from frarch.utils.logging.create_logger import create_logger_file
+from tests.mock.mocks import MockClassificationDataset
+from tests.mock.mocks import MockModel
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
-
-
-class MockDataset(torch.utils.data.Dataset):
-    def __init__(self):
-        self.items = [torch.Tensor(i) for i in range(10)]
-
-    def __getitem__(self, index):
-        return self.items[index]
-
-    def __len__(self):
-        return len(self.items)
 
 
 def is_file_handler_in_logging(file_path):
@@ -42,7 +34,7 @@ class TestData(unittest.TestCase):
         return super().tearDown()
 
     def test_create_dataloader(self):
-        dataset = MockDataset()
+        dataset = MockClassificationDataset()
         dataloader = data.create_dataloader(dataset)
         self.assertIsInstance(dataloader, torch.utils.data.DataLoader)
 
@@ -71,14 +63,14 @@ class TestData(unittest.TestCase):
     def test_downloadUrl_progressbar(self):
         file_dest = Path("./tmp")
         data.download_url(
-            "https://www.google.com", destination=file_dest, progress_bar=True
+            "https://www.google.com", destination=str(file_dest), progress_bar=True
         )
         self.assertTrue(file_dest.exists())
 
     def test_downloadUrl_no_progressbar(self):
         file_dest = Path("./tmp")
         data.download_url(
-            "https://www.google.com", destination=file_dest, progress_bar=False
+            "https://www.google.com", destination=str(file_dest), progress_bar=False
         )
         self.assertTrue(file_dest.exists())
 
@@ -130,6 +122,25 @@ class TestExceptions(unittest.TestCase):
         path = Path("some_path")
         with self.assertRaises(exceptions.DatasetNotFoundError):
             raise exceptions.DatasetNotFoundError(path)
+
+
+class TestFreezableModuleDict(unittest.TestCase):
+    modules = {"model": MockModel(), "model2": MockModel()}
+
+    def test_freezable_module_dict_set_modules_no_freeze(self):
+        module_dict = FreezableModuleDict(modules=self.modules)
+        for module in self.modules:
+            self.assertIn(module, module_dict._modules)
+            self.assertEqual(getattr(module_dict, module), self.modules[module])
+
+    def test_freezable_module_dict_freeze_layers(self):
+        freeze_layers = ["model.fc.weight", "model2.fc.bias"]
+        module_dict = FreezableModuleDict(modules=self.modules, freeze=freeze_layers)
+        for name, parameter in module_dict.named_parameters():
+            if name in freeze_layers:
+                self.assertFalse(parameter.requires_grad)
+            else:
+                self.assertTrue(parameter.requires_grad)
 
 
 if __name__ == "__main__":

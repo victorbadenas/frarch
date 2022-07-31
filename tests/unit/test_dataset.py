@@ -2,7 +2,7 @@ import shutil
 import unittest
 from pathlib import Path
 
-import torch
+from torch.utils.data import Dataset
 
 from frarch.datasets.caltech101 import Caltech101
 from frarch.datasets.mit67 import Mit67
@@ -45,7 +45,7 @@ class TestCaltech101(unittest.TestCase):
 
     def test_build_caltech101_train(self):
         dataset = Caltech101("train", root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 101)
         self.assertEquals(len(dataset.images), 909)
@@ -58,7 +58,7 @@ class TestCaltech101(unittest.TestCase):
 
     def test_build_caltech101_valid(self):
         dataset = Caltech101("valid", root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 101)
         self.assertEquals(len(dataset.images), 101)
@@ -119,7 +119,7 @@ class TestMit67(unittest.TestCase):
 
     def test_build_mit67_train(self):
         dataset = Mit67(True, root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 67)
         self.assertEquals(len(dataset.images), 603)
@@ -132,7 +132,7 @@ class TestMit67(unittest.TestCase):
 
     def test_build_mit67_valid(self):
         dataset = Mit67(False, root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, dict)
         self.assertEquals(len(dataset.classes), 67)
         self.assertEquals(len(dataset.images), 67)
@@ -182,7 +182,7 @@ class TestOxfordPets(unittest.TestCase):
 
     def test_build_OxfordPets_train(self):
         dataset = OxfordPets("train", root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, set)
         self.assertEquals(len(dataset.classes), 37)
         self.assertEquals(len(dataset.images), 3680)
@@ -193,7 +193,7 @@ class TestOxfordPets(unittest.TestCase):
 
     def test_build_OxfordPets_valid(self):
         dataset = OxfordPets("valid", root=self.MOCK_DATASET_ROOT)
-        self.assertIsInstance(dataset, torch.utils.data.Dataset)
+        self.assertIsInstance(dataset, Dataset)
         self.assertIsInstance(dataset.classes, set)
         self.assertEquals(len(dataset.classes), 37)
         self.assertEquals(len(dataset.images), 3669)
