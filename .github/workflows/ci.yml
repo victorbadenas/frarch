@@ -35,7 +35,9 @@ jobs:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Get experiments
       id: examples-matrix
-      run: echo "::set-output name=examples::$(python .ci/list_examples.py)"
+      run: |
+        python .ci/list_examples.py
+        echo "::set-output name=examples::$(python .ci/list_examples.py)"
 
   unittest:
     strategy:
@@ -130,6 +132,7 @@ jobs:
     - name: debug
       run: |
         find examples -maxdepth 2 -name '*.py'
+        echo ${{ matrix.example }}
     - name: Run ${{ matrix.example }}
       run: |
         ./.ci/runExample.sh ${{ matrix.example }}

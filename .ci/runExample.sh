@@ -15,6 +15,6 @@ test_training () {
 }
 
 [ $(ls -d ${exampleDir}/results/ | wc -l) -gt 0 ] && rm -rf ${exampleDir}/results/
-test_training $1
+test_training ${exampleDir}
 
 set +e
