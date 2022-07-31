@@ -7,17 +7,9 @@ from pathlib import Path
 import torch
 
 from frarch.modules.checkpointer import Checkpointer
+from tests.mock.mocks import MockModel
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
-
-
-class MockModel(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc = torch.nn.Linear(2, 1)
-
-    def forward(self, input):
-        return self.fc(input)
 
 
 class TestCheckPointer(unittest.TestCase):
@@ -194,7 +186,7 @@ class TestCheckPointer(unittest.TestCase):
             mode="max",
         )
         ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
-        modules.model.fc = torch.nn.Linear(2, 1)
+        modules.model.fc = torch.nn.Linear(10, 2)
         ckpter.load(mode="last")
         self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
 
@@ -208,7 +200,7 @@ class TestCheckPointer(unittest.TestCase):
             mode="max",
         )
         ckpter.save(epoch=1, current_step=1000, intra_epoch=False, metric=0.5)
-        modules.model.fc = torch.nn.Linear(2, 1)
+        modules.model.fc = torch.nn.Linear(10, 2)
         ckpter.load(mode="last", map_location="cpu")
         self.assertTrue((self.modules.model.fc.weight == modules.model.fc.weight).all())
 

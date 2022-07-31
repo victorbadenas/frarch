@@ -45,7 +45,7 @@ class Checkpointer:
     def __init__(
         self,
         save_path: Union[str, Path],
-        modules: Mapping[str, torch.nn.Module],
+        modules: torch.nn.ModuleDict,
         save_best_only: bool = False,
         reference_metric: str = None,
         mode: str = "min",
@@ -99,7 +99,7 @@ class Checkpointer:
         current_step: int,
         intra_epoch: bool = False,
         extra_data: Dict = None,
-        **metrics: Dict[str, Any],
+        **metrics: Any,
     ) -> None:
         """Save checkpoint.
 

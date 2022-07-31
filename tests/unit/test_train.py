@@ -5,29 +5,10 @@ import torch
 
 from frarch.train.base_trainer import BaseTrainer
 from frarch.train.classifier_trainer import ClassifierTrainer
+from tests.mock.mocks import MockClassificationDataset
+from tests.mock.mocks import MockModel
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
-
-
-class MockModel(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc = torch.nn.Linear(10, 2)
-
-    def forward(self, inputs):
-        return self.fc(inputs)
-
-
-class MockDataset(torch.utils.data.Dataset):
-    def __init__(self, n_classes=2):
-        super().__init__()
-        self.n_classes = n_classes
-
-    def __getitem__(self, idx):
-        return torch.rand((10,)), 0
-
-    def __len__(self):
-        return 10
 
 
 class TestClassifierTrainer(ClassifierTrainer):
@@ -44,8 +25,8 @@ class TestClassifierTrainer(ClassifierTrainer):
 
 class TestTrainers(unittest.TestCase):
     model = MockModel()
-    train_dataset = MockDataset()
-    test_dataset = MockDataset()
+    train_dataset = MockClassificationDataset()
+    test_dataset = MockClassificationDataset()
     opt_class = torch.optim.Adam
 
     def test_init(self):
