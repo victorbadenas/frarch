@@ -34,6 +34,7 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     - name: Get experiments
+      id: examples-matrix
       run: echo "::set-output name=examples::$(python .ci/list_examples.py)"
 
   unittest:
@@ -111,7 +112,7 @@ jobs:
 
   functional:
     runs-on: ubuntu-latest
-    needs: [unittest, list]
+    needs: [list]
     strategy:
       matrix:
         examples: ${{ fromJSON(needs.list.outputs.examples-matrix) }}
