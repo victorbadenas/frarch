@@ -129,7 +129,7 @@ jobs:
         python -m pip install -q .[test]
     - name: Run ${{ matrix.example }}
       run: |
-        ./.ci/runFunctionalTests.sh ${{ matrix.example }}
+        ./.ci/runExample.sh ${{ matrix.example }}
 
   package-and-release:
     runs-on: ubuntu-latest
