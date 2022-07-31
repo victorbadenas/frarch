@@ -1,6 +1,6 @@
 ################################################
 #                                              #
-#  Model: VGG11                                #
+#  Model:                                      #
 #  Author: vbadenas (victor.badenas@gmail.com) #
 #                                              #
 ################################################
@@ -8,74 +8,66 @@
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mit67_vgg11_same"
-experiment_folder: "results/mit67_vgg11_same/"
+experiment_name: "fashion_mnist"
+experiment_folder: "results/"
 device: "cuda:0"
 
 # data folder
 data_folder: ./data/
 
 # training parameters
-epochs: 20
-batch_size: 16
+epochs: 2
+batch_size: 128
 shuffle: True
 
-num_classes: 67
+embedding_size: 128
+num_clases: 10
+
+transform_resize: !new:torchvision.transforms.Resize
+    size: 32
 
 transform_tensor: !new:torchvision.transforms.ToTensor
-transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
-    size: 224
-transform_resize: !new:torchvision.transforms.Resize
-    size: [224, 224]
-transform_normalize: !new:torchvision.transforms.Normalize
-    mean: [0.485, 0.456, 0.406]
-    std: [1, 1, 1]
 
-
-transform_train: !new:torchvision.transforms.Compose
+preprocessing: !new:torchvision.transforms.Compose
     transforms: [
         !ref <transform_resize>,
         !ref <transform_tensor>,
-        !ref <transform_normalize>,
     ]
 
-transform_valid: !new:torchvision.transforms.Compose
-    transforms: [
-        !ref <transform_resize>,
-        !ref <transform_tensor>,
-        !ref <transform_normalize>,
-    ]
-
-train_dataset: !new:frarch.datasets.mit67.Mit67
+# dataset object
+train_dataset: !new:torchvision.datasets.FashionMNIST
+    root: !ref <data_folder>
     train: true
-    transform: !ref <transform_train>
+    download: true
+    transform: !ref <preprocessing>
 
 
-valid_dataset: !new:frarch.datasets.mit67.Mit67
+valid_dataset: !new:torchvision.datasets.FashionMNIST
+    root: !ref <data_folder>
     train: false
-    transform: !ref <transform_valid>
-
+    download: true
+    transform: !ref <preprocessing>
 
 # dataloader options
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 16
+    num_workers: 0
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.0001
+    lr: 0.001
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !apply:frarch.models.classification.cnn.vgg.vgg11
-    pretrained: False
+model: !new:frarch.models.classification.cnn.fashionCNN.FashionCNN
+    out_size: !ref <embedding_size>
 
-classifier: !apply:frarch.models.classification.cnn.vgg.vggclassifier
-    num_classes: !ref <num_classes>
-    pretrained: False
+classifier: !new:frarch.models.classification.cnn.fashionCNN.FashionClassifier
+    embedding_size: !ref <embedding_size>
+    classes: !ref <num_clases>
 
 modules:
     model: !ref <model>
@@ -84,7 +76,6 @@ modules:
 checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
-    save_best_only: True
     modules:
         model: !ref <model>
         classifier: !ref <classifier>

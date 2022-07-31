@@ -9,14 +9,14 @@
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
 experiment_name: "places365_vgg11"
-experiment_folder: "results/places365_vgg11/"
+experiment_folder: "results/"
 device: "cuda:0"
 
 # data folder
 data_folder: ./data/
 
 # training parameters
-epochs: 50
+epochs: 2
 batch_size: 16
 shuffle: True
 

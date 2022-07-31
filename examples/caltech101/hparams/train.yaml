@@ -1,76 +1,80 @@
 ################################################
 #                                              #
-#  Model:                                      #
-#  Author: vbadenas (victor.badenas@gmail.com) #
+#  Model: VGG11 Same Padding                   #
+#  Author: vbadenas                            #
 #                                              #
 ################################################
 
 # seeds
 seed: 42
 __set_seed: !apply:torch.manual_seed [!ref <seed>]
-experiment_name: "mnist"
-experiment_folder: "results/mnist/"
+experiment_name: caltech101_vgg11
+experiment_folder: "results/"
 device: "cuda:0"
+train_interval: 100
 
 # data folder
 data_folder: ./data/
 
 # training parameters
-epochs: 50
-batch_size: 128
+epochs: 2
+batch_size: 16
 shuffle: True
 
-embedding_size: 256
-num_clases: 10
+num_classes: 101
 
 transform_tensor: !new:torchvision.transforms.ToTensor
+transform_random_resized_crop: !new:torchvision.transforms.RandomResizedCrop
+    size: 224
+transform_resize: !new:torchvision.transforms.Resize
+    size: [224, 224]
 
-preprocessing: !new:torchvision.transforms.Compose
+transform_train: !new:torchvision.transforms.Compose
     transforms: [
+        !ref <transform_resize>,
         !ref <transform_tensor>,
     ]
 
-# dataset object
-train_dataset: !new:torchvision.datasets.MNIST
-    root: !ref <data_folder>
-    train: true
-    download: true
-    transform: !ref <preprocessing>
+transform_valid: !new:torchvision.transforms.Compose
+    transforms: [
+        !ref <transform_resize>,
+        !ref <transform_tensor>,
+    ]
 
-valid_dataset: !new:torchvision.datasets.MNIST
+train_dataset: !new:frarch.datasets.caltech101.Caltech101
+    subset: train
     root: !ref <data_folder>
-    train: false
-    download: true
-    transform: !ref <preprocessing>
+    transform: !ref <transform_train>
+
+valid_dataset: !new:frarch.datasets.caltech101.Caltech101
+    subset: valid
+    root: !ref <data_folder>
+    transform: !ref <transform_valid>
 
 # dataloader options
 dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
-    num_workers: 0
+    num_workers: 40
 
 opt_class: !name:torch.optim.Adam
-    lr: 0.001
+    lr: 0.0001
 
 loss: !new:torch.nn.CrossEntropyLoss
 
 metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
-model: !new:frarch.models.classification.cnn.mnistCNN.MNISTCNN
-    embedding_size: !ref <embedding_size>
-
-classifier: !new:frarch.models.classification.cnn.mnistCNN.MNISTClassifier
-    embedding_size: !ref <embedding_size>
-    num_classes: !ref <num_clases>
+model: !apply:torchvision.models.vgg11
+    pretrained: False
+    num_classes: !ref <num_classes>
 
 modules:
     model: !ref <model>
-    classifier: !ref <classifier>
 
 checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
     reference_metric: "classification_error"
+    save_best_only: True
     modules:
         model: !ref <model>
-        classifier: !ref <classifier>
