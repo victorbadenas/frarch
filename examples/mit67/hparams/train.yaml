@@ -71,7 +71,7 @@ metrics: !new:frarch.modules.metrics.MetricsWrapper
     classification_error: !new:frarch.modules.metrics.ClassificationError
 
 model: !apply:frarch.models.classification.cnn.vgg.vgg11
-    pretrained: False
+    pretrained: True
 
 classifier: !apply:frarch.models.classification.cnn.vgg.vggclassifier
     num_classes: !ref <num_classes>
@@ -80,6 +80,24 @@ classifier: !apply:frarch.models.classification.cnn.vgg.vggclassifier
 modules:
     model: !ref <model>
     classifier: !ref <classifier>
+
+freeze:
+    - model.features.0.weight
+    - model.features.0.bias
+    - model.features.3.weight
+    - model.features.3.bias
+    - model.features.6.weight
+    - model.features.6.bias
+    - model.features.8.weight
+    - model.features.8.bias
+    - model.features.11.weight
+    - model.features.11.bias
+    - model.features.13.weight
+    - model.features.13.bias
+    - model.features.16.weight
+    - model.features.16.bias
+    - model.features.18.weight
+    - model.features.18.bias
 
 checkpointer: !new:frarch.modules.checkpointer.Checkpointer
     save_path: !ref <experiment_folder>
