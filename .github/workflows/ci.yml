@@ -36,7 +36,6 @@ jobs:
     - name: Get experiments
       id: examples-matrix
       run: |
-        python .ci/list_examples.py
         echo "::set-output name=examples::$(python .ci/list_examples.py)"
 
   unittest:
@@ -129,13 +128,9 @@ jobs:
     - name: install
       run: |
         python -m pip install -q .[test]
-    - name: debug
-      run: |
-        find examples -maxdepth 2 -name '*.py'
-        echo ${{ matrix.example }}
     - name: Run ${{ matrix.example }}
       run: |
-        ./.ci/runExample.sh ${{ matrix.example }}
+        ./.ci/runExample.sh ${{ matrix.examples }}
 
   package-and-release:
     runs-on: ubuntu-latest
