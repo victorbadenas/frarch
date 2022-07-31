@@ -129,7 +129,7 @@ jobs:
         python -m pip install -q .[test]
     - name: debug
       run: |
-        find . --max-depth=1
+        find examples -maxdepth 2 -name '*.py'
     - name: Run ${{ matrix.example }}
       run: |
         ./.ci/runExample.sh ${{ matrix.example }}
