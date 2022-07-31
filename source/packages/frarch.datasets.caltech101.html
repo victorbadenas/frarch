@@ -237,6 +237,11 @@
          frarch.utils.exceptions module
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="frarch.utils.freezable_module_dict.html">
+         frarch.utils.freezable_module_dict module
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toctree-l3">
@@ -405,8 +410,24 @@ title="Print to PDF"
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.dataset.Dataset</span></code></p>
 <p>Caltech 101 dataset object.</p>
 <p>Data loader for the Caltech 101 dataset for object classification. The dataset can
-be obtained from
-<a class="reference external" href="http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz">http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz</a>.</p>
+be obtained from <a class="reference external" href="https://data.caltech.edu/records/20086">https://data.caltech.edu/records/20086</a>. The dataset is expected to
+have the following structure:</p>
+<p>Expected dataset structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;root_folder&gt;
+├── class1
+│   ├── image_xxxx.jpg
+.   .
+.   .
+.   .
+.   └── image_yyyy.jpg
+└── classN
+    ├── image_xxxx.jpg
+    .
+    .
+    .
+    └── image_yyyy.jpg
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -422,7 +443,7 @@ modified label data. Defaults to None, which won’t apply any transformation.</
 </dl>
 <p class="rubric">References</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://www.vision.caltech.edu/Image_Datasets/Caltech101/">http://www.vision.caltech.edu/Image_Datasets/Caltech101/</a></p></li>
+<li><p><a class="reference external" href="https://data.caltech.edu/records/20086">https://data.caltech.edu/records/20086</a></p></li>
 </ul>
 <p class="rubric">Examples</p>
 <p>Simple usage of the dataset class:</p>

@@ -35,7 +35,7 @@
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="frarch.parser module" href="frarch.parser.html" />
+    <link rel="next" title="frarch.utils.freezable_module_dict module" href="frarch.utils.freezable_module_dict.html" />
     <link rel="prev" title="frarch.utils.logging.create_logger module" href="frarch.utils.logging.create_logger.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -237,6 +237,11 @@
          frarch.utils.exceptions module
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="frarch.utils.freezable_module_dict.html">
+         frarch.utils.freezable_module_dict module
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toctree-l3">
@@ -402,13 +407,20 @@ title="Print to PDF"
 <dl class="py exception">
 <dt class="sig sig-object py" id="frarch.utils.exceptions.DatasetNotFoundError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frarch.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">DatasetNotFoundError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Dataset</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">path</span> <span class="pre">{path}'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/exceptions.html#DatasetNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.utils.exceptions.DatasetNotFoundError" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#frarch.utils.exceptions.FrarchException" title="frarch.utils.exceptions.FrarchException"><code class="xref py py-class docutils literal notranslate"><span class="pre">frarch.utils.exceptions.FrarchException</span></code></a></p>
 <p>Exception raised for OS dataset errors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>path</strong> (<em>[</em><em>Path</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – path where the dataset should be</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frarch.utils.exceptions.FrarchException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frarch.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">FrarchException</span></span><a class="reference internal" href="../../_modules/frarch/utils/exceptions.html#FrarchException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.utils.exceptions.FrarchException" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base exception class for frarch package.</p>
 </dd></dl>
 
 </section>
@@ -428,10 +440,10 @@ title="Print to PDF"
             <p class="prev-next-title">frarch.utils.logging.create_logger module</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="frarch.parser.html" title="next page">
+    <a class='right-next' id="next-link" href="frarch.utils.freezable_module_dict.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">frarch.parser module</p>
+        <p class="prev-next-title">frarch.utils.freezable_module_dict module</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

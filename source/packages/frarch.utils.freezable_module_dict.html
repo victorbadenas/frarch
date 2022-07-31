@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>frarch.models.classification.cnn package &#8212; frarch 0.1.5 documentation</title>
+    <title>frarch.utils.freezable_module_dict module &#8212; frarch 0.1.5 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -35,8 +35,8 @@
     <script src="../../_static/js/rtd_sphinx_search.min.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="frarch.models.classification.cnn.fashionCNN module" href="frarch.models.classification.cnn.fashionCNN.html" />
-    <link rel="prev" title="frarch.models.classification package" href="frarch.models.classification.html" />
+    <link rel="next" title="frarch.parser module" href="frarch.parser.html" />
+    <link rel="prev" title="frarch.utils.exceptions module" href="frarch.utils.exceptions.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -141,17 +141,17 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3 current active has-children">
+     <li class="toctree-l3 has-children">
       <a class="reference internal" href="frarch.models.html">
        frarch.models package
       </a>
-      <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
       <label for="toctree-checkbox-4">
        <i class="fas fa-chevron-down">
        </i>
       </label>
-      <ul class="current">
-       <li class="toctree-l4 current active">
+      <ul>
+       <li class="toctree-l4">
         <a class="reference internal" href="frarch.models.classification.html">
          frarch.models.classification package
         </a>
@@ -207,16 +207,16 @@
        </li>
       </ul>
      </li>
-     <li class="toctree-l3 has-children">
+     <li class="toctree-l3 current active has-children">
       <a class="reference internal" href="frarch.utils.html">
        frarch.utils package
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
       <label for="toctree-checkbox-7">
        <i class="fas fa-chevron-down">
        </i>
       </label>
-      <ul>
+      <ul class="current">
        <li class="toctree-l4">
         <a class="reference internal" href="frarch.utils.data.html">
          frarch.utils.data package
@@ -237,8 +237,8 @@
          frarch.utils.exceptions module
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="frarch.utils.freezable_module_dict.html">
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
          frarch.utils.freezable_module_dict module
         </a>
        </li>
@@ -341,7 +341,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../../_sources/source/packages/frarch.models.classification.cnn.rst.txt"
+        <a href="../../_sources/source/packages/frarch.utils.freezable_module_dict.rst.txt"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -378,60 +378,23 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>frarch.models.classification.cnn package</h1>
+                <h1>frarch.utils.freezable_module_dict module</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#submodules">
-   Submodules
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -439,20 +402,34 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="module-frarch.models.classification.cnn">
-<span id="frarch-models-classification-cnn-package"></span><h1>frarch.models.classification.cnn package<a class="headerlink" href="#module-frarch.models.classification.cnn" title="Permalink to this headline">#</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">#</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="frarch.models.classification.cnn.fashionCNN.html">frarch.models.classification.cnn.fashionCNN module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frarch.models.classification.cnn.mitCNNs.html">frarch.models.classification.cnn.mitCNNs module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frarch.models.classification.cnn.mnistCNN.html">frarch.models.classification.cnn.mnistCNN module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frarch.models.classification.cnn.resnet.html">frarch.models.classification.cnn.resnet module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frarch.models.classification.cnn.vgg.html">frarch.models.classification.cnn.vgg module</a></li>
+  <section id="module-frarch.utils.freezable_module_dict">
+<span id="frarch-utils-freezable-module-dict-module"></span><h1>frarch.utils.freezable_module_dict module<a class="headerlink" href="#module-frarch.utils.freezable_module_dict" title="Permalink to this headline">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="frarch.utils.freezable_module_dict.FreezableModuleDict">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frarch.utils.freezable_module_dict.</span></span><span class="sig-name descname"><span class="pre">FreezableModuleDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freeze</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/freezable_module_dict.html#FreezableModuleDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.utils.freezable_module_dict.FreezableModuleDict" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.ModuleDict</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frarch.utils.freezable_module_dict.FreezableModuleDict.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freeze</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/frarch/utils/freezable_module_dict.html#FreezableModuleDict.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.utils.freezable_module_dict.FreezableModuleDict.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Torch ModuleDict with freeze capabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>freeze</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em><em>]</em>) – list of names of the parameter’s to
+freeze.</p></li>
+<li><p><strong>unfreeze</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em><em>]</em>) – list of names of the parameter’s to
+unfreeze.</p></li>
+<li><p><strong>**kwargs</strong> – ModuleDict arguments.</p></li>
 </ul>
-</div>
-</section>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FreezeError</strong> – both freeze and unfreeze can’t be set simultaneously.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -463,17 +440,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="frarch.models.classification.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="frarch.utils.exceptions.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">frarch.models.classification package</p>
+            <p class="prev-next-title">frarch.utils.exceptions module</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="frarch.models.classification.cnn.fashionCNN.html" title="next page">
+    <a class='right-next' id="next-link" href="frarch.parser.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">frarch.models.classification.cnn.fashionCNN module</p>
+        <p class="prev-next-title">frarch.parser module</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

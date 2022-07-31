@@ -234,6 +234,11 @@
          frarch.utils.exceptions module
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="source/packages/frarch.utils.freezable_module_dict.html">
+         frarch.utils.freezable_module_dict module
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toctree-l3">
@@ -377,7 +382,11 @@ title="Fullscreen mode"
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/packages/frarch.modules.metrics.wrapper.html#frarch.modules.metrics.wrapper.MetricsWrapper.__init__">__init__() (frarch.modules.metrics.wrapper.MetricsWrapper method)</a>
+
+      <ul>
+        <li><a href="source/packages/frarch.utils.freezable_module_dict.html#frarch.utils.freezable_module_dict.FreezableModuleDict.__init__">(frarch.utils.freezable_module_dict.FreezableModuleDict method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -414,6 +423,8 @@ title="Fullscreen mode"
 </li>
       <li><a href="source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer">Checkpointer (class in frarch.modules.checkpointer)</a>
 </li>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.ckpt_interval_minutes">ckpt_interval_minutes (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
       <li><a href="source/packages/frarch.modules.metrics.classification_error.html#frarch.modules.metrics.classification_error.ClassificationError">ClassificationError (class in frarch.modules.metrics.classification_error)</a>
 </li>
   </ul></td>
@@ -434,8 +445,14 @@ title="Fullscreen mode"
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/packages/frarch.utils.exceptions.html#frarch.utils.exceptions.DatasetNotFoundError">DatasetNotFoundError</a>
 </li>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.debug">debug (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.debug_batches">debug_batches (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.device">device (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
       <li><a href="source/packages/frarch.utils.data.html#frarch.utils.data.download_url">download_url() (in module frarch.utils.data)</a>
 </li>
   </ul></td>
@@ -580,8 +597,6 @@ title="Fullscreen mode"
         <li><a href="source/packages/frarch.models.classification.cnn.resnet.html#module-frarch.models.classification.cnn.resnet">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     frarch.models.classification.cnn.vgg
 
@@ -589,6 +604,8 @@ title="Fullscreen mode"
         <li><a href="source/packages/frarch.models.classification.cnn.vgg.html#module-frarch.models.classification.cnn.vgg">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     frarch.models.mock
 
@@ -709,6 +726,13 @@ title="Fullscreen mode"
 </li>
       </ul></li>
       <li>
+    frarch.utils.freezable_module_dict
+
+      <ul>
+        <li><a href="source/packages/frarch.utils.freezable_module_dict.html#module-frarch.utils.freezable_module_dict">module</a>
+</li>
+      </ul></li>
+      <li>
     frarch.utils.logging
 
       <ul>
@@ -722,6 +746,10 @@ title="Fullscreen mode"
         <li><a href="source/packages/frarch.utils.logging.create_logger.html#module-frarch.utils.logging.create_logger">module</a>
 </li>
       </ul></li>
+      <li><a href="source/packages/frarch.utils.exceptions.html#frarch.utils.exceptions.FrarchException">FrarchException</a>
+</li>
+      <li><a href="source/packages/frarch.utils.freezable_module_dict.html#frarch.utils.freezable_module_dict.FreezableModuleDict">FreezableModuleDict (class in frarch.utils.freezable_module_dict)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -846,9 +874,19 @@ title="Fullscreen mode"
 </li>
         <li><a href="source/packages/frarch.utils.exceptions.html#module-frarch.utils.exceptions">frarch.utils.exceptions</a>
 </li>
+        <li><a href="source/packages/frarch.utils.freezable_module_dict.html#module-frarch.utils.freezable_module_dict">frarch.utils.freezable_module_dict</a>
+</li>
         <li><a href="source/packages/frarch.utils.logging.html#module-frarch.utils.logging">frarch.utils.logging</a>
 </li>
         <li><a href="source/packages/frarch.utils.logging.create_logger.html#module-frarch.utils.logging.create_logger">frarch.utils.logging.create_logger</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.modules">modules (frarch.train.base_trainer.BaseTrainer attribute)</a>
+
+      <ul>
+        <li><a href="source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.modules">(frarch.train.classifier_trainer.ClassifierTrainer attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -860,10 +898,20 @@ title="Fullscreen mode"
       <li><a href="source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.next_epoch">next_epoch (frarch.modules.checkpointer.Checkpointer property)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.nonfinite_patience">nonfinite_patience (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.noprogressbar">noprogressbar (frarch.train.base_trainer.BaseTrainer attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/packages/frarch.train.classifier_trainer.html#frarch.train.classifier_trainer.ClassifierTrainer.opt_class">opt_class (frarch.train.classifier_trainer.ClassifierTrainer attribute)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/packages/frarch.datasets.oxford_pets.html#frarch.datasets.oxford_pets.OxfordPets">OxfordPets (class in frarch.datasets.oxford_pets)</a>
 </li>
@@ -954,6 +1002,8 @@ title="Fullscreen mode"
       <li><a href="source/packages/frarch.utils.enums.stages.html#frarch.utils.enums.stages.Stage.TEST">TEST (frarch.utils.enums.stages.Stage attribute)</a>
 </li>
       <li><a href="source/packages/frarch.utils.enums.stages.html#frarch.utils.enums.stages.Stage.TRAIN">TRAIN (frarch.utils.enums.stages.Stage attribute)</a>
+</li>
+      <li><a href="source/packages/frarch.train.base_trainer.html#frarch.train.base_trainer.BaseTrainer.train_interval">train_interval (frarch.train.base_trainer.BaseTrainer attribute)</a>
 </li>
       <li><a href="source/packages/frarch.models.classification.cnn.fashionCNN.html#frarch.models.classification.cnn.fashionCNN.FashionClassifier.training">training (frarch.models.classification.cnn.fashionCNN.FashionClassifier attribute)</a>
 

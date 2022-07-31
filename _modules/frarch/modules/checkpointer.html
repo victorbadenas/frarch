@@ -234,6 +234,11 @@
          frarch.utils.exceptions module
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../source/packages/frarch.utils.freezable_module_dict.html">
+         frarch.utils.freezable_module_dict module
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toctree-l3">
@@ -396,7 +401,7 @@ title="Fullscreen mode"
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">save_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-        <span class="n">modules</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span>
+        <span class="n">modules</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleDict</span><span class="p">,</span>
         <span class="n">save_best_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">reference_metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
@@ -450,7 +455,7 @@ title="Fullscreen mode"
         <span class="n">current_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">intra_epoch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extra_data</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">metrics</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Save checkpoint.</span>
 
@@ -486,7 +491,7 @@ title="Fullscreen mode"
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_best_only</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_remove_old_ckpts</span><span class="p">(</span><span class="n">ckpt_folder</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Checkpointer.load"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Checkpointer.load"><a class="viewcode-back" href="../../../source/packages/frarch.modules.checkpointer.html#frarch.modules.checkpointer.Checkpointer.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Load checkpoint from folder.</span>
 
 <span class="sd">        Args:</span>
@@ -598,7 +603,7 @@ title="Fullscreen mode"
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">new_metric</span> <span class="o">&gt;=</span> <span class="n">old_metric</span>
 
-    <span class="k">def</span> <span class="nf">_load_best_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_load_best_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoints_meta</span><span class="p">()</span>
         <span class="n">ckpts_meta</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;initial_weights&quot;</span><span class="p">)</span>
         <span class="n">cmp_fn</span> <span class="o">=</span> <span class="nb">min</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span> <span class="k">else</span> <span class="nb">max</span>
@@ -609,7 +614,7 @@ title="Fullscreen mode"
             <span class="n">best_ckpt_name</span><span class="p">,</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">best_ckpt_name</span><span class="p">],</span> <span class="o">**</span><span class="n">load_kwargs</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_load_last_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_load_last_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">ckpts_meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoints_meta</span><span class="p">()</span>
         <span class="n">latest_ckpt_name</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ckpts_meta</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">ckpts_meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_checkpoint_from_folder</span><span class="p">(</span>
@@ -635,7 +640,7 @@ title="Fullscreen mode"
 
     <span class="k">def</span> <span class="nf">_load_checkpoint_from_folder</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">ckpt_folder_name</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_paths</span><span class="p">(</span><span class="n">ckpt_folder_name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">module_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -650,6 +655,7 @@ title="Fullscreen mode"
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Loaded ckpt from epoch </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">ckpt_folder_name</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_is_ckpt_dir</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]):</span>

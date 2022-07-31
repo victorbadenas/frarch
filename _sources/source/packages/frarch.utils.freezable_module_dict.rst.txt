@@ -1,0 +1,7 @@
+frarch.utils.freezable\_module\_dict module
+===========================================
+
+.. automodule:: frarch.utils.freezable_module_dict
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -234,6 +234,11 @@
          frarch.utils.exceptions module
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../source/packages/frarch.utils.freezable_module_dict.html">
+         frarch.utils.freezable_module_dict module
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toctree-l3">
@@ -373,8 +378,24 @@ title="Fullscreen mode"
     <span class="sd">&quot;&quot;&quot;Caltech 101 dataset object.</span>
 
 <span class="sd">    Data loader for the Caltech 101 dataset for object classification. The dataset can</span>
-<span class="sd">    be obtained from</span>
-<span class="sd">    http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz.</span>
+<span class="sd">    be obtained from https://data.caltech.edu/records/20086. The dataset is expected to</span>
+<span class="sd">    have the following structure:</span>
+
+<span class="sd">    Expected dataset structure::</span>
+
+<span class="sd">        &lt;root_folder&gt;</span>
+<span class="sd">        ├── class1</span>
+<span class="sd">        │   ├── image_xxxx.jpg</span>
+<span class="sd">        .   .</span>
+<span class="sd">        .   .</span>
+<span class="sd">        .   .</span>
+<span class="sd">        .   └── image_yyyy.jpg</span>
+<span class="sd">        └── classN</span>
+<span class="sd">            ├── image_xxxx.jpg</span>
+<span class="sd">            .</span>
+<span class="sd">            .</span>
+<span class="sd">            .</span>
+<span class="sd">            └── image_yyyy.jpg</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        subset (str): &quot;train&quot; or &quot;valid&quot;. Subset to load. Defaults to &quot;train&quot;.</span>
@@ -386,7 +407,7 @@ title="Fullscreen mode"
 <span class="sd">        root (Union[str, Path]): root directory for the dataset. Defaults to `./data/`.</span>
 
 <span class="sd">    References:</span>
-<span class="sd">        - http://www.vision.caltech.edu/Image_Datasets/Caltech101/</span>
+<span class="sd">        - https://data.caltech.edu/records/20086</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        Simple usage of the dataset class::</span>
@@ -410,7 +431,7 @@ title="Fullscreen mode"
         <span class="k">if</span> <span class="n">subset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;set must be train or test not </span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set</span> <span class="o">=</span> <span class="n">subset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
@@ -424,7 +445,7 @@ title="Fullscreen mode"
             <span class="k">raise</span> <span class="n">DatasetNotFoundError</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span>
                 <span class="s2">&quot;Dataset not found at </span><span class="si">{path}</span><span class="s2">. Please download&quot;</span>
-                <span class="s2">&quot; it from http://www.vision.caltech.edu/Image_Datasets/Caltech101/ .&quot;</span><span class="p">,</span>
+                <span class="s2">&quot; it from https://data.caltech.edu/records/20086 .&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_build_and_load_lst</span><span class="p">()</span>
