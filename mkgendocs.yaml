@@ -1,0 +1,9 @@
+sources_dir: docs
+templates_dir: docs/templates
+repo: https://github.com/victorbadenas/frarch
+version: master
+pages:
+  - page: "frarch/parser.md"
+    source: "frarch/parser.py"
+    functions:
+      - parse_arguments

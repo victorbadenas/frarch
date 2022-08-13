@@ -23,4 +23,7 @@ Frarch is a **Fra**mework for Pyto**rch** experiments inspired by [speechbrain's
 
 ## Documentation index
 
-- [Index](docs/index.md)
+- [Installation](docs/installation.md)
+- [Running an experiment](docs/running_an_experiment.md)
+- [Documentation](docs/documentation.md)
+- [Testing](docs/testing.md)

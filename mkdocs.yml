@@ -1,0 +1,13 @@
+site_name: Frarch documentation
+site_url: https://victorbadenas.github.io/frarch/
+nav:
+  - Index: index.md
+  - Installation: installation.md
+  - Running an experiment: running_an_experiment.md
+  - Reference: reference.md
+theme:
+  name: readthedocs
+  logo: img/full-logo.png
+plugins:
+  - search
+  - mkdocstrings
