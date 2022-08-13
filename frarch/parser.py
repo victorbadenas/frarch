@@ -62,8 +62,7 @@ def parse_arguments() -> Tuple[str, Dict[str, Any]]:
     parser.add_argument(
         "--log_file",
         type=Path,
-        help="Amount of time between saving intra-epoch checkpoints "
-        "in minutes. If non-positive, intra-epoch checkpoints are not saved.",
+        help="file to save log lines to.",
         default=None,
     )
 
