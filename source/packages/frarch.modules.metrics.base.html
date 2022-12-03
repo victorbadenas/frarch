@@ -424,7 +424,7 @@ title="Print to PDF"
 <dl class="py class">
 <dt class="sig sig-object py" id="frarch.modules.metrics.base.Metric">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frarch.modules.metrics.base.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>abstract class for Metric objects.</p>
 <p class="rubric">Example</p>
 <dl>
@@ -453,34 +453,34 @@ mymetric.update(predictions, labels)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="frarch.modules.metrics.base.Metric.get_metric">
-<span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#frarch.modules.metrics.base.AggregationModes" title="frarch.modules.metrics.base.AggregationModes"><span class="pre">frarch.modules.metrics.base.AggregationModes</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AggregationModes.MEAN</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.get_metric" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#frarch.modules.metrics.base.AggregationModes" title="frarch.modules.metrics.base.AggregationModes"><span class="pre">frarch.modules.metrics.base.AggregationModes</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AggregationModes.MEAN</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.get_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.get_metric" title="Permalink to this definition">#</a></dt>
 <dd><p>Aggregate all values stored in the metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>optional</em>) – aggregation type. mean, max or min.
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – aggregation type. mean, max or min.
 Defaults to “mean”.</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – aggregation mode not supported</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – aggregation mode not supported</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>aggregated metric.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="frarch.modules.metrics.base.Metric.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.reset" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.reset" title="Permalink to this definition">#</a></dt>
 <dd><p>Clear metrics from class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="frarch.modules.metrics.base.Metric.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.update" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/frarch/modules/metrics/base.html#Metric.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frarch.modules.metrics.base.Metric.update" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute metric value and append to the metrics array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
