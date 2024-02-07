@@ -17,7 +17,7 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
@@ -29,7 +29,7 @@ jobs:
     outputs:
       examples-matrix: ${{ steps.examples-matrix.outputs.examples }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
@@ -46,7 +46,7 @@ jobs:
     needs: [pre-commit]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v4
@@ -95,7 +95,7 @@ jobs:
     needs: [pre-commit]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
@@ -118,7 +118,7 @@ jobs:
       matrix:
         examples: ${{ fromJSON(needs.list.outputs.examples-matrix) }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v4
       with:
@@ -137,7 +137,7 @@ jobs:
     needs: [unittest, functional]
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
